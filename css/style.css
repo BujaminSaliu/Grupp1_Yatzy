@@ -19,12 +19,6 @@
 
 nav {
 	position: fixed;
-	z-index: 1000;
-	background: blue;
-}
-
-nav {
-	position: fixed;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
