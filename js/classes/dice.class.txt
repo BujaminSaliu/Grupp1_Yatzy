@@ -1,0 +1,23 @@
+class Dice{
+	constructor(){
+		this.one = "PH";
+		this.two = "PH";
+		this.three = "PH";
+		this.four = "PH";
+		this.five = "PH";
+		this.six = "PH";
+		this.currentValue = "ph";
+
+		this.test = unescape(encodeURIComponent(1));
+		console.log("This is the Test for UTF-8 converted 1", this.test);
+		this.test2 = decodeURIComponent(escape(this.test));
+		console.log("This is the test for UTf-8 backconversion of 1", this.test2);
+
+	}
+
+	function Roll(){
+		this.currentValue = Math.floor(Math.random() * 6) + 1;
+	}
+
+
+}
