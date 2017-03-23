@@ -16,3 +16,59 @@
 .game-board {
 	background-color: green;
 }
+
+nav {
+	position: fixed;
+	z-index: 1000;
+	background: blue;
+}
+
+nav {
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background-color: rgb(0, 0, 180);
+	width: 100%;
+	z-index: 1;
+}
+
+nav a {
+	color: #e6ebf4;
+	text-align: center;
+	text-decoration: none;
+	padding: 10px 30px;
+}
+
+.hideable {
+		display: none;
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+	.hideable {
+		display: flex;
+	}
+
+	.score-board, .high-scores {
+		padding-top: 15%;
+		padding-bottom: 0%;
+	}
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+	
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 480px) {
+
+}
+
