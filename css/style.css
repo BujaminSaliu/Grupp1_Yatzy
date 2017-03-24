@@ -16,7 +16,12 @@
 .game-board {
 	background-color: green;
 }
-
+.game-board button{
+color:green;
+background-color: black;
+padding:2%;
+margin:5%;
+}
 .play-container {
 	position: absolute;
 	top: 50%;
