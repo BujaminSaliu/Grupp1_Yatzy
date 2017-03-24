@@ -56,8 +56,9 @@ class ScoreBoard{
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences(); 
 		let points = 0; 
 
+		//Gör vanlig for-loop så kan i+1 användas för uträkningen
 		for(let occurence of numbersOfEachOccurences){ 
-			if(occurence > 2){ 
+			if(occurence >= 2){ 
 				points = (occurence * 2); 
 			}
 		}
