@@ -22,7 +22,7 @@
 	</nav>
 	<div class="container-fluid">
 		<div class="row">
-			<div id="score-board" class="col-xs-12 col-md-3 content score-board">
+			<div id="score-board" class="col-xs-12 col-md-3 game-content score-board">
 				<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-12 protocol">
@@ -31,10 +31,11 @@
 				</div>
 				</div>
 			</div>
-			<div id="game-board" class="col-xs-12 col-md-6 content game-board">
+			<div id="game-board" class="col-xs-12 col-md-6 game-content game-board">
+				<div class="play-container">
 				<div id="dices-in-play" class="dices-in-play row">
 					<div id="dice-container-0" class="col-xs-2 dice-container">
-						
+							
 					</div>
 					<div id="dice-container-1" class="col-xs-2 dice-container">
 						
@@ -49,8 +50,26 @@
 						
 					</div>
 				</div>
+				<div id="check-boxes" class="check-boxes row">
+					<div id="check-container-0" class="col-xs-2 check-container">
+						<input type="checkbox" id="checkbox-0" value="Car">	
+					</div>
+					<div id="check-container-1" class="col-xs-2 check-container">
+						<input type="checkbox" id="checkbox-1" value="Car">
+					</div>
+					<div id="check-container-2" class="col-xs-2 check-container">
+						<input type="checkbox" id="checkbox-2" value="Car">
+					</div>
+					<div id="check-container-3" class="col-xs-2 check-container">
+						<input type="checkbox" id="checkbox-3" value="Car">
+					</div>	
+					<div id="check-container-4" class="col-xs-2 check-container">
+						<input type="checkbox" id="checkbox-4" value="Car">
+					</div>
+				</div>
+				</div>
 			</div>
-			<div id="high-scores" class="col-xs-12 col-md-3 content high-scores">
+			<div id="high-scores" class="col-xs-12 col-md-3 game-content high-scores">
 				<div class="row">
 				<div class="container-fluid">
 					<div class="col-xs-12 scores">
