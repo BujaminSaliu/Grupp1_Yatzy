@@ -1,13 +1,14 @@
 class Dice{
 	
 	constructor(diceNumber){
-		this.currentValue = this.roll();
+		this.currentValue = 0;
 		this.locked = false;
 		this.diceNumber = diceNumber;
+		this.roll();
 	}
 
 	roll(){
-		return Math.floor(Math.random() * 6) + 1;
+		this.currentValue = Math.floor(Math.random() * 6) + 1;
 	}
 	
 }
