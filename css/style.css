@@ -16,12 +16,13 @@
 .game-board {
 	background-color: green;
 }
+
 .game-board button{
-color:green;
-background-color: black;
-font-size:20px;
-margin:5%;
-padding: 1%;
+	color:green;
+	background-color: black;
+	font-size:20px;
+	margin:5%;
+	padding: 1%;
 }
 
 nav {
