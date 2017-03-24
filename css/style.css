@@ -27,10 +27,18 @@
 	text-align: center;
 }
 
-.dices-in-play, .check-boxes {
+.dices-in-play, .check-boxes, .buttons {
 	width: 100%;
 	display: flex;
 	justify-content: center;
+}
+
+.game-board button{
+	color:green;
+	background-color: black;
+	font-size:20px;
+	margin:5%;
+	padding: 1%;
 }
 
 nav {
