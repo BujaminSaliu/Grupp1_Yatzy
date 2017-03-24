@@ -11,7 +11,7 @@ constructor(name){
 	this.totalScore = 0; //Your total score
 	}
 
-	function summarize(){ //Run a summarization of how many different dies occured
+	summarize(){ //Run a summarization of how many different dies occured
 		let numbers = []; //Start a list to put the numbers in
 		let ones = 0; //How many ones
 		let twos = 0; //How many twos
@@ -89,4 +89,3 @@ constructor(name){
 		}
 	}
 
-}
