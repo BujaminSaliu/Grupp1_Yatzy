@@ -1,26 +1,25 @@
 class ScoreBoard{
 
-constructor(name){
-	//getCurrentValue(){
-	//	return this.currentValue;
-	//}
-	this.dices = []; //A list of all the die
-	this.name = name; //Name of the player
-	this.bonusScore = 0; //Your bonus score
-	this.bonus = 50; //How much the bonus gives
-	this.totalScore = 0; //Your total score
+	constructor(playerName){
+		this.playerName = playerName;
+		this.dices = [];  
+		this.bonusScore = 0; 
+		this.bonus = 50; 
+		this.totalScore = 0; 
 	}
 
-	summarize(){ //Run a summarization of how many different dies occured
+	countNumberOfDiceSideOccurences(){ 
 		let numbers = []; //Start a list to put the numbers in
-		let ones = 0; //How many ones
-		let twos = 0; //How many twos
-		let threes = 0; //How many threes
-		let fours = 0; //How many fours
-		let fives = 0; //How many fives
-		let sixes = 0; //How many sixes
+		let amountOfOnes = 0; 
+		let amountOfTwos = 0; 
+		let amountOfThrees = 0; 
+		let amountOfFours = 0; 
+		let amountOfFives = 0; 
+		let amountOfSixes = 0; 
+
 		for(let i in this.dices){ //Go through the dices
 			let eyes = i.getCurrentValue(); //get the value of how many eyes were on each thing
+			
 			switch(eyes){ //Switch case to see how many eyes the given side has
 				case 1: //Add to respective number based on which we get.
 					ones += 1;
@@ -40,8 +39,8 @@ constructor(name){
 				case 6:
 					sixes += 1;
 					break;
-				}
 			}
+		}
 
 		numbers.push(ones); //populate the list with all the frequencies of the numbers we got
 		numbers.push(twos);
@@ -51,10 +50,10 @@ constructor(name){
 		numbers.push(sixes);
 
 		return numbers; //Return the list of frequencies
-		}
-	}
+	}		
+	
 
-	function onePair(){ //Run to compare one pair
+	onePair(){ //Run to compare one pair
 		let numbers = this.summarize(); //Load in All the combinations
 
 		let points = 0; //How many points you scored by the pair 
@@ -68,7 +67,7 @@ constructor(name){
 		return points; //Return the amount of points scored 
 	}
 
-	function twoPairs(){ //Run to compare against two pairs
+	twoPairs(){ //Run to compare against two pairs
 		let numbers = this.summarize(); //Again, load in all the combinations
 
 		let points = 0; //How many points you scored
@@ -88,4 +87,5 @@ constructor(name){
 			return 0; //return 0, given that we should not give points in terms of two Pairs if we do not have two pairs
 		}
 	}
+}
 
