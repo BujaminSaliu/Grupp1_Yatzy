@@ -1,6 +1,11 @@
 $( document ).ready(function() {
-	testRenderingOfDices();
 	
+	$('#roll-dices').on('click', function(){
+		console.log('hej');
+	});
+
+	testRenderingOfDices();
+
 });
 
 function testRenderingOfDices() {
@@ -18,4 +23,8 @@ function testRenderingOfDices() {
 		dice.writeDiceToDOM();
 	}
 
+}
+
+function testRoll() {
+	
 }

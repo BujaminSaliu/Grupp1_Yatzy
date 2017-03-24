@@ -2,7 +2,6 @@ class Dice{
 	
 	constructor(diceNumber){
 		this.currentValue = 0;
-		this.roll();
 		this.locked = false;
 		this.diceNumber = diceNumber;
 		this.roll();
@@ -43,13 +42,5 @@ class Dice{
 	}
 
 }
-}
 
-$( document ).ready(function() {
 
-	document.getElementById("clickMe").onclick = function fun()
-    {
-    	this.roll();
-    }
-    console.log( "ready!" );
-});

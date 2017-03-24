@@ -27,7 +27,7 @@
 	text-align: center;
 }
 
-.dices-in-play, .check-boxes {
+.dices-in-play, .check-boxes, .buttons {
 	width: 100%;
 	display: flex;
 	justify-content: center;
