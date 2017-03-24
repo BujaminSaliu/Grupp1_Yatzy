@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Grupp 1 Yatzi Projekt</title>
+  <title>Grupp 1 - Yatzy Projekt</title>
   <meta charset="utf8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="js/libs/jquery.js"></script>
   <script src="js/libs/bootstrap.min.js"></script>
   <script src="js/classes/base.class.js"></script>
@@ -10,11 +11,39 @@
   <script src="js/classes/scoreboard.class.js"></script>
   <script src="js/classes/dice.class.js"></script>
   <script src="js/main.js"></script>
-
   <link rel="stylesheet" href="css/libs/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
- 
+	<nav class="hideable">
+		<a href="#score-board">Protokoll</a>
+		<a href="#game-board">Spelbräde</a>
+		<a href="#high-scores">Poängtoppen</a>
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<div id="score-board" class="col-xs-12 col-md-3 content score-board">
+				<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-12 protocol">
+						Här kommer vår score-board ligga
+					</div>
+				</div>
+				</div>
+			</div>
+			<div id="game-board" class="col-xs-12 col-md-6 content game-board">
+
+			</div>
+			<div id="high-scores" class="col-xs-12 col-md-3 content high-scores">
+				<div class="row">
+				<div class="container-fluid">
+					<div class="col-xs-12 scores">
+						Här kommer vår high-score ligga
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div> 
 </body>
 </html>
