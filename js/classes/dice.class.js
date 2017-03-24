@@ -43,6 +43,10 @@ class Dice{
 		this.locked = true;
 	}
 
+	unLockDice(){
+		this.locked = false;
+	}
+
 	clearDicesInDOM(){
 		if(!this.locked) {
 			$(`#dice-container-${this.diceNumber}`).empty();	

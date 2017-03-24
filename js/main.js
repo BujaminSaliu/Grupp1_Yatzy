@@ -35,9 +35,12 @@ function lockCheckedDices() {
 	var checkBoxes = $('.check-container').children();
 
 	for(checkBox of checkBoxes) {
+		var idToLockOrUnLock = parseCheckBoxIdToIndexOfDice(checkBox.id);
+
 		if($('#' + checkBox.id).is(":checked")) {
-			var idToLock = parseCheckBoxIdToIndexOfDice(checkBox.id);
-			dices[idToLock].lockDice();
+			dices[idToLockOrUnLock].lockDice();
+		} else {
+			dices[idToLockOrUnLock].unLockDice();
 		}
 	}
 }
