@@ -7,8 +7,17 @@ class Dice{
 		this.roll();
 	}
 
+
 	roll(){
 		this.currentValue = Math.floor(Math.random() * 6) + 1;
 	}
 	
 }
+$( document ).ready(function() {
+
+	document.getElementById("clickMe").onclick = function fun()
+    {
+    	this.roll();
+    }
+    console.log( "ready!" );
+});
