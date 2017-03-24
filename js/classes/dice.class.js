@@ -11,9 +11,9 @@ class Dice{
 		this.currentValue = Math.floor(Math.random() * 6) + 1;
 	}
 	
-	//Denna är inte klar
+	//Denna är inte klar appendar till body så länge
 	writeDiceToDOM(){
-		console.log('då');
+		console.log(this.currentValue);
 		switch(this.currentValue){
 			case 1:
 				$('body').append("<IMG data-id=" + this.diceNumber + " SRC='/img/1.png'>");
@@ -35,6 +35,10 @@ class Dice{
 				break;
 		}
 
+	}
+
+	clearDicesInDOM(){
+		$('body').empty();
 	}
 
 }

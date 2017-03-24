@@ -1,13 +1,17 @@
-var dices = [];
+$( document ).ready(function() {
 
-for(let i = 0; i < 5; i++) {
-	let dice = new Dice(i);
-	dices.push(dice);
-}
+	var dices = [];
 
-console.log(dices);
+	for(let i = 0; i < 5; i++) {
+		let dice = new Dice(i);
+		dices.push(dice);
+	}
 
-for(dice of dices) {
-	console.log('hej');
-	dice.writeDiceToDOM();
-}
+	console.log(dices);
+
+	for(dice of dices) {
+		console.log(dice);
+		dice.writeDiceToDOM();
+	}
+
+});
