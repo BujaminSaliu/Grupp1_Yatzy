@@ -1,5 +1,9 @@
 $( document ).ready(function() {
+	testRenderingOfDices();
+	
+});
 
+function testRenderingOfDices() {
 	var dices = [];
 
 	for(let i = 0; i < 5; i++) {
@@ -14,4 +18,4 @@ $( document ).ready(function() {
 		dice.writeDiceToDOM();
 	}
 
-});
+}

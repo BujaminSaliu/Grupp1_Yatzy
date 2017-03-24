@@ -14,7 +14,6 @@ class Dice{
 	
 	//Denna är inte klar appendar till body så länge
 	writeDiceToDOM(){
-		console.log(this.currentValue);
 		switch(this.currentValue){
 			case 1:
 				$('#dice-container-' + `${this.diceNumber}`).append("<IMG data-id=" + this.diceNumber + " SRC='/img/1.png'>");
