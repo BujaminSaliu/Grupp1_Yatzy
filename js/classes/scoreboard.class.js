@@ -9,7 +9,7 @@ class ScoreBoard{
 	}
 
 	countNumberOfDiceSideOccurences(){ 
-		let numbers = []; //Start a list to put the numbers in
+		let numbersOfEachOccurences = []; //Start a list to put the numbers in
 		let amountOfOnes = 0; 
 		let amountOfTwos = 0; 
 		let amountOfThrees = 0; 
@@ -17,54 +17,52 @@ class ScoreBoard{
 		let amountOfFives = 0; 
 		let amountOfSixes = 0; 
 
-		for(let i in this.dices){ //Go through the dices
-			let eyes = i.getCurrentValue(); //get the value of how many eyes were on each thing
+		for(dice of this.dices){ 
 			
-			switch(eyes){ //Switch case to see how many eyes the given side has
-				case 1: //Add to respective number based on which we get.
-					ones += 1;
+			switch(dice.currentValue){ 
+				case 1: 
+					amountOfOnes += 1;
 					break;
 				case 2:
-					twos += 1;
+					amountOfTwos += 1;
 					break;
 				case 3:
-					threes += 1;
+					amountOfThrees += 1;
 					break;
 				case 4:
-					fours += 1;
+					amountOfFours += 1;
 					break;
 				case 5:
-					fives += 1;
+					amountOfFives += 1;
 					break;
 				case 6:
-					sixes += 1;
+					amountOfSixes += 1;
 					break;
 			}
 		}
 
-		numbers.push(ones); //populate the list with all the frequencies of the numbers we got
-		numbers.push(twos);
-		numbers.push(threes);
-		numbers.push(fours);
-		numbers.push(fives);
-		numbers.push(sixes);
+		numbersOfEachOccurences.push(amountOfOnes); 
+		numbersOfEachOccurences.push(amountOfTwos);
+		numbersOfEachOccurences.push(amountOfThrees);
+		numbersOfEachOccurences.push(amountOfFours);
+		numbersOfEachOccurences.push(amountOfFives);
+		numbersOfEachOccurences.push(amountOfSixes);
 
-		return numbers; //Return the list of frequencies
+		return numbersOfEachOccurences; 
 	}		
 	
 
-	onePair(){ //Run to compare one pair
-		let numbers = this.summarize(); //Load in All the combinations
+	filterOnePair(){ 
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences(); 
+		let points = 0; 
 
-		let points = 0; //How many points you scored by the pair 
-
-		for(let i in numbers){ //Go through the amount of dice frequency
-			if(i === 2){ //If the amount counter is 2, trigger summarization
-				points = (i * 2); //Instead of adding to, we assign. Given that we want to have the highest pair available
+		for(let occurence of numbersOfEachOccurences){ 
+			if(occurence > 2){ 
+				points = (occurence * 2); 
 			}
 		}
 
-		return points; //Return the amount of points scored 
+		return points;  
 	}
 
 	twoPairs(){ //Run to compare against two pairs
