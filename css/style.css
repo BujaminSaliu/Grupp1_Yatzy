@@ -1,4 +1,4 @@
-.content {
+.game-content {
 	height: 100vh;
 }
 
@@ -17,9 +17,17 @@
 	background-color: green;
 }
 
-.dices-in-play {
+.play-container {
 	position: absolute;
 	top: 50%;
+	width: 100%;
+}
+
+.dice-container, .check-container {
+	text-align: center;
+}
+
+.dices-in-play, .check-boxes {
 	width: 100%;
 	display: flex;
 	justify-content: center;
