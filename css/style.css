@@ -17,6 +17,14 @@
 	background-color: green;
 }
 
+.dices-in-play {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
 nav {
 	position: fixed;
 	display: flex;
