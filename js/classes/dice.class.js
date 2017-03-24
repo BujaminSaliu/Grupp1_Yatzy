@@ -42,3 +42,12 @@ class Dice{
 	}
 
 }
+
+$( document ).ready(function() {
+
+	document.getElementById("clickMe").onclick = function fun()
+    {
+    	this.roll();
+    }
+    console.log( "ready!" );
+});
