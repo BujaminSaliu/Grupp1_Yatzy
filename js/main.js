@@ -1,5 +1,8 @@
 var dices = [];
 
+var listOfPlayers = [];
+var currentPlayer = 0;
+
 for(let i = 0; i < 5; i++) {
 	let dice = new Dice(i);
 	dices.push(dice);
