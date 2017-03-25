@@ -1,4 +1,5 @@
 var dices = [];
+var testboard = new ScoreBoard('Alexander');
 
 for(let i = 0; i < 5; i++) {
 	let dice = new Dice(i);
@@ -11,6 +12,10 @@ $( document ).ready(function() {
 		testRoll();
 	});
 
+	$('#test-dices').on('click', function(){
+		testDices();
+	});
+
 	testRenderingOfDices();
 
 });
@@ -19,6 +24,11 @@ function testRenderingOfDices() {
 	for(dice of dices) {
 		dice.writeDiceToDOM();
 	}
+}
+
+function testDices(){
+	var blargh = testboard.checkFullHouse(dices);
+	console.log('full house?', blargh);
 }
 
 function testRoll() {

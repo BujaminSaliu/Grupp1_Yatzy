@@ -17,22 +17,22 @@ class Dice{
 		if(!this.locked) {
 			switch(this.currentValue){
 				case 1:
-					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='/img/1.png'>`);
+					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/1.png'>`);
 					break;
 				case 2:
-					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='/img/2.png'>`);
+					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/2.png'>`);
 					break;
 				case 3:
-					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='/img/3.png'>`);
+					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/3.png'>`);
 					break;
 				case 4:
-					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='/img/4.png'>`);
+					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/4.png'>`);
 					break;
 				case 5:
-					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='/img/5.png'>`);
+					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/5.png'>`);
 					break;
 				case 6:
-					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='/img/6.png'>`);
+					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/6.png'>`);
 					break;
 			}
 		}
