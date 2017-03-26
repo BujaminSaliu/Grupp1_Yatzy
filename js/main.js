@@ -14,16 +14,9 @@ $( document ).ready(function() {
 		testRoll();
 	});
 
-	testRenderingOfDices();
-	
+	testRoll();
 
 });
-
-function testRenderingOfDices() {
-	for(dice of dices) {
-		dice.writeDiceToDOM();
-	}
-}
 
 function testRoll() {
 	lockCheckedDices();
@@ -34,7 +27,7 @@ function testRoll() {
 		dice.writeDiceToDOM();
 	}
 
-	console.log(testScoreBoard.filterOnePair());
+	logFilters();
 }
 
 function lockCheckedDices() {
@@ -55,4 +48,9 @@ function parseCheckBoxIdToIndexOfDice(checkBoxId) {
 	var idSplits = checkBoxId.split('-');
 	var indexOfDice = parseInt(idSplits[1]);
 	return indexOfDice;
+}
+
+function logFilters() {
+	console.log('One Pair:', testScoreBoard.filterOnePair());
+	console.log('Two Pairs:', testScoreBoard.filterTwoPairs());
 }
