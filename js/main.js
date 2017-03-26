@@ -15,7 +15,7 @@ $( document ).ready(function() {
 	});
 
 	testRenderingOfDices();
-	console.log(testScoreBoard.filterOnePair());
+	
 
 });
 
@@ -33,6 +33,8 @@ function testRoll() {
 		dice.roll();
 		dice.writeDiceToDOM();
 	}
+
+	console.log(testScoreBoard.filterOnePair());
 }
 
 function lockCheckedDices() {

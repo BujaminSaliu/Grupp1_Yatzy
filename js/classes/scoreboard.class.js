@@ -9,7 +9,7 @@ class ScoreBoard{
 	}
 
 	countNumberOfDiceSideOccurences(){ 
-		let numbersOfEachOccurences = []; //Start a list to put the numbers in
+		let numbersOfEachOccurences = []; 
 		let amountOfOnes = 0; 
 		let amountOfTwos = 0; 
 		let amountOfThrees = 0; 
@@ -56,10 +56,9 @@ class ScoreBoard{
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences(); 
 		let points = 0; 
 
-		//Gör vanlig for-loop så kan i+1 användas för uträkningen
-		for(let occurence of numbersOfEachOccurences){ 
-			if(occurence >= 2){ 
-				points = (occurence * 2); 
+		for(let i = 0; i < numbersOfEachOccurences.length; i++) {
+			if(numbersOfEachOccurences[i] >= 2) {
+				points = (i+1) * 2;
 			}
 		}
 
