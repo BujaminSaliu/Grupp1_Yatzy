@@ -54,4 +54,5 @@ function logFilters() {
 	console.log('---Möjliga utfall---')
 	console.log('Ett par:', testScoreBoard.filterOnePair());
 	console.log('Två par:', testScoreBoard.filterTwoPairs());
+	console.log('Fyrtal:', testScoreBoard.filterFourOfAKind());
 }
