@@ -1,6 +1,7 @@
 var testScoreBoard = new ScoreBoard('Kalle');
 var dices = [];
 
+
 for(let i = 0; i < 5; i++) {
 	let dice = new Dice(i);
 	dices.push(dice);
