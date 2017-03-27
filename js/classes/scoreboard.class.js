@@ -84,6 +84,19 @@ class ScoreBoard{
 		}
 	}
 
+	filterThreeOfAKind(){
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences(); 
+		let points = 0;	
+
+		for(let i = 0; i < numbersOfEachOccurences.length; i++) {
+			if(numbersOfEachOccurences[i] >= 3) {
+				points = (i+1) * 3;
+			}
+		}
+
+		return points;
+	}
+
 	filterSmallStraight(){
 		let points = 0;
 		let found1 = false;
@@ -152,34 +165,29 @@ class ScoreBoard{
 
 	}
 
-	checkFullHouse(listOfDice){
-		this.threeOfAKind = false;
-		this.pair = false;
-		this.returnvalue = 0;
-		for(var i = 1; i < 7; i++){
-			this.counter = 0;
-			for(var j = 0; j < listOfDice.length; j++){
-				if(listOfDice[j].currentValue === i){
-					this.counter++;
-				}
-			}
+	filterFullHouse(){
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		let hasPair = false;
+		let hasThreeOfAKind = false;
+		let pointsFromPair = 0;
+		let pointsFromThreeOfAKind = 0;
+		let points = 0;
 
-			if(this.counter === 2){
-				this.pair = true;
-			}
-
-			if(this.counter === 3){
-				this.threeOfAKind = true;
+		//Cant reuse one-pair-filter, need the only side-occurence === 2 not >=2
+		for(let i = 0; i < numbersOfEachOccurences.length; i++) {
+			if(numbersOfEachOccurences[i] === 2) {
+				pointsFromPair = (i+1) * 2;
 			}
 		}
 
-		if(this.threeOfAKind === true && this.pair === true){
-			//using 28 as a placeholder number, replace with 
-			//proper calculation of points (summarize function?)
-			this.returnvalue = 28;
+		//However three-of-a-kind-filter can be reused because you can only han one three-of-a-kind
+		pointsFromThreeOfAKind = this.filterThreeOfAKind();
+		
+		if (pointsFromPair != 0 && pointsFromThreeOfAKind != 0) {
+			points = pointsFromPair + pointsFromThreeOfAKind;
 		}
 
-		return this.returnvalue;
+		return points;
 
 	}
 
