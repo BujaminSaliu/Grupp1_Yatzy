@@ -83,5 +83,27 @@ class ScoreBoard{
 			return 0;
 		}
 	}
+
+	filterYatzy(){
+
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		let points = 0;
+		let pairs = 0;
+
+		for(let i = 0; i < numbersOfEachOccurences.length; i++){
+
+			if(numbersOfEachOccurences[i] === 5){
+
+			 return 50;
+
+			}
+
+
+
+
+		}
+
+
+	}
 }
 
