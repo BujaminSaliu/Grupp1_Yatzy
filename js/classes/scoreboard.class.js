@@ -97,6 +97,19 @@ class ScoreBoard{
 		return points;
 	}
 
+	filterFourOfAKind(){
+		let  numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		let points = 0;
+
+		for (var i = 0; i < numbersOfEachOccurences.length; i++) {
+			if (numbersOfEachOccurences[i] >=4){
+				points += (i + 1) * 4;
+			}
+		}
+
+		return points;
+	}
+
 	filterSmallStraight(){
 		let points = 0;
 		let found1 = false;
@@ -191,19 +204,5 @@ class ScoreBoard{
 
 	}
 
-
-	filterFourOfAKind(){
-		let  numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
-		let points = 0;
-		let pairs = 0;
-
-		for (var i = 0; i < numbersOfEachOccurences.length; i++) {
-			if (numbersOfEachOccurences[i] >=4){
-				points += (i + 1) * 4;
-			}
-		}
-
-		return points;
-	}
 }
 

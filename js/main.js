@@ -56,8 +56,8 @@ function logFilters() {
 	console.log('Ett par:', testScoreBoard.filterOnePair());
 	console.log('Två par:', testScoreBoard.filterTwoPairs());
 	console.log('Tretal:', testScoreBoard.filterThreeOfAKind());
+	console.log('Fyrtal:', testScoreBoard.filterFourOfAKind());
 	console.log('Liten stege:', testScoreBoard.filterSmallStraight());
 	console.log('Stor stege:', testScoreBoard.filterLargeStraight());
 	console.log('Kåk:', testScoreBoard.filterFullHouse());
-	console.log('Fyrtal:', testScoreBoard.filterFourOfAKind());
 }
