@@ -61,4 +61,5 @@ function logFilters() {
 	console.log('Stor stege:', testScoreBoard.filterLargeStraight());
 	console.log('Kåk:', testScoreBoard.filterFullHouse());
 	console.log('Chans:' , testScoreBoard.filterChance());
+	console.log('Yatzy:' , testScoreBoard.filterYatzy());
 }

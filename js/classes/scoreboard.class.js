@@ -223,18 +223,13 @@ class ScoreBoard{
 		let pairs = 0;
 
 		for(let i = 0; i < numbersOfEachOccurences.length; i++){
-
 			if(numbersOfEachOccurences[i] === 5){
-
-			 return 50;
-
+				return 50;
 			}
-
-
-
 
 		}
 
+		return 0;
 
 	}
 }
