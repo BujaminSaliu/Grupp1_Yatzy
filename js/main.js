@@ -55,4 +55,6 @@ function logFilters() {
 	console.log('---Möjliga utfall---')
 	console.log('Ett par:', testScoreBoard.filterOnePair());
 	console.log('Två par:', testScoreBoard.filterTwoPairs());
+	console.log('Liten stege:', testScoreBoard.filterSmallStraight());
+	console.log('Stor stege:', testScoreBoard.filterLargeStraight());
 }

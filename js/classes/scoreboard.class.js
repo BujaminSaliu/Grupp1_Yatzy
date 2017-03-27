@@ -84,75 +84,71 @@ class ScoreBoard{
 		}
 	}
 
-	checkSmallStraight(listOfDices){
-		this.returnvalue = 0;
-		this.found1 = false;
-		this.found2 = false;
-		this.found3 = false;
-		this.found4 = false;
-		this.found5 = false;
+	filterSmallStraight(){
+		let points = 0;
+		let found1 = false;
+		let found2 = false;
+		let found3 = false;
+		let found4 = false;
+		let found5 = false;
 
-		for(var i = 0; i < listOfDices.length; i++){
-			if(listOfDices[i].currentValue === 1){
-				this.found1 = true;
+		for(let i = 0; i < this.dices.length; i++){
+			if(this.dices[i].currentValue === 1){
+				found1 = true;
 			}
-			if(listOfDices[i].currentValue === 2){
-				this.found2 = true;
+			if(this.dices[i].currentValue === 2){
+				found2 = true;
 			}
-			if(listOfDices[i].currentValue === 3){
-				this.found3 = true;
+			if(this.dices[i].currentValue === 3){
+				found3 = true;
 			}
-			if(listOfDices[i].currentValue === 4){
-				this.found4 = true;
+			if(this.dices[i].currentValue === 4){
+				found4 = true;
 			}
-			if(listOfDices[i].currentValue === 5){
-				this.found5 = true;
+			if(this.dices[i].currentValue === 5){
+				found5 = true;
 			}
 		}
 
-		if(this.found1 === true && this.found2 === true &&
-			 this.found3 === true && this.found4 === true &&
-			  this.found5 === true){
-			this.returnvalue = 15;
+		if(found1 && found2 && found3 && found4 && found5){
+			points = 15;
 		}
 
-		return this.returnvalue;
+		return points;
 
 	}
 
-	checkLargeStraight(listOfDices){
-		this.returnvalue = 0;
-		this.found2 = false;
-		this.found3 = false;
-		this.found4 = false;
-		this.found5 = false;
-		this.found6 = false;
+	filterLargeStraight(){
+		let points = 0;
+		let found2 = false;
+		let found3 = false;
+		let found4 = false;
+		let found5 = false;
+		let found6 = false;
 
-		for(var i = 0; i < listOfDices.length; i++){
-			if(listOfDices[i].currentValue === 2){
-				this.found2 = true;
+		for(let i = 0; i < this.dices.length; i++){
+			if(this.dices[i].currentValue === 2){
+				found2 = true;
 			}
-			if(listOfDices[i].currentValue === 3){
-				this.found3 = true;
+			if(this.dices[i].currentValue === 3){
+				found3 = true;
 			}
-			if(listOfDices[i].currentValue === 4){
-				this.found4 = true;
+			if(this.dices[i].currentValue === 4){
+				found4 = true;
 			}
-			if(listOfDices[i].currentValue === 5){
-				this.found5 = true;
+			if(this.dices[i].currentValue === 5){
+				found5 = true;
 			}
-			if(listOfDices[i].currentValue === 6){
-				this.found6 = true;
+			if(this.dices[i].currentValue === 6){
+				found6 = true;
 			}
 		}
 
-		if(this.found2 === true && this.found3 === true &&
-			 this.found4 === true && this.found5 === true &&
-			  this.found6 === true){
-			this.returnvalue = 20;
+		if(found2 && found3 && found4 && found5 && found6){
+			points = 20;
 		}
 
-		return this.returnvalue;
+		return points;
 
 	}
 
