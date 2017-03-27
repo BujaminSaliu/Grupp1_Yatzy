@@ -59,4 +59,5 @@ function logFilters() {
 	console.log('Liten stege:', testScoreBoard.filterSmallStraight());
 	console.log('Stor stege:', testScoreBoard.filterLargeStraight());
 	console.log('Kåk:', testScoreBoard.filterFullHouse());
+	console.log('Fyrtal:', testScoreBoard.filterFourOfAKind());
 }
