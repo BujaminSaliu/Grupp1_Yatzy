@@ -190,6 +190,16 @@ class ScoreBoard{
 		return points;
 
 	}
+	filterChance(){
+		let numbers = this.countNumberOfDiceSideOccurences();
+		let points = 0;
+		for(let i = 0; i < numbers.length; i++){
+			points = points + (numbers[i] * (i+1)); 
+			}
+		return points;
+		}
+
+	
 
 }
 
