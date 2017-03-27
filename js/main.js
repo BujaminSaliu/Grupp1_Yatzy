@@ -51,6 +51,7 @@ function parseCheckBoxIdToIndexOfDice(checkBoxId) {
 }
 
 function logFilters() {
-	console.log('One Pair:', testScoreBoard.filterOnePair());
-	console.log('Two Pairs:', testScoreBoard.filterTwoPairs());
+	console.log('---Möjliga utfall---')
+	console.log('Ett par:', testScoreBoard.filterOnePair());
+	console.log('Två par:', testScoreBoard.filterTwoPairs());
 }
