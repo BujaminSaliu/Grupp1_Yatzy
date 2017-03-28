@@ -1,3 +1,7 @@
+.container-fluid {
+	overflow-x: hidden;
+}
+
 .game-content {
 	height: 100vh;
 }
