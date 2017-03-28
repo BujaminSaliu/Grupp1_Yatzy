@@ -1,7 +1,7 @@
 var playerScoreBoard = [];
 var dices = [];
 var currentPlayer = 0;
-var gameRunning = true;
+
 
 
 
