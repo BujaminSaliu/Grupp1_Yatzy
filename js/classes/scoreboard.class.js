@@ -50,6 +50,42 @@ class ScoreBoard{
 
 		return numbersOfEachOccurences; 
 	}		
+
+	filterOnes(){ //Just return the amount of points for 1:s
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+
+		return (numbersOfEachOccurences[0] * 1);
+	}
+
+	filterTwos(){ //Just return the amount of points for 2:s
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+
+		return (numbersOfEachOccurences[1] * 2);
+	}
+
+	filterThrees(){ //Just return the amount of points for 3:s
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+
+		return (numbersOfEachOccurences[2] * 3);
+	}
+
+	filterFours(){ //Just return the amount of points for 4:s
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+
+		return (numbersOfEachOccurences[3] * 4);
+	}
+
+	filterFives(){ //just return the amount of points for 5:s
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+
+		return (numbersOfEachOccurences[4] * 5);
+	}
+
+	filterSixes(){ //just return the amount of points for 6:s
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+
+		return (numbersOfEachOccurences[5] * 6);
+	}
 	
 
 	filterOnePair(){ 
