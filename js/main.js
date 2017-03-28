@@ -64,7 +64,13 @@ function parseCheckBoxIdToIndexOfDice(checkBoxId) {
 }
 
 function logFilters() {
-	console.log('---Möjliga utfall---')
+	console.log('---Möjliga utfall---');
+	console.log('Ettor:', testScoreBoard.filterOnes());
+	console.log('Tvåor:', testScoreBoard.filterTwos());
+	console.log('Treor:', testScoreBoard.filterThrees());
+	console.log('Fyror:', testScoreBoard.filterFours());
+	console.log('Femmor:', testScoreBoard.filterFives());
+	console.log('Sexor:', testScoreBoard.filterSixes());
 	console.log('Ett par:', testScoreBoard.filterOnePair());
 	console.log('Två par:', testScoreBoard.filterTwoPairs());
 	console.log('Tretal:', testScoreBoard.filterThreeOfAKind());
