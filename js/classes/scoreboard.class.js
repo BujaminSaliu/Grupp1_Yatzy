@@ -51,43 +51,36 @@ class ScoreBoard{
 		return numbersOfEachOccurences; 
 	}		
 
-	filterOnes(){ //Just return the amount of points for 1:s
+	filterOnes(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
-
 		return (numbersOfEachOccurences[0] * 1);
 	}
 
-	filterTwos(){ //Just return the amount of points for 2:s
+	filterTwos(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
-
 		return (numbersOfEachOccurences[1] * 2);
 	}
 
-	filterThrees(){ //Just return the amount of points for 3:s
+	filterThrees(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
-
 		return (numbersOfEachOccurences[2] * 3);
 	}
 
-	filterFours(){ //Just return the amount of points for 4:s
+	filterFours(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
-
 		return (numbersOfEachOccurences[3] * 4);
 	}
 
-	filterFives(){ //just return the amount of points for 5:s
+	filterFives(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
-
 		return (numbersOfEachOccurences[4] * 5);
 	}
 
-	filterSixes(){ //just return the amount of points for 6:s
+	filterSixes(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
-
 		return (numbersOfEachOccurences[5] * 6);
 	}
 	
-
 	filterOnePair(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences(); 
 		let points = 0; 
@@ -177,7 +170,6 @@ class ScoreBoard{
 		}
 
 		return points;
-
 	}
 
 	filterLargeStraight(){
@@ -211,7 +203,6 @@ class ScoreBoard{
 		}
 
 		return points;
-
 	}
 
 	filterFullHouse(){
@@ -229,7 +220,7 @@ class ScoreBoard{
 			}
 		}
 
-		//However three-of-a-kind-filter can be reused because you can only han one three-of-a-kind
+		//However three-of-a-kind-filter can be reused because you can only have one three-of-a-kind
 		pointsFromThreeOfAKind = this.filterThreeOfAKind();
 		
 		if (pointsFromPair != 0 && pointsFromThreeOfAKind != 0) {
@@ -237,7 +228,6 @@ class ScoreBoard{
 		}
 
 		return points;
-
 	}
 
 	filterChance(){
@@ -248,12 +238,10 @@ class ScoreBoard{
 		}
 
 		return points;
-
 	}
 
 
 	filterYatzy(){
-
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
 		let points = 0;
 		let pairs = 0;
@@ -266,7 +254,6 @@ class ScoreBoard{
 		}
 
 		return 0;
-
 	}
 }
 
