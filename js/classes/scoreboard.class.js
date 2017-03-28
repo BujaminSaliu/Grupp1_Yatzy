@@ -258,18 +258,12 @@ class ScoreBoard{
 	}
 
 	countBonusscore(){
+		if(this.bonusScore >= 63 && this.bonusUsed === false){
+			this.totalScore += 50;
+			this.bonusUsed = true;
 
-				if(bonusScore >= 63 && bonusUsed === false){
-
-					bonusScore+=50;
-
-					bonusUsed = true;
-
-				}
-
-	
-
-
+			//TODO: Write 50 to Bonus-line in DOM-scoreboard. Waiting for Bujamins logic.
+		}
 	}
 }
 
