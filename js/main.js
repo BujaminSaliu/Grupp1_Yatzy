@@ -10,6 +10,9 @@ for(let i = 0; i < 5; i++) {
 testScoreBoard.dices = dices;
 
 $( document ).ready(function() {
+
+	//To match the heights of protocol and scores:
+	$('.scores').height($('.protocol').height());
 	
 	$('#roll-dices').on('click', function(){
 		testRoll();
