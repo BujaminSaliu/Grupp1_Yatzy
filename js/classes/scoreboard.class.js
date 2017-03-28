@@ -232,5 +232,40 @@ class ScoreBoard{
 		return 0;
 
 	}
+
+	countBonusscore(clickedNumber, amountOfNumberClicked){
+
+			let i;
+			let sum = 0;
+			clickedNumber = i;
+
+			// makes sure that the number on the dices are added to the right spot in the array 
+			i--;
+
+			//adds all the dices which are chosen
+			clickedNumber *= amountOfNumber;
+
+			//adds the sum  of the dices that are chosen to the right place in the array using i
+			bonusList[i] += clickedNumber;
+
+			//loop that checks if bonuspoint has exceeded 50 
+			for(let i = 0; i < bonusList.length; i++){
+				
+				sum += bonusList[i];
+
+				if(sum >= 50){
+
+					sum+=50;
+
+				}
+
+				
+
+			}
+			
+			return sum;
+
+
+	}
 }
 
