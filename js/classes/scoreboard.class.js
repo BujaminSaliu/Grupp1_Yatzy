@@ -5,7 +5,8 @@ class ScoreBoard{
 		this.dices = [];  
 		this.bonusScore = 0; 
 		this.bonus = 50; 
-		this.totalScore = 0; 
+		this.totalScore = 0;
+		this.bonusUsed = false; 
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -254,6 +255,21 @@ class ScoreBoard{
 		}
 
 		return 0;
+	}
+
+	countBonusscore(){
+
+				if(bonusScore >= 63 && bonusUsed === false){
+
+					bonusScore+=50;
+
+					bonusUsed = true;
+
+				}
+
+	
+
+
 	}
 }
 
