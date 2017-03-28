@@ -10,9 +10,21 @@ for(let i = 0; i < 5; i++) {
 testScoreBoard.dices = dices;
 
 $( document ).ready(function() {
+
+	//To match the heights of protocol and scores:
+	$('.scores').height($('.protocol').height());
 	
 	$('#roll-dices').on('click', function(){
 		testRoll();
+	});
+
+	$('.dice-container').on('click', function(){
+		let splittedId = this.id.split('-');
+		if(!$('#checkbox-' + splittedId[2]).prop('checked')){
+			$('#checkbox-' + splittedId[2]).prop('checked', true);
+		} else {
+			$('#checkbox-' + splittedId[2]).prop('checked', false);
+		}
 	});
 
 	testRoll();

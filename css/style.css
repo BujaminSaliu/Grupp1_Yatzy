@@ -1,16 +1,20 @@
+.container-fluid {
+	overflow: hidden;
+}
+
 .game-content {
 	height: 100vh;
 }
 
 .score-board, .high-scores {
-	background-color: lightgrey;
+	background-color: grey;
 	padding: 5% 2%;
 }
 
 .protocol, .scores {
-	height: 80vh;
 	border: 2px solid black;
 	background-color: white;
+	padding: 0;
 }
 
 .game-board {
@@ -25,6 +29,11 @@
 
 .dice-container, .check-container {
 	text-align: center;
+}
+
+.dice-container>img {
+	width: 100%;
+	height: 100%;
 }
 
 .dices-in-play, .check-boxes, .buttons {
@@ -58,12 +67,19 @@ nav a {
 	padding: 10px 30px;
 }
 
+nav a:hover, nav a:focus {
+	text-decoration: none;
+	color: white;
+	background: rgba(0, 0, 0, 0.3);
+}
+
 .hideable {
-		display: none;
+	display: none;
 }
 
 .table-bordered{
-font-size: 15px;
+	font-size: 15px;
+	margin: 0;
 }
 
 .table-bordered>tbody>tr>td{
