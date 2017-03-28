@@ -1,21 +1,22 @@
-var testScoreBoard = new ScoreBoard('Kalle');
+var playerScoreBoard = [];
 var dices = [];
+var currentPlayer = 0;
+var gameRunning = true;
 
 
-for(let i = 0; i < 5; i++) {
-	let dice = new Dice(i);
-	dices.push(dice);
-}
-
-testScoreBoard.dices = dices;
 
 $( document ).ready(function() {
+	
+	playerScoreBoard.push(new ScoreBoard('Kalle'));
+	playerScoreBoard.push(new ScoreBoard('Anders'));
+	playerScoreBoard.push(new ScoreBoard('Sara'));
 
+	console.log(playerScoreBoard);
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
 	
 	$('#roll-dices').on('click', function(){
-		testRoll();
+		testRoll(playerScoreBoard[currentPlayer]);
 	});
 
 	$('.dice-container').on('click', function(){
@@ -31,28 +32,43 @@ $( document ).ready(function() {
 
 });
 
+function gameLogic(){
+
+	playerScoreBoard[currentPlayer].totalRolls--;
+	if(playerScoreBoard[currentPlayer].totalRolls === 0){
+		playerScoreBoard[currentPlayer].totalRolls = 3;
+		currentPlayer++;
+	}
+
+	if(currentPlayer === playerScoreBoard.length){
+		currentPlayer = 0;
+	}
+}
+
 function testRoll() {
 	lockCheckedDices();
+	console.log('halp', playerScoreBoard[currentPlayer]);
 
-	for(dice of dices) {
+	for(dice of playerScoreBoard[currentPlayer].dices) {
 		dice.clearDicesInDOM();
 		dice.roll();
 		dice.writeDiceToDOM();
 	}
 
-	logFilters();
+	logFilters(playerScoreBoard[currentPlayer]);
+	gameLogic();
+
 }
 
 function lockCheckedDices() {
 	var checkBoxes = $('.check-container').children();
-
 	for(checkBox of checkBoxes) {
 		var idToLockOrUnLock = parseCheckBoxIdToIndexOfDice(checkBox.id);
 
 		if($('#' + checkBox.id).is(":checked")) {
-			dices[idToLockOrUnLock].lockDice();
+			playerScoreBoard[currentPlayer].dices[idToLockOrUnLock].lockDice();
 		} else {
-			dices[idToLockOrUnLock].unLockDice();
+			playerScoreBoard[currentPlayer].dices[idToLockOrUnLock].unLockDice();
 		}
 	}
 }
@@ -63,15 +79,15 @@ function parseCheckBoxIdToIndexOfDice(checkBoxId) {
 	return indexOfDice;
 }
 
-function logFilters() {
+function logFilters(playerScoreBoard) {
 	console.log('---Möjliga utfall---')
-	console.log('Ett par:', testScoreBoard.filterOnePair());
-	console.log('Två par:', testScoreBoard.filterTwoPairs());
-	console.log('Tretal:', testScoreBoard.filterThreeOfAKind());
-	console.log('Fyrtal:', testScoreBoard.filterFourOfAKind());
-	console.log('Liten stege:', testScoreBoard.filterSmallStraight());
-	console.log('Stor stege:', testScoreBoard.filterLargeStraight());
-	console.log('Kåk:', testScoreBoard.filterFullHouse());
-	console.log('Chans:' , testScoreBoard.filterChance());
-	console.log('Yatzy:' , testScoreBoard.filterYatzy());
+	console.log('Ett par:', playerScoreBoard.filterOnePair());
+	console.log('Två par:', playerScoreBoard.filterTwoPairs());
+	console.log('Tretal:', playerScoreBoard.filterThreeOfAKind());
+	console.log('Fyrtal:', playerScoreBoard.filterFourOfAKind());
+	console.log('Liten stege:', playerScoreBoard.filterSmallStraight());
+	console.log('Stor stege:', playerScoreBoard.filterLargeStraight());
+	console.log('Kåk:', playerScoreBoard.filterFullHouse());
+	console.log('Chans:' , playerScoreBoard.filterChance());
+	console.log('Yatzy:' , playerScoreBoard.filterYatzy());
 }
