@@ -27,6 +27,11 @@
 	text-align: center;
 }
 
+.dice-container>img {
+	width: 100%;
+	height: 100%;
+}
+
 .dices-in-play, .check-boxes, .buttons {
 	width: 100%;
 	display: flex;

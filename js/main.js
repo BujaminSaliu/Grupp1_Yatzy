@@ -15,6 +15,15 @@ $( document ).ready(function() {
 		testRoll();
 	});
 
+	$('.dice-container').on('click', function(){
+		let splittedId = this.id.split('-');
+		if(!$('#checkbox-' + splittedId[2]).prop('checked')){
+			$('#checkbox-' + splittedId[2]).prop('checked', true);
+		} else {
+			$('#checkbox-' + splittedId[2]).prop('checked', false);
+		}
+	});
+
 	testRoll();
 
 });
