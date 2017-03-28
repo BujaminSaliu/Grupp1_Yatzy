@@ -5,7 +5,8 @@ class ScoreBoard{
 		this.dices = [];  
 		this.bonusScore = 0; 
 		this.bonus = 50; 
-		this.totalScore = 0; 
+		this.totalScore = 0;
+		this.bonusUsed = false; 
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -254,6 +255,15 @@ class ScoreBoard{
 		}
 
 		return 0;
+	}
+
+	countBonusscore(){
+		if(this.bonusScore >= 63 && this.bonusUsed === false){
+			this.totalScore += 50;
+			this.bonusUsed = true;
+
+			//TODO: Write 50 to Bonus-line in DOM-scoreboard. Waiting for Bujamins logic.
+		}
 	}
 }
 
