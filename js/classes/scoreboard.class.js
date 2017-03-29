@@ -1,4 +1,4 @@
-class ScoreBoard{
+class ScoreBoard {
 
 	constructor(playerName){
 		this.playerName = playerName;
@@ -232,5 +232,52 @@ class ScoreBoard{
 		return 0;
 
 	}
+
+	possibleOutcomes(currentPlayer){
+		this.emptyScoreBoard(0);
+		
+		let listOfDice = this.countNumberOfDiceSideOccurences();
+		
+
+		let listOfBonusScores = ['ones', 'twos', 'threes', 'fours', 'fives',
+						 		 'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+						         'fourOfAKind', 'smallStraight', 'largeStraight', 
+						         'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+		let filterMethods = [this.filterOnes, this.filterTwos, this.filterThrees,
+							 this.filterFours, this.filterFives, 
+							 this.filterSixes, this.bonusScore, 
+							 this.filterOnePair, this.filterTwoPairs, 
+							 this.filterThreeOfAKind, this.filterFourOfAKind,
+							 this.filterSmallStraight, this.filterLargeStraight,
+							 this.filterFullHouse, this.filterChance, this.filterYatzy,
+							 this.totalScore
+							 ];
+
+		for (var i = 0; i < listOfBonusScores.length; i++) {
+			
+					$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(filterMethods[i]);
+				}
+	}
+		
+	emptyScoreBoard(currentPlayer){
+
+		let listOfBonusScores = ['ones', 'twos', 'threes', 'fours', 'fives',
+						 		 'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+						         'fourOfAKind', 'smallStraight', 'largeStraight', 
+						         'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+		for (var i = 0; i < listOfBonusScores.length; i++) {
+		  	$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).empty();
+				}
+
+		
+
 }
+
+
+
+}
+
+
+
 
