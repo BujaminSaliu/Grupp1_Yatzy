@@ -13,7 +13,7 @@ $( document ).ready(function() {
 	$('#myModal').modal('show');
 
 	$('#startGame').on('click', function(){
- 		createScoreboards();
+		checkInputFields();
 	});
 
 	$('#numOfPlayers').change(function(){
@@ -49,9 +49,19 @@ function createScoreboards(){
 		scoreBoards.push(scoreBoard);
 	}
 	console.log(scoreBoards);
+}
+function checkInputFields(numOfPlayers){
+	$('.playerValues').children().each(function(){
+		if($.trim($(this).val()).length == 0){
+			console.log('Tomt input fält');
+			$('#errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
+			return;
+		}
+	createScoreboards();
+	});
+
 
 }
-
 
 function testRoll() {
 	lockCheckedDices();
