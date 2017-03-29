@@ -10,7 +10,7 @@ for(let i = 0; i < 5; i++) {
 testScoreBoard.dices = dices;
 
 $( document ).ready(function() {
-	
+	$('#myModal').modal('show');
 	$('#roll-dices').on('click', function(){
 		testRoll();
 	});

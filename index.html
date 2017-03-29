@@ -170,6 +170,36 @@
 				</div>
 			</div>
 			<div id="game-board" class="col-xs-12 col-md-6 game-content game-board">
+
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Enter player Name</h4>
+      </div>
+      <div class="modal-body">
+  <div class="dropdown">
+  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Amount of Players
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dLabel">
+    <li>1 Player</li>
+    <li>2 Players</li>
+    <li>3 Players</li>
+    <li>4 Players</li>
+  </ul>
+ </div>
+</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-primary">Save Players</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 				<div class="play-container">
 					<div id="dices-in-play" class="dices-in-play row">
 						<div id="dice-container-0" class="col-xs-2 dice-container">
