@@ -41,6 +41,23 @@
 	padding: 1%;
 }
 
+.modal input{
+	display:block;
+	margin-top:2%;
+}
+
+.modal button{
+	margin:0;
+}
+
+.modal p{
+	bottom:0;
+	position:absolute;
+	color:red;
+}
+
+
+
 nav {
 	position: fixed;
 	display: flex;
@@ -59,11 +76,11 @@ nav a {
 }
 
 .hideable {
-		display: none;
+	display: none;
 }
 
 .table-bordered{
-font-size: 15px;
+	font-size: 15px;
 }
 
 .table-bordered>tbody>tr>td{

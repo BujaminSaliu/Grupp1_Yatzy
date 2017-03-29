@@ -32,6 +32,7 @@ $( document ).ready(function() {
 	testRoll();
 
 });
+
 function provideInputFields(numOfPlayers){
 	$('.playerValues').empty();
 	for(let i = 1; i <= numOfPlayers; i++){
@@ -40,6 +41,7 @@ function provideInputFields(numOfPlayers){
 		`);
 	}
 }
+
 function createScoreboards(){
 	let scoreBoards = [];
 	let inputFields = $('.playerValues').children();
@@ -49,7 +51,9 @@ function createScoreboards(){
 		scoreBoards.push(scoreBoard);
 	}
 	console.log(scoreBoards);
+	$('#myModal').modal('hide');
 }
+
 function checkInputFields(numOfPlayers){
 	$('.playerValues').children().each(function(){
 		if($.trim($(this).val()).length == 0){
@@ -59,8 +63,6 @@ function checkInputFields(numOfPlayers){
 		}
 	createScoreboards();
 	});
-
-
 }
 
 function testRoll() {
