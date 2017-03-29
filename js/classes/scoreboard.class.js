@@ -22,23 +22,23 @@ class ScoreBoard {
 			
 			switch(dice.currentValue){ 
 				case 1: 
-					amountOfOnes += 1;
-					break;
+				amountOfOnes += 1;
+				break;
 				case 2:
-					amountOfTwos += 1;
-					break;
+				amountOfTwos += 1;
+				break;
 				case 3:
-					amountOfThrees += 1;
-					break;
+				amountOfThrees += 1;
+				break;
 				case 4:
-					amountOfFours += 1;
-					break;
+				amountOfFours += 1;
+				break;
 				case 5:
-					amountOfFives += 1;
-					break;
+				amountOfFives += 1;
+				break;
 				case 6:
-					amountOfSixes += 1;
-					break;
+				amountOfSixes += 1;
+				break;
 			}
 		}
 
@@ -273,39 +273,61 @@ class ScoreBoard {
 		
 
 		let listOfBonusScores = ['ones', 'twos', 'threes', 'fours', 'fives',
-						 		 'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
-						         'fourOfAKind', 'smallStraight', 'largeStraight', 
-						         'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+		'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
 
-		let filterMethods = [this.filterOnes, this.filterTwos, this.filterThrees,
-							 this.filterFours, this.filterFives, 
-							 this.filterSixes, this.bonusScore, 
-							 this.filterOnePair, this.filterTwoPairs, 
-							 this.filterThreeOfAKind, this.filterFourOfAKind,
-							 this.filterSmallStraight, this.filterLargeStraight,
-							 this.filterFullHouse, this.filterChance, this.filterYatzy,
-							 this.totalScore
-							 ];
+		let filterMethods = [
+		this.filterOnes(), this.filterTwos(), this.filterThrees(),
+		this.filterFours(), this.filterFives(), 
+		this.filterSixes(), this.bonusScore, 
+		this.filterOnePair(), this.filterTwoPairs(), 
+		this.filterThreeOfAKind(), this.filterFourOfAKind(),
+		this.filterSmallStraight(), this.filterLargeStraight(),
+		this.filterFullHouse(), this.filterChance(), this.filterYatzy(),
+		this.totalScore
+		];
 
 		for (var i = 0; i < listOfBonusScores.length; i++) {
 			
-					$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(filterMethods[i]);
-				}
+			var test = filterMethods[i];
+			var test2 = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
+			
+			test2.setAttribute("href", currentPlayer+'-link-'+listOfBonusScores[i]);
+			
+			test2.addEventListener("click", function(){
+			var test3 = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
+				console.log("test", test3)
+		 test3.setAttribute('disabled','false');  //lock div here
+		 test3.style.color="black";
+			});
+			$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(test);
+			if(!(i===6 || i===listOfBonusScores.length-1)){
+				
+				test2.style.color="lightgrey";
+			}
+		}
 	}
+
+	lockElement(element){
 		
+	}
+
 	emptyScoreBoard(currentPlayer){
 
 		let listOfBonusScores = ['ones', 'twos', 'threes', 'fours', 'fives',
-						 		 'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
-						         'fourOfAKind', 'smallStraight', 'largeStraight', 
-						         'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+		'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
 		for (var i = 0; i < listOfBonusScores.length; i++) {
-		  	$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).empty();
-				}
+			
+			$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).empty();
+		}
 
 		
 
-}
+	}
 
 
 
