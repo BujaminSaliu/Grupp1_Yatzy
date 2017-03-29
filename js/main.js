@@ -11,6 +11,16 @@ testScoreBoard.dices = dices;
 
 $( document ).ready(function() {
 	$('#myModal').modal('show');
+
+	$('#numOfPlayers').change(function(){
+		console.log('hej');
+		let optionValue = $(this).val();
+		console.log('option value', optionValue);
+		provideInputFields(optionValue); 
+	});
+
+
+
 	$('#roll-dices').on('click', function(){
 		testRoll();
 	});
@@ -18,6 +28,17 @@ $( document ).ready(function() {
 	testRoll();
 
 });
+function provideInputFields(numOfPlayers){
+	$('.playerValues').empty();
+	for(let i = 1; i <= numOfPlayers; i++){
+		$('.playerValues').append(`
+			 <input type="text" placeholder='Namn spelare ${i}'   > 
+			 </br>
+		`);
+	}
+
+
+}
 
 function testRoll() {
 	lockCheckedDices();
