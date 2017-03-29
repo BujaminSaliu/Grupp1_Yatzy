@@ -5,7 +5,8 @@ class ScoreBoard {
 		this.dices = [];  
 		this.bonusScore = 0; 
 		this.bonus = 50; 
-		this.totalScore = 0; 
+		this.totalScore = 0;
+		this.bonusUsed = false; 
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -50,8 +51,37 @@ class ScoreBoard {
 
 		return numbersOfEachOccurences; 
 	}		
-	
 
+	filterOnes(){ 
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		return (numbersOfEachOccurences[0] * 1);
+	}
+
+	filterTwos(){ 
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		return (numbersOfEachOccurences[1] * 2);
+	}
+
+	filterThrees(){ 
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		return (numbersOfEachOccurences[2] * 3);
+	}
+
+	filterFours(){ 
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		return (numbersOfEachOccurences[3] * 4);
+	}
+
+	filterFives(){ 
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		return (numbersOfEachOccurences[4] * 5);
+	}
+
+	filterSixes(){ 
+		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
+		return (numbersOfEachOccurences[5] * 6);
+	}
+	
 	filterOnePair(){ 
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences(); 
 		let points = 0; 
@@ -141,7 +171,6 @@ class ScoreBoard {
 		}
 
 		return points;
-
 	}
 
 	filterLargeStraight(){
@@ -175,7 +204,6 @@ class ScoreBoard {
 		}
 
 		return points;
-
 	}
 
 	filterFullHouse(){
@@ -193,7 +221,7 @@ class ScoreBoard {
 			}
 		}
 
-		//However three-of-a-kind-filter can be reused because you can only han one three-of-a-kind
+		//However three-of-a-kind-filter can be reused because you can only have one three-of-a-kind
 		pointsFromThreeOfAKind = this.filterThreeOfAKind();
 		
 		if (pointsFromPair != 0 && pointsFromThreeOfAKind != 0) {
@@ -201,7 +229,6 @@ class ScoreBoard {
 		}
 
 		return points;
-
 	}
 
 	filterChance(){
@@ -212,12 +239,10 @@ class ScoreBoard {
 		}
 
 		return points;
-
 	}
 
 
 	filterYatzy(){
-
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
 		let points = 0;
 		let pairs = 0;
@@ -230,7 +255,15 @@ class ScoreBoard {
 		}
 
 		return 0;
+	}
 
+	countBonusscore(){
+		if(this.bonusScore >= 63 && this.bonusUsed === false){
+			this.totalScore += 50;
+			this.bonusUsed = true;
+
+			//TODO: Write 50 to Bonus-line in DOM-scoreboard. Waiting for Bujamins logic.
+		}
 	}
 
 	possibleOutcomes(currentPlayer){
