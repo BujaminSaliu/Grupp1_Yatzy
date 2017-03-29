@@ -1,7 +1,8 @@
 class ScoreBoard {
 
-	constructor(playerName){
+	constructor(playerName, playerId){
 		this.playerName = playerName;
+		this.playerId = playerId; //Set a variable of who the current player is to compare it
 		this.dices = [];  
 		this.bonusScore = 0; 
 		this.bonus = 50; 
@@ -294,12 +295,22 @@ class ScoreBoard {
 			var test2 = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
 			
 			test2.setAttribute("href", currentPlayer+'-link-'+listOfBonusScores[i]);
+
+			let id = this.playerId;
 			
-			test2.addEventListener("click", function(){
-			var test3 = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
-				console.log("test", test3)
-		 test3.setAttribute('disabled','false');  //lock div here
-		 test3.style.color="black";
+			test2.addEventListener("click", function(e){
+				
+				if(id != ((this.getAttribute("id")).charAt(0))) { //Lock the square based on
+					//the id of the player trying to access it.
+		 			console.log("You can only lock your own squares!");
+		 			return false;
+		 		}
+			
+				this.style.color="black";		
+		 		this.setAttribute('disabled','true');  //lock div here
+
+		 		
+		 		
 			});
 			$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(test);
 			if(!(i===6 || i===listOfBonusScores.length-1)){
@@ -308,6 +319,7 @@ class ScoreBoard {
 			}
 		}
 	}
+
 
 	lockElement(element){
 		
