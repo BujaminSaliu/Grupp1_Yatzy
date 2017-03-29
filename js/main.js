@@ -12,6 +12,10 @@ testScoreBoard.dices = dices;
 $( document ).ready(function() {
 	$('#myModal').modal('show');
 
+	$('#startGame').on('click', function(){
+ 		createScoreboards();
+	});
+
 	$('#numOfPlayers').change(function(){
 		console.log('hej');
 		let optionValue = $(this).val();
@@ -32,13 +36,22 @@ function provideInputFields(numOfPlayers){
 	$('.playerValues').empty();
 	for(let i = 1; i <= numOfPlayers; i++){
 		$('.playerValues').append(`
-			 <input type="text" placeholder='Namn spelare ${i}'   > 
-			 </br>
+			 <input type="text" placeholder='Namn spelare ${i}'> 
 		`);
 	}
-
+}
+function createScoreboards(){
+	let scoreBoards = [];
+	let inputFields = $('.playerValues').children();
+	console.log(inputFields);
+	for(let i = 0; i < inputFields.length; i++){
+		let scoreBoard = new ScoreBoard(inputFields[i].value);
+		scoreBoards.push(scoreBoard);
+	}
+	console.log(scoreBoards);
 
 }
+
 
 function testRoll() {
 	lockCheckedDices();
