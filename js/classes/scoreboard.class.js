@@ -308,7 +308,7 @@ class ScoreBoard {
 
 			if(!(i===6 || i===listOfBonusScores.length-1)){
 			elementFound.addEventListener("click", function(){
-			savedTotalScore.totalScore += 10;
+			savedTotalScore.totalScore += parseInt($(this).text());
 			console.log(savedTotalScore.totalScore);
 			var currentElement = document.getElementById($(this).attr('id'));
 			currentElement.style.color = "black";
