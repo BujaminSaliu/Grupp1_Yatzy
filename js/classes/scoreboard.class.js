@@ -2,7 +2,7 @@ class ScoreBoard {
 
 	constructor(playerName, playerId){
 		this.playerName = playerName;
-		this.playerId = playerId; //Set a variable of who the current player is to compare it
+		this.playerId = playerId || 0; //Set a variable of who the current player is to compare it
 		this.dices = [];  
 		this.bonusScore = 0; 
 		this.bonus = 50; 
@@ -309,13 +309,19 @@ class ScoreBoard {
 				this.style.color="black";		
 		 		this.setAttribute('disabled','true');  //lock div here
 
+
 		 		
 		 		
 			});
 			$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(test);
+			
 			if(!(i===6 || i===listOfBonusScores.length-1)){
+				if(!(test2.getAttribute('disabled'))) {
+					console.log("Triggered false");
+					test2.style.color="lightgrey";
+				}
 				
-				test2.style.color="lightgrey";
+				
 			}
 		}
 	}
