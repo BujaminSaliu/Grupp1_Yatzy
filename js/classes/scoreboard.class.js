@@ -266,6 +266,12 @@ class ScoreBoard {
 		}
 	}
 
+	calcTotalScore(chosenScore){
+		this.totalScore += chosenScore;
+
+
+	}
+
 	possibleOutcomes(currentPlayer){
 		this.emptyScoreBoard(0);
 		
@@ -289,29 +295,51 @@ class ScoreBoard {
 		];
 
 		for (var i = 0; i < listOfBonusScores.length; i++) {
+
+
 			
-			var test = filterMethods[i];
-			var test2 = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
+			var currentMethod = filterMethods[i];
 			
-			test2.setAttribute("href", currentPlayer+'-link-'+listOfBonusScores[i]);
-			
-			test2.addEventListener("click", function(){
-			var test3 = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
-				console.log("test", test3)
-		 test3.setAttribute('disabled','false');  //lock div here
-		 test3.style.color="black";
-			});
-			$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(test);
+
+			var elementFound = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
+
+			elementFound.setAttribute("href", currentPlayer+'-link-'+listOfBonusScores[i]);
+			var savedTotalScore = this; // to make savedTotalScore a reference to this Scoreboard object
+
 			if(!(i===6 || i===listOfBonusScores.length-1)){
-				
-				test2.style.color="lightgrey";
+			elementFound.addEventListener("click", function(){
+			savedTotalScore.totalScore += 10;
+			console.log(savedTotalScore.totalScore);
+			var currentElement = document.getElementById($(this).attr('id'));
+			currentElement.style.color = "black";
+			currentElement.setAttribute('disabled',true);
+
+				});
+
 			}
+
+			console.log(savedTotalScore);
+
+			
+			
+
+			if(!(i===6 || i===listOfBonusScores.length-1)){
+				console.log('hej', elementFound.getAttribute('disabled'));
+				if(!(elementFound.getAttribute('disabled') != null)){
+				$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(currentMethod);
+				elementFound.style.color="lightgrey";
+				}
+
+			}else{
+					console.log("Else");
+					$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(currentMethod);
+					elementFound.style.color="black";
+
+				}
 		}
 	}
 
-	lockElement(element){
-		
-	}
+
 
 	emptyScoreBoard(currentPlayer){
 
@@ -321,9 +349,13 @@ class ScoreBoard {
 		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
 
 		for (var i = 0; i < listOfBonusScores.length; i++) {
-			
+
+			var elementFound = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
+
+			if(!(elementFound.getAttribute('disabled') != null)){
 			$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).empty();
 		}
+	}
 
 		
 
