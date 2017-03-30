@@ -50,6 +50,8 @@ function createScoreboards(){
 		let scoreBoard = new ScoreBoard(inputFields[i].value);
 		scoreBoards.push(scoreBoard);
 	}
+
+	//Right now we only console-log, later the scoreboards will be used 
 	console.log(scoreBoards);
 	$('#myModal').modal('hide');
 }
@@ -68,7 +70,7 @@ function checkInputFields(numOfPlayers){
 	if(correctInput){
 		createScoreboards();
 	}
-}
+}	
 
 function testRoll() {
 	lockCheckedDices();
