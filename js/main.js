@@ -14,6 +14,21 @@ $( document ).ready(function() {
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
 	
+	$('#myModal').modal('show');
+
+	$('#startGame').on('click', function(){
+		checkInputFields();
+	});
+
+	$('#numOfPlayers').change(function(){
+		console.log('hej');
+		let optionValue = $(this).val();
+		console.log('option value', optionValue);
+		provideInputFields(optionValue); 
+	});
+
+
+
 	$('#roll-dices').on('click', function(){
 		testRoll();
 	});
@@ -30,6 +45,45 @@ $( document ).ready(function() {
 	testRoll();
 
 });
+
+function provideInputFields(numOfPlayers){
+	$('.playerValues').empty();
+	for(let i = 1; i <= numOfPlayers; i++){
+		$('.playerValues').append(`
+			 <input type="text" placeholder='Namn spelare ${i}'> 
+		`);
+	}
+}
+
+function createScoreboards(){
+	let scoreBoards = [];
+	let inputFields = $('.playerValues').children();
+	console.log(inputFields);
+	for(let i = 0; i < inputFields.length; i++){
+		let scoreBoard = new ScoreBoard(inputFields[i].value);
+		scoreBoards.push(scoreBoard);
+	}
+
+	//Right now we only console-log, later the scoreboards will be used 
+	console.log(scoreBoards);
+	$('#myModal').modal('hide');
+}
+
+function checkInputFields(numOfPlayers){
+	var correctInput = true;
+	$('.playerValues').children().each(function(){
+		if($.trim($(this).val()).length == 0){
+			console.log('Tomt input fält');
+			$('#errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
+			correctInput = false;
+		}
+	
+	});
+
+	if(correctInput){
+		createScoreboards();
+	}
+}	
 
 function testRoll() {
 	lockCheckedDices();

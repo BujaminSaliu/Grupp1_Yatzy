@@ -50,6 +50,23 @@
 	padding: 1%;
 }
 
+.modal input{
+	display:block;
+	margin-top:2%;
+}
+
+.modal button{
+	margin:0;
+}
+
+.modal p{
+	bottom:0;
+	position:absolute;
+	color:red;
+}
+
+
+
 nav {
 	position: fixed;
 	display: flex;
