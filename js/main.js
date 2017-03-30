@@ -11,6 +11,18 @@ testScoreBoard.dices = dices;
 
 $( document ).ready(function() {
 
+	let listOfBonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+	for (var i = 0; i < listOfBonusScores.length; i++) {
+
+			var elementFound = document.getElementById('0' + '-' +  listOfBonusScores[i]);
+			elementFound.style.cursor = "pointer";
+			elementFound.setAttribute('disabled',false);
+		}
+
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
 	
@@ -126,6 +138,7 @@ function logFilters() {
 	console.log('Femmor:', testScoreBoard.filterFives());
 	console.log('Sexor:', testScoreBoard.filterSixes());
 	console.log('Ett par:', testScoreBoard.filterOnePair());
+	console.log('Ett par:', testScoreBoard.countNumberOfDiceSideOccurences());
 	console.log('Två par:', testScoreBoard.filterTwoPairs());
 	console.log('Tretal:', testScoreBoard.filterThreeOfAKind());
 	console.log('Fyrtal:', testScoreBoard.filterFourOfAKind());
@@ -134,4 +147,5 @@ function logFilters() {
 	console.log('Kåk:', testScoreBoard.filterFullHouse());
 	console.log('Chans:' , testScoreBoard.filterChance());
 	console.log('Yatzy:' , testScoreBoard.filterYatzy());
+	console.log('possible outcomes: ', testScoreBoard.possibleOutcomes(0));
 }

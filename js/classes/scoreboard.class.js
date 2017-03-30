@@ -1,4 +1,4 @@
-class ScoreBoard{
+class ScoreBoard {
 
 	constructor(playerName){
 		this.playerName = playerName;
@@ -7,6 +7,10 @@ class ScoreBoard{
 		this.bonus = 50; 
 		this.totalScore = 0;
 		this.bonusUsed = false; 
+		this.listOfBonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -22,23 +26,23 @@ class ScoreBoard{
 			
 			switch(dice.currentValue){ 
 				case 1: 
-					amountOfOnes += 1;
-					break;
+				amountOfOnes += 1;
+				break;
 				case 2:
-					amountOfTwos += 1;
-					break;
+				amountOfTwos += 1;
+				break;
 				case 3:
-					amountOfThrees += 1;
-					break;
+				amountOfThrees += 1;
+				break;
 				case 4:
-					amountOfFours += 1;
-					break;
+				amountOfFours += 1;
+				break;
 				case 5:
-					amountOfFives += 1;
-					break;
+				amountOfFives += 1;
+				break;
 				case 6:
-					amountOfSixes += 1;
-					break;
+				amountOfSixes += 1;
+				break;
 			}
 		}
 
@@ -131,7 +135,7 @@ class ScoreBoard{
 		let  numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
 		let points = 0;
 
-		for (var i = 0; i < numbersOfEachOccurences.length; i++) {
+		for (let i = 0; i < numbersOfEachOccurences.length; i++) {
 			if (numbersOfEachOccurences[i] >=4){
 				points += (i + 1) * 4;
 			}
@@ -257,13 +261,106 @@ class ScoreBoard{
 		return 0;
 	}
 
-	countBonusscore(){
+	checkBonus(currentPlayer){
 		if(this.bonusScore >= 63 && this.bonusUsed === false){
 			this.totalScore += 50;
 			this.bonusUsed = true;
 
-			//TODO: Write 50 to Bonus-line in DOM-scoreboard. Waiting for Bujamins logic.
+			$('#'+ currentPlayer + '-bonus').append(this.bonus);
 		}
 	}
+
+	calcTotalScore(numToAdd){
+		this.totalScore += numToAdd;
+	}
+
+	calcBonusScore(numToAdd, currentPlayer){
+		this.bonusScore += numToAdd;
+		this.checkBonus(currentPlayer);
+	}
+
+	createEventForElement(currentPlayer){
+		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
+			
+			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
+
+			
+			let currentScoreBoard = this; // to make savedTotalScore a reference to this Scoreboard object
+
+			if(!(i===6 || i===this.listOfBonusScores.length-1)){
+				elementFound.addEventListener("click", function(){
+
+					let currentElement = document.getElementById($(this).attr('id'));
+					if(currentElement.getAttribute('disabled') === 'false'){
+
+						currentScoreBoard.calcTotalScore(parseInt($(this).text()));
+						let splittedId = $(this).attr('id').split('-');
+						if (splittedId[1]<7) {
+
+							currentScoreBoard.calcBonusScore(parseInt($(this).text()), currentPlayer);
+						}
+					}
+
+					currentElement.style.color = "black";
+
+					currentElement.setAttribute('disabled','true');
+
+				});
+
+			}
+		}
+
+	}
+
+	possibleOutcomes(currentPlayer){
+		this.emptyScoreBoard(0);
+		this.createEventForElement(currentPlayer);
+
+		let filterMethods = [
+		this.filterOnes(), this.filterTwos(), this.filterThrees(),
+		this.filterFours(), this.filterFives(), 
+		this.filterSixes(), this.bonusScore, 
+		this.filterOnePair(), this.filterTwoPairs(), 
+		this.filterThreeOfAKind(), this.filterFourOfAKind(),
+		this.filterSmallStraight(), this.filterLargeStraight(),
+		this.filterFullHouse(), this.filterChance(), this.filterYatzy(),
+		this.totalScore
+		];
+
+
+			for (let i = 0; i < this.listOfBonusScores.length; i++) {
+			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
+			let currentMethod = filterMethods[i];
+			if(!(i===6 || i===this.listOfBonusScores.length-1)){
+				if(elementFound.getAttribute('disabled') === 'false'){
+					$('#'+ currentPlayer + '-' +  this.listOfBonusScores[i]).append(currentMethod);
+					elementFound.style.color="lightgrey";
+				}
+
+			}else{
+				
+				$('#'+ currentPlayer + '-' +  this.listOfBonusScores[i]).append(currentMethod);
+				elementFound.style.color="black";
+
+			}
+		}
+	}
+
+	emptyScoreBoard(currentPlayer){
+	
+		for (let i = 0; i < this.listOfBonusScores.length; i++) {
+
+			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
+
+			if(elementFound.getAttribute('disabled') === 'false'){
+				$('#'+ currentPlayer + '-' +  this.listOfBonusScores[i]).empty();
+			}
+		}
+
+	}
+
 }
+
+
+
 
