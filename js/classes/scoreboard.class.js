@@ -7,6 +7,10 @@ class ScoreBoard {
 		this.bonus = 50; 
 		this.totalScore = 0;
 		this.bonusUsed = false; 
+		this.listOfBonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -131,7 +135,7 @@ class ScoreBoard {
 		let  numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
 		let points = 0;
 
-		for (var i = 0; i < numbersOfEachOccurences.length; i++) {
+		for (let i = 0; i < numbersOfEachOccurences.length; i++) {
 			if (numbersOfEachOccurences[i] >=4){
 				points += (i + 1) * 4;
 			}
@@ -257,7 +261,7 @@ class ScoreBoard {
 		return 0;
 	}
 
-	countBonusscore(){
+	checkBonus(){
 		if(this.bonusScore >= 63 && this.bonusUsed === false){
 			this.totalScore += 50;
 			this.bonusUsed = true;
@@ -272,16 +276,17 @@ class ScoreBoard {
 
 	}
 
+	calcBonusScore(){
+
+	}
+
+	createEventForElement(){
+
+	}
+
 	possibleOutcomes(currentPlayer){
 		this.emptyScoreBoard(0);
-		
 		let listOfDice = this.countNumberOfDiceSideOccurences();
-		
-
-		let listOfBonusScores = ['ones', 'twos', 'threes', 'fours', 'fives',
-		'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
-		'fourOfAKind', 'smallStraight', 'largeStraight', 
-		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
 
 		let filterMethods = [
 		this.filterOnes(), this.filterTwos(), this.filterThrees(),
@@ -294,74 +299,63 @@ class ScoreBoard {
 		this.totalScore
 		];
 
-		for (var i = 0; i < listOfBonusScores.length; i++) {
-
+		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
+			
+			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
 
 			
-			var currentMethod = filterMethods[i];
-			
+			let currentScoreBoard = this; // to make savedTotalScore a reference to this Scoreboard object
 
-			var elementFound = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
+			if(!(i===6 || i===this.listOfBonusScores.length-1)){
+				elementFound.addEventListener("click", function(){
 
-			elementFound.setAttribute("href", currentPlayer+'-link-'+listOfBonusScores[i]);
-			var savedTotalScore = this; // to make savedTotalScore a reference to this Scoreboard object
+					let currentElement = document.getElementById($(this).attr('id'));
+					if(currentElement.getAttribute('disabled') === 'false'){
 
-			if(!(i===6 || i===listOfBonusScores.length-1)){
-			elementFound.addEventListener("click", function(){
-			savedTotalScore.totalScore += parseInt($(this).text());
-			console.log(savedTotalScore.totalScore);
-			var currentElement = document.getElementById($(this).attr('id'));
-			currentElement.style.color = "black";
-			currentElement.setAttribute('disabled',true);
+						currentScoreBoard.totalScore += parseInt($(this).text());
+						let splittedId = $(this).attr('id').split('-');
+						if (splittedId[1]<7) {
+
+							currentScoreBoard.bonusScore += parseInt($(this).text());
+						}
+					}
+
+					currentElement.style.color = "black";
+
+					currentElement.setAttribute('disabled','true');
 
 				});
 
 			}
-
-			console.log(savedTotalScore);
-
 			
-			
-
-			if(!(i===6 || i===listOfBonusScores.length-1)){
-				console.log('hej', elementFound.getAttribute('disabled'));
-				if(!(elementFound.getAttribute('disabled') != null)){
-				$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(currentMethod);
-				elementFound.style.color="lightgrey";
+			let currentMethod = filterMethods[i];
+			if(!(i===6 || i===this.listOfBonusScores.length-1)){
+				if(elementFound.getAttribute('disabled') === 'false'){
+					$('#'+ currentPlayer + '-' +  this.listOfBonusScores[i]).append(currentMethod);
+					elementFound.style.color="lightgrey";
 				}
 
 			}else{
-					console.log("Else");
-					$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).append(currentMethod);
-					elementFound.style.color="black";
 
-				}
+				$('#'+ currentPlayer + '-' +  this.listOfBonusScores[i]).append(currentMethod);
+				elementFound.style.color="black";
+
+			}
 		}
 	}
-
-
 
 	emptyScoreBoard(currentPlayer){
+		console.log("text", this.listOfBonusScores);
+		for (let i = 0; i < this.listOfBonusScores.length; i++) {
 
-		let listOfBonusScores = ['ones', 'twos', 'threes', 'fours', 'fives',
-		'sixes', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
-		'fourOfAKind', 'smallStraight', 'largeStraight', 
-		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
 
-		for (var i = 0; i < listOfBonusScores.length; i++) {
-
-			var elementFound = document.getElementById(currentPlayer + '-' +  listOfBonusScores[i]);
-
-			if(!(elementFound.getAttribute('disabled') != null)){
-			$('#'+ currentPlayer + '-' +  listOfBonusScores[i]).empty();
+			if(elementFound.getAttribute('disabled') === 'false'){
+				$('#'+ currentPlayer + '-' +  this.listOfBonusScores[i]).empty();
+			}
 		}
-	}
-
-		
 
 	}
-
-
 
 }
 

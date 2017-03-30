@@ -11,6 +11,18 @@ testScoreBoard.dices = dices;
 
 $( document ).ready(function() {
 
+	let listOfBonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+	for (var i = 0; i < listOfBonusScores.length; i++) {
+
+			var elementFound = document.getElementById('0' + '-' +  listOfBonusScores[i]);
+			elementFound.style.cursor = "pointer";
+			elementFound.setAttribute('disabled',false);
+		}
+
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
 	
