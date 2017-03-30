@@ -55,14 +55,19 @@ function createScoreboards(){
 }
 
 function checkInputFields(numOfPlayers){
+	var correctInput = true;
 	$('.playerValues').children().each(function(){
 		if($.trim($(this).val()).length == 0){
 			console.log('Tomt input fält');
 			$('#errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
-			return;
+			correctInput = false;
 		}
-	createScoreboards();
+	
 	});
+
+	if(correctInput){
+		createScoreboards();
+	}
 }
 
 function testRoll() {
