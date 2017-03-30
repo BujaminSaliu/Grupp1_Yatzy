@@ -33,9 +33,7 @@ $( document ).ready(function() {
 	});
 
 	$('#numOfPlayers').change(function(){
-		console.log('hej');
 		let optionValue = $(this).val();
-		console.log('option value', optionValue);
 		provideInputFields(optionValue); 
 	});
 
@@ -70,7 +68,6 @@ function provideInputFields(numOfPlayers){
 function createScoreboards(){
 	let scoreBoards = [];
 	let inputFields = $('.playerValues').children();
-	console.log(inputFields);
 	for(let i = 0; i < inputFields.length; i++){
 		let scoreBoard = new ScoreBoard(inputFields[i].value);
 		scoreBoards.push(scoreBoard);
@@ -85,7 +82,6 @@ function checkInputFields(numOfPlayers){
 	var correctInput = true;
 	$('.playerValues').children().each(function(){
 		if($.trim($(this).val()).length == 0){
-			console.log('Tomt input fält');
 			$('#errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
 			correctInput = false;
 		}
@@ -106,7 +102,7 @@ function testRoll() {
 		dice.writeDiceToDOM();
 	}
 
-	logFilters();
+	 testScoreBoard.possibleOutcomes(0);
 }
 
 function lockCheckedDices() {
@@ -129,23 +125,3 @@ function parseCheckBoxIdToIndexOfDice(checkBoxId) {
 	return indexOfDice;
 }
 
-function logFilters() {
-	console.log('---Möjliga utfall---');
-	console.log('Ettor:', testScoreBoard.filterOnes());
-	console.log('Tvåor:', testScoreBoard.filterTwos());
-	console.log('Treor:', testScoreBoard.filterThrees());
-	console.log('Fyror:', testScoreBoard.filterFours());
-	console.log('Femmor:', testScoreBoard.filterFives());
-	console.log('Sexor:', testScoreBoard.filterSixes());
-	console.log('Ett par:', testScoreBoard.filterOnePair());
-	console.log('Ett par:', testScoreBoard.countNumberOfDiceSideOccurences());
-	console.log('Två par:', testScoreBoard.filterTwoPairs());
-	console.log('Tretal:', testScoreBoard.filterThreeOfAKind());
-	console.log('Fyrtal:', testScoreBoard.filterFourOfAKind());
-	console.log('Liten stege:', testScoreBoard.filterSmallStraight());
-	console.log('Stor stege:', testScoreBoard.filterLargeStraight());
-	console.log('Kåk:', testScoreBoard.filterFullHouse());
-	console.log('Chans:' , testScoreBoard.filterChance());
-	console.log('Yatzy:' , testScoreBoard.filterYatzy());
-	console.log('possible outcomes: ', testScoreBoard.possibleOutcomes(0));
-}
