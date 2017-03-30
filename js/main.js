@@ -43,6 +43,8 @@ $( document ).ready(function() {
 
 });
 
+
+
 function testRoll() {
 	lockCheckedDices();
 

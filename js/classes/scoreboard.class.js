@@ -270,35 +270,17 @@ class ScoreBoard {
 		}
 	}
 
-	calcTotalScore(chosenScore){
-		this.totalScore += chosenScore;
-
-
+	calcTotalScore(numToAdd){
+		this.totalScore += numToAdd;
+		console.log(this.totalScore);
 	}
 
-	calcBonusScore(){
-
+	calcBonusScore(numToAdd){
+		this.bonusScore += numToAdd;
+		console.log(this.bonusScore);
 	}
 
-	createEventForElement(){
-
-	}
-
-	possibleOutcomes(currentPlayer){
-		this.emptyScoreBoard(0);
-		let listOfDice = this.countNumberOfDiceSideOccurences();
-
-		let filterMethods = [
-		this.filterOnes(), this.filterTwos(), this.filterThrees(),
-		this.filterFours(), this.filterFives(), 
-		this.filterSixes(), this.bonusScore, 
-		this.filterOnePair(), this.filterTwoPairs(), 
-		this.filterThreeOfAKind(), this.filterFourOfAKind(),
-		this.filterSmallStraight(), this.filterLargeStraight(),
-		this.filterFullHouse(), this.filterChance(), this.filterYatzy(),
-		this.totalScore
-		];
-
+	createEventForElement(currentPlayer){
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
 			
 			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
@@ -312,11 +294,11 @@ class ScoreBoard {
 					let currentElement = document.getElementById($(this).attr('id'));
 					if(currentElement.getAttribute('disabled') === 'false'){
 
-						currentScoreBoard.totalScore += parseInt($(this).text());
+						currentScoreBoard.calcTotalScore(parseInt($(this).text()));
 						let splittedId = $(this).attr('id').split('-');
 						if (splittedId[1]<7) {
 
-							currentScoreBoard.bonusScore += parseInt($(this).text());
+							currentScoreBoard.calcBonusScore(parseInt($(this).text()));
 						}
 					}
 
@@ -327,7 +309,28 @@ class ScoreBoard {
 				});
 
 			}
-			
+		}
+
+	}
+
+	possibleOutcomes(currentPlayer){
+		this.emptyScoreBoard(0);
+		this.createEventForElement(currentPlayer);
+
+		let filterMethods = [
+		this.filterOnes(), this.filterTwos(), this.filterThrees(),
+		this.filterFours(), this.filterFives(), 
+		this.filterSixes(), this.bonusScore, 
+		this.filterOnePair(), this.filterTwoPairs(), 
+		this.filterThreeOfAKind(), this.filterFourOfAKind(),
+		this.filterSmallStraight(), this.filterLargeStraight(),
+		this.filterFullHouse(), this.filterChance(), this.filterYatzy(),
+		this.totalScore
+		];
+
+
+			for (let i = 0; i < this.listOfBonusScores.length; i++) {
+			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
 			let currentMethod = filterMethods[i];
 			if(!(i===6 || i===this.listOfBonusScores.length-1)){
 				if(elementFound.getAttribute('disabled') === 'false'){
@@ -336,7 +339,7 @@ class ScoreBoard {
 				}
 
 			}else{
-
+				
 				$('#'+ currentPlayer + '-' +  this.listOfBonusScores[i]).append(currentMethod);
 				elementFound.style.color="black";
 
@@ -345,7 +348,7 @@ class ScoreBoard {
 	}
 
 	emptyScoreBoard(currentPlayer){
-		console.log("text", this.listOfBonusScores);
+	
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {
 
 			let elementFound = document.getElementById(currentPlayer + '-' +  this.listOfBonusScores[i]);
