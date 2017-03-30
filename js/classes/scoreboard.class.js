@@ -261,23 +261,22 @@ class ScoreBoard {
 		return 0;
 	}
 
-	checkBonus(){
+	checkBonus(currentPlayer){
 		if(this.bonusScore >= 63 && this.bonusUsed === false){
 			this.totalScore += 50;
 			this.bonusUsed = true;
 
-			//TODO: Write 50 to Bonus-line in DOM-scoreboard. Waiting for Bujamins logic.
+			$('#'+ currentPlayer + '-bonus').append(this.bonus);
 		}
 	}
 
 	calcTotalScore(numToAdd){
 		this.totalScore += numToAdd;
-		console.log(this.totalScore);
 	}
 
-	calcBonusScore(numToAdd){
+	calcBonusScore(numToAdd, currentPlayer){
 		this.bonusScore += numToAdd;
-		console.log(this.bonusScore);
+		this.checkBonus(currentPlayer);
 	}
 
 	createEventForElement(currentPlayer){
@@ -298,7 +297,7 @@ class ScoreBoard {
 						let splittedId = $(this).attr('id').split('-');
 						if (splittedId[1]<7) {
 
-							currentScoreBoard.calcBonusScore(parseInt($(this).text()));
+							currentScoreBoard.calcBonusScore(parseInt($(this).text()), currentPlayer);
 						}
 					}
 
