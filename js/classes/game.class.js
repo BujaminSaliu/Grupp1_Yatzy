@@ -288,13 +288,17 @@ class Game{
 
 					let currentElement = document.getElementById($(this).attr('id'));
 					if(currentElement.getAttribute('disabled') === 'false'){
+
+						activeGame.scoreBoards[activeGame.currentPlayer].totalRolls = 1;
 						
+
 						activeGame.calcTotalScore(parseInt($(this).text()));
 						let splittedId = $(this).attr('id').split('-');
 						if (splittedId[1]<7) {
 
 							activeGame.calcBonusScore(parseInt($(this).text()));
 						}
+						
 					}
 
 					currentElement.style.color = "black";
@@ -362,7 +366,7 @@ class Game{
 			dice.writeDiceToDOM();
 		}
 
-		this.possibleOutcomes();
+		this.gameLogic();
 	}
 
 	lockCheckedDices() {
@@ -383,5 +387,26 @@ class Game{
 		var indexOfDice = parseInt(idSplits[1]);
 		return indexOfDice;
 	}
+
+	gameLogic(){
+
+		this.possibleOutcomes();
+		this.scoreBoards[this.currentPlayer].totalRolls--;
+		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
+			this.scoreBoards[this.currentPlayer].totalRolls = 3;
+			this.currentPlayer++;
+			
+			if(this.currentPlayer === this.scoreBoards.length){
+			this.currentPlayer = 0;
+			}
+		}
+
+		
+
+		if(this.scoreBoards[this.currentPlayer].totalRolls === 3){
+			this.testRoll();
+		}
+
+	}	
 
 }

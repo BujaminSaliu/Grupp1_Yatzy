@@ -45,6 +45,8 @@ $( document ).ready(function() {
 
 
 
+
+
 });
 
 function provideInputFields(numOfPlayers){
@@ -66,6 +68,7 @@ function createScoreboards(){
 	
 	$('#myModal').modal('hide');
 		this.currentGame = new Game(this.scoreBoards);
+		this.currentGame.testRoll();
 }
 
 function checkInputFields(numOfPlayers){
@@ -81,7 +84,44 @@ function checkInputFields(numOfPlayers){
 	if(correctInput){
 		createScoreboards();
 	}
-}	
+}
+
+function createEventForElement(){
+		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
+			
+			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
+
+			
+			let activeGame = this; // to make savedTotalScore a reference to this Scoreboard object
+
+			if(!(i===6 || i===this.listOfBonusScores.length-1)){
+				elementFound.addEventListener("click", function(){
+
+					let currentElement = document.getElementById($(this).attr('id'));
+					if(currentElement.getAttribute('disabled') === 'false'){
+
+						activeGame.scoreBoards[activeGame.currentPlayer].totalRolls = 1;
+						activeGame.gameLogic();
+
+						activeGame.calcTotalScore(parseInt($(this).text()));
+						let splittedId = $(this).attr('id').split('-');
+						if (splittedId[1]<7) {
+
+							activeGame.calcBonusScore(parseInt($(this).text()));
+						}
+					}
+
+					currentElement.style.color = "black";
+
+					currentElement.setAttribute('disabled','true');
+
+				});
+
+			}
+		}
+
+	}
+
 
 
 
