@@ -1,28 +1,6 @@
-var testScoreBoard = new ScoreBoard('Kalle');
-var dices = [];
-
-
-for(let i = 0; i < 5; i++) {
-	let dice = new Dice(i);
-	dices.push(dice);
-}
-
-testScoreBoard.dices = dices;
-
 $( document ).ready(function() {
 
-	let listOfBonusScores = ['1', '2', '3', '4', '5',
-		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
-		'fourOfAKind', 'smallStraight', 'largeStraight', 
-		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
-
-	for (var i = 0; i < listOfBonusScores.length; i++) {
-
-			var elementFound = document.getElementById('0' + '-' +  listOfBonusScores[i]);
-			elementFound.style.cursor = "pointer";
-			elementFound.setAttribute('disabled',false);
-		}
-
+	
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
 	
@@ -37,10 +15,23 @@ $( document ).ready(function() {
 		provideInputFields(optionValue); 
 	});
 
+	let listOfBonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+	for (var i = 0; i < listOfBonusScores.length; i++) {
+			for(var j = 0; j < 4; j++){
+				var elementFound = document.getElementById(j + '-' +  listOfBonusScores[i]);
+				elementFound.style.cursor = "pointer";
+				elementFound.setAttribute('disabled',false);
+			}
+
+		}
 
 
 	$('#roll-dices').on('click', function(){
-		testRoll();
+		currentGame.testRoll();
 	});
 
 	$('.dice-container').on('click', function(){
@@ -52,7 +43,7 @@ $( document ).ready(function() {
 		}
 	});
 
-	testRoll();
+
 
 });
 
@@ -66,16 +57,15 @@ function provideInputFields(numOfPlayers){
 }
 
 function createScoreboards(){
-	let scoreBoards = [];
+	this.scoreBoards = [];
 	let inputFields = $('.playerValues').children();
 	for(let i = 0; i < inputFields.length; i++){
 		let scoreBoard = new ScoreBoard(inputFields[i].value);
 		scoreBoards.push(scoreBoard);
 	}
-
-	//Right now we only console-log, later the scoreboards will be used 
-	console.log(scoreBoards);
+	
 	$('#myModal').modal('hide');
+		this.currentGame = new Game(this.scoreBoards);
 }
 
 function checkInputFields(numOfPlayers){
@@ -93,35 +83,5 @@ function checkInputFields(numOfPlayers){
 	}
 }	
 
-function testRoll() {
-	lockCheckedDices();
 
-	for(dice of dices) {
-		dice.clearDicesInDOM();
-		dice.roll();
-		dice.writeDiceToDOM();
-	}
-
-	 testScoreBoard.possibleOutcomes(0);
-}
-
-function lockCheckedDices() {
-	var checkBoxes = $('.check-container').children();
-
-	for(checkBox of checkBoxes) {
-		var idToLockOrUnLock = parseCheckBoxIdToIndexOfDice(checkBox.id);
-
-		if($('#' + checkBox.id).is(":checked")) {
-			dices[idToLockOrUnLock].lockDice();
-		} else {
-			dices[idToLockOrUnLock].unLockDice();
-		}
-	}
-}
-
-function parseCheckBoxIdToIndexOfDice(checkBoxId) {
-	var idSplits = checkBoxId.split('-');
-	var indexOfDice = parseInt(idSplits[1]);
-	return indexOfDice;
-}
 
