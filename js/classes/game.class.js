@@ -158,20 +158,20 @@ class Game{
 		let found4 = false;
 		let found5 = false;
 
-		for(let i = 0; i < this.scoreBoards[this.currentPlayer].length; i++){
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 1){
+		for(let i = 0; i < this.scoreBoards[this.currentPlayer].dices.length; i++){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 1){
 				found1 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 2){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 2){
 				found2 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 3){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 3){
 				found3 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 4){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 4){
 				found4 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 5){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 5){
 				found5 = true;
 			}
 		}
@@ -191,20 +191,20 @@ class Game{
 		let found5 = false;
 		let found6 = false;
 
-		for(let i = 0; i < this.scoreBoards[this.currentPlayer].length; i++){
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 2){
+		for(let i = 0; i < this.scoreBoards[this.currentPlayer].dices.length; i++){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 2){
 				found2 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 3){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 3){
 				found3 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 4){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 4){
 				found4 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 5){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 5){
 				found5 = true;
 			}
-			if(this.scoreBoards[this.currentPlayer][i].currentValue === 6){
+			if(this.scoreBoards[this.currentPlayer].dices[i].currentValue === 6){
 				found6 = true;
 			}
 		}
@@ -331,7 +331,7 @@ class Game{
 
 							//unchecks dices and prepares for the next player
 							activeGame.uncheckDices();
-							activeGame.endTurn();
+							activeGame.endTurn	();
 						}
 					}
 				});
