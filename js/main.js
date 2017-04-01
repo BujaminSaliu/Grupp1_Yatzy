@@ -16,15 +16,21 @@ $( document ).ready(function() {
 	});
 
 	let listOfBonusScores = ['1', '2', '3', '4', '5',
-		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
 		'fourOfAKind', 'smallStraight', 'largeStraight', 
 		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
 
 	for (var i = 0; i < listOfBonusScores.length; i++) {
 			for(var j = 0; j < 4; j++){
 				var elementFound = document.getElementById(j + '-' +  listOfBonusScores[i]);
-				elementFound.style.cursor = "pointer";
-				elementFound.setAttribute('disabled',false);
+				
+				if(!(i===6 || i===listOfBonusScores.length-1 || i===7)){
+					elementFound.style.cursor = "pointer";
+					elementFound.setAttribute('disabled', false);
+				}
+				else{
+					elementFound.setAttribute('disabled', true);
+				}
 			}
 
 		}
@@ -86,41 +92,6 @@ function checkInputFields(numOfPlayers){
 	}
 }
 
-function createEventForElement(){
-		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
-			
-			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
-
-			
-			let activeGame = this; // to make savedTotalScore a reference to this Scoreboard object
-
-			if(!(i===6 || i===this.listOfBonusScores.length-1)){
-				elementFound.addEventListener("click", function(){
-
-					let currentElement = document.getElementById($(this).attr('id'));
-					if(currentElement.getAttribute('disabled') === 'false'){
-
-						activeGame.scoreBoards[activeGame.currentPlayer].totalRolls = 1;
-						activeGame.gameLogic();
-
-						activeGame.calcTotalScore(parseInt($(this).text()));
-						let splittedId = $(this).attr('id').split('-');
-						if (splittedId[1]<7) {
-
-							activeGame.calcBonusScore(parseInt($(this).text()));
-						}
-					}
-
-					currentElement.style.color = "black";
-
-					currentElement.setAttribute('disabled','true');
-
-				});
-
-			}
-		}
-
-	}
 
 
 

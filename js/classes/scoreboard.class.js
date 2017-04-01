@@ -4,6 +4,7 @@ class ScoreBoard {
 		this.playerName = playerName;
 		this.dices = [];  
 		this.bonusScore = 0; 
+		this.bonusUsed = 'false';
 		this.bonus = 50; 
 		this.totalScore = 0;
 		this.totalRolls = 3;

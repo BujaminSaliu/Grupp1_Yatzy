@@ -3,10 +3,20 @@ class Game{
 	constructor(scoreBoards){
 		this.scoreBoards = scoreBoards;
 		this.currentPlayer = 0;
+		this.turnActive = true;
+		//array used to loop through Ids
 		this.listOfBonusScores = ['1', '2', '3', '4', '5',
-		'6', 'sum', 'onePair', 'twoPair', 'threeOfAKind', 
+		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
 		'fourOfAKind', 'smallStraight', 'largeStraight', 
 		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+		//loop that sets scores the first round since the elements start off being disabled
+		//and therefor will not get a value before the first assigning of a value
+		for(let i = 0; i < this.scoreBoards.length; i++){
+			$('#'+ i + '-sum').append(this.scoreBoards[i].bonusScore);
+			$('#'+ i + '-totalSum').append(this.scoreBoards[i].bonusScore);
+		}
+
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -258,53 +268,72 @@ class Game{
 	}
 
 	checkBonus(){
-		if(this.bonusScore >= 63 && this.bonusUsed === false){
-			this.totalScore += 50;
-			this.bonusUsed = true;
+		if(this.scoreBoards[this.currentPlayer].bonusScore >= 63 && 
+			this.scoreBoards[this.currentPlayer].bonusUsed === 'false'){
+		
+			this.scoreBoards[this.currentPlayer].totalScore += 50;	
+			this.scoreBoards[this.currentPlayer].bonusUsed = true;
 
-			$('#'+ this.currentPlayer + '-bonus').append(this.bonus);
+			$('#'+ this.currentPlayer + '-bonus').append(this.scoreBoards[this.currentPlayer].bonus);
 		}
 	}
 
+	//function empties and reappends the value in order to update the score before
+	//the currentPlayer is updated, otherwise the previous score is added to the next player
 	calcTotalScore(numToAdd){
 		this.scoreBoards[this.currentPlayer].totalScore += numToAdd;
+		this.checkBonus();
+		$('#'+ this.currentPlayer + '-totalSum').empty();
+		$('#'+ this.currentPlayer + '-totalSum').append(this.scoreBoards[this.currentPlayer].totalScore)
 	}
 
+	//function empties and reappends the value in order to update the score before
+	//the currentPlayer is updated, otherwise the previous score is added to the next player
 	calcBonusScore(numToAdd){
 		this.scoreBoards[this.currentPlayer].bonusScore += numToAdd;
 		this.checkBonus();
+		$('#'+ this.currentPlayer + '-sum').empty();
+		$('#'+ this.currentPlayer + '-sum').append(this.scoreBoards[this.currentPlayer].bonusScore)
+		
 	}
 
+	//adds an event for each function that assigns the correct value to the element when clicked
 	createEventForElement(){
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
 			
 			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
 
-			
-			let activeGame = this; // to make savedTotalScore a reference to this Scoreboard object
+			//to make activeGame a reference to the current Game object since we need to use the 
+			//"this" argument when retrieving info from the element
+			let activeGame = this;
 
-			if(!(i===6 || i===this.listOfBonusScores.length-1)){
+			if(!(i===6 || i===this.listOfBonusScores.length-1 || i===7)){
 				elementFound.addEventListener("click", function(){
 
-					let currentElement = document.getElementById($(this).attr('id'));
-					if(currentElement.getAttribute('disabled') === 'false'){
+					let splittedId = $(this).attr('id').split('-');
+					if(splittedId[0] == activeGame.currentPlayer){
+						let currentElement = document.getElementById($(this).attr('id'));
 
-						activeGame.scoreBoards[activeGame.currentPlayer].totalRolls = 1;
-						
+						if(currentElement.getAttribute('disabled') === 'false'){
+							currentElement.setAttribute('disabled','true');
+							currentElement.style.color = "black";
 
-						activeGame.calcTotalScore(parseInt($(this).text()));
-						let splittedId = $(this).attr('id').split('-');
-						if (splittedId[1]<7) {
+							//sets totalRolls to 0 since the turn is over after choosing
+							//a points option
+							activeGame.scoreBoards[activeGame.currentPlayer].totalRolls = 0;
 
-							activeGame.calcBonusScore(parseInt($(this).text()));
+							if (splittedId[1]<7) {
+
+								activeGame.calcBonusScore(parseInt($(this).text()));
+							}
+
+							activeGame.calcTotalScore(parseInt($(this).text()));
+
+							//unchecks dices and prepares for the next player
+							activeGame.uncheckDices();
+							activeGame.endTurn();
 						}
-						
 					}
-
-					currentElement.style.color = "black";
-
-					currentElement.setAttribute('disabled','true');
-
 				});
 
 			}
@@ -312,14 +341,19 @@ class Game{
 
 	}
 
+	//prints possible outcomes, ignoring the elements that have previously
+	//been disabled
 	possibleOutcomes(){
 		this.emptyScoreBoard();
 		this.createEventForElement();
 
+		//array of all methods to be applied when calculating a score
+		//to be displayed
 		let filterMethods = [
 		this.filterOnes(), this.filterTwos(), this.filterThrees(),
 		this.filterFours(), this.filterFives(), 
 		this.filterSixes(), this.scoreBoards[this.currentPlayer].bonusScore, 
+		this.scoreBoards[this.currentPlayer].bonus,
 		this.filterOnePair(), this.filterTwoPairs(), 
 		this.filterThreeOfAKind(), this.filterFourOfAKind(),
 		this.filterSmallStraight(), this.filterLargeStraight(),
@@ -331,16 +365,14 @@ class Game{
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {
 			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
 			let currentMethod = filterMethods[i];
-			if(!(i===6 || i===this.listOfBonusScores.length-1)){
+
+			//if check that excludes the score boxes
+			if(!(i===6 || i===this.listOfBonusScores.length-1 || i ===7)){
+
 				if(elementFound.getAttribute('disabled') === 'false'){
 					$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).append(currentMethod);
 					elementFound.style.color="lightgrey";
 				}
-
-			}else{
-				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).append(currentMethod);
-				elementFound.style.color="black";
-
 			}
 		}
 	}
@@ -348,25 +380,34 @@ class Game{
 	emptyScoreBoard(){
 
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {
+			for(let j = 0; j < this.scoreBoards.length; j++){
+				let elementFound = document.getElementById(j + '-' +  this.listOfBonusScores[i]);
 
-			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
-
-			if(elementFound.getAttribute('disabled') === 'false'){
-				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).empty();
+				if(elementFound.getAttribute('disabled') === 'false'){
+					$('#'+ j + '-' +  this.listOfBonusScores[i]).empty();
+				}
 			}
 		}
 
 	}
 
 	testRoll() {
-		this.lockCheckedDices();
-		for(let dice of this.scoreBoards[this.currentPlayer].dices) {
-			dice.clearDicesInDOM();
-			dice.roll();
-			dice.writeDiceToDOM();
+
+		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
+			this.scoreBoards[this.currentPlayer].totalRolls--;
+			this.lockCheckedDices();
+			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+				dice.clearDicesInDOM();
+				dice.roll();
+				dice.writeDiceToDOM();
+			}
+
+			this.possibleOutcomes();
+		}else{
+			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
 		}
 
-		this.gameLogic();
+
 	}
 
 	lockCheckedDices() {
@@ -382,31 +423,34 @@ class Game{
 		}
 	}
 
+	uncheckDices(){
+		var checkBoxes = $('.check-container').children();
+		for(let checkBox of checkBoxes) {
+			var idToLockOrUnLock = this.parseCheckBoxIdToIndexOfDice(checkBox.id);
+			if($('#' + checkBox.id).is(":checked")) {
+				$('#' + checkBox.id).prop('checked', false);
+			}
+
+		}
+	}
+
 	parseCheckBoxIdToIndexOfDice(checkBoxId) {
 		var idSplits = checkBoxId.split('-');
 		var indexOfDice = parseInt(idSplits[1]);
 		return indexOfDice;
 	}
 
-	gameLogic(){
+	endTurn(){
 
-		this.possibleOutcomes();
-		this.scoreBoards[this.currentPlayer].totalRolls--;
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 			this.currentPlayer++;
-			
+			this.uncheckDices();
 			if(this.currentPlayer === this.scoreBoards.length){
 			this.currentPlayer = 0;
 			}
-		}
-
-		
-
-		if(this.scoreBoards[this.currentPlayer].totalRolls === 3){
 			this.testRoll();
 		}
-
 	}	
 
 }
