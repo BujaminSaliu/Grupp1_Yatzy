@@ -15,26 +15,6 @@ $( document ).ready(function() {
 		provideInputFields(optionValue); 
 	});
 
-	let listOfBonusScores = ['1', '2', '3', '4', '5',
-		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
-		'fourOfAKind', 'smallStraight', 'largeStraight', 
-		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
-
-	for (var i = 0; i < listOfBonusScores.length; i++) {
-			for(var j = 0; j < 4; j++){
-				var elementFound = document.getElementById(j + '-' +  listOfBonusScores[i]);
-				
-				if(!(i===6 || i===listOfBonusScores.length-1 || i===7)){
-					elementFound.style.cursor = "pointer";
-					elementFound.setAttribute('disabled', false);
-				}
-				else{
-					elementFound.setAttribute('disabled', true);
-				}
-			}
-
-		}
-
 
 	$('#roll-dices').on('click', function(){
 		currentGame.testRoll();
@@ -74,6 +54,25 @@ function createScoreboards(){
 	
 	$('#myModal').modal('hide');
 		this.currentGame = new Game(this.scoreBoards);
+
+		let listOfBonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+		for (let i = 0; i < listOfBonusScores.length; i++) {
+			for(let j = 0; j < currentGame.scoreBoards.length; j++){
+				var elementFound = document.getElementById(j + '-' +  listOfBonusScores[i]);
+				if(!(i===6 || i===listOfBonusScores.length-1 || i===7)){
+					elementFound.style.cursor = "pointer";
+					elementFound.setAttribute('disabled', false);
+				}
+				else{
+					elementFound.setAttribute('disabled', true);
+				}
+			}
+
+		}
 		this.currentGame.testRoll();
 }
 
