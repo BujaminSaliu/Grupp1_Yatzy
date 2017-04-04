@@ -470,10 +470,29 @@ class Game{
 		}
 
 		if(noMoreTurns){
+			this.insertPlacementOfMatch();
 			$('#gameOverModal').modal('show');
 		}
 
+	}
 
+	insertPlacementOfMatch(){
+		$('#placements').append('<ol></ol>');
+		this.changeOrderOfScoreBoardsFromMatchPlacement();
+		for(let scoreBoard of this.scoreBoards){
+			$('#placements>ol').append(`<li>${scoreBoard.playerName}: ${scoreBoard.totalScore}</li>`);
+		}
+
+	}
+
+	changeOrderOfScoreBoardsFromMatchPlacement(){
+		this.scoreBoards.sort(function(a, b){
+    		var keyA = a.totalScore;
+        	var keyB = b.totalScore;
+		    if(keyA > keyB) return -1;
+		    if(keyA < keyB) return 1;
+		    return 0;
+		});
 	}	
 
 }
