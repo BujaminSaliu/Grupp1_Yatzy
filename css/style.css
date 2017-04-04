@@ -65,8 +65,6 @@
 	color:red;
 }
 
-
-
 nav {
 	position: fixed;
 	display: flex;
@@ -111,6 +109,7 @@ nav a:hover, nav a:focus {
 	word-wrap:break-word;
 	background-color: lightgrey;
 }
+
 .table-bordered>tbody>tr>th{
 	padding:0px;
 	text-align: left;	
