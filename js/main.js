@@ -98,6 +98,7 @@ function checkInputFields(numOfPlayers){
 setInterval(function(){
 	if(this.currentGame){
 		let index = this.currentGame.currentPlayer; //Assign the index of the player
+		
 		if(this.scoreBoards){ //If scoreboards have been initialized, just to make sure that they exist
 			if(this.scoreBoards[index].timer > 0){ //If the timer of the respective scoreboard is greater than 0
 
