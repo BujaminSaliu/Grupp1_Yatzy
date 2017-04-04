@@ -456,6 +456,32 @@ class Game{
 		}
 	}	
 
+	HouseSwitch(target){ //Assign the numeric id of who your enemy is
+		let enemyBox = document.getElementById(target + '-' +  "fullHouse"); //Retrieve value of enemy box
+		let yourBox = document.getElementById(this.currentPlayer + '-' + "fullHouse"); //get value of your box
+		if(yourBox.text > 0){ //check to see that your box value is greater than 0
+			//Do the switch
+			let valueOfTargetBox = enemyBox.text; //Get value of enemy box
+			let valueOfYourBox = yourBox.text; //Get value of your box
+
+			enemyBox.empty(); //Empty the enemy box
+			enemyBox.append(valueOfYourBox); //Fill enemy box with your value
+			yourBox.empty(); //Empty your own box
+			yourBox.append(valueOfTargetBox); //Fill your own box with enemy box value
+			
+			for(let e of this.scoreBoards[this.currentPlayer].powerUps){ //Go through the powerups of current player
+				if(e.getPower() == 3 && e.getName() == "HouseSwitch" && e.getCharges() > 0){ //Aquire values to qualify if its the powerup we want to remove
+					index = this.scoreBoards[this.currentPlayer].powerUps.indexOf(e); //assign the index of the element in the array
+					this.scoreBoards[this.currentPlayer].powerUps.splice(index, 1); //Remove at the given index, with a width of 1
+				}
+			}
+
+		}
+		else{ //You did not have >= 1 point
+			console.log("You must have at least 1 point to do a switch!");
+		}
+
+	}
 
 
 }

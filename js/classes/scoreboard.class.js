@@ -11,6 +11,10 @@ class ScoreBoard {
 		this.timer = 300;
 		this.minutes = 0;
 		this.seconds = 0;
+		this.powerUps = [];
+
+		//Push to powerUps the Powerups you wish to add, just make their power attribute
+		//corespond to their tier level to allow for easy access in terms of get/set
 
 		for(let i = 0; i < 5; i++) {
 		let dice = new Dice(i);
