@@ -69,6 +69,29 @@
 	color:red;
 }
 
+div .modal-header{
+ 	padding:0px;
+}
+
+.modal h3{
+	margin-top:0px;
+	color:black;
+}
+
+.modal .rules{
+	color:black;
+}
+
+.modal .powerUps{
+	color:black;
+}
+
+a.help{
+	color:black;
+	font-size:30px;
+	justify-content: flex-end;
+}
+
 nav {
 	position: fixed;
 	display: flex;
