@@ -1,6 +1,6 @@
 class ScoreBoard {
 
-	constructor(playerName){
+	constructor(playerName, playerNumber){
 		this.playerName = playerName;
 		this.dices = [];  
 		this.bonusScore = 0; 
@@ -12,6 +12,7 @@ class ScoreBoard {
 		this.minutes = 0;
 		this.seconds = 0;
 		this.powerUps = [];
+		this.playerNumber = playerNumber;
 
 		//Push to powerUps the Powerups you wish to add, just make their power attribute
 		//corespond to their tier level to allow for easy access in terms of get/set
@@ -21,5 +22,9 @@ class ScoreBoard {
 		this.dices.push(dice);
 		}	
 
+	}
+
+	getPlayerNumber(){
+		return this.playerNumber;
 	}
 }

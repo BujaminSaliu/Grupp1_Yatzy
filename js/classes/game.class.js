@@ -395,22 +395,28 @@ class Game{
 	}
 
 	testRoll() {
+		let data = sessionStorage.getItem('currentPlayer');
+		if(data){
+			if(data == this.currentPlayer){
+				if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
+					this.scoreBoards[this.currentPlayer].totalRolls--;
+					this.lockCheckedDices();
+					for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+						dice.clearDicesInDOM();
+						dice.roll();
+						dice.writeDiceToDOM();
+					}
 
-		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
-			this.scoreBoards[this.currentPlayer].totalRolls--;
-			this.lockCheckedDices();
-			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
-				dice.clearDicesInDOM();
-				dice.roll();
-				dice.writeDiceToDOM();
+					this.possibleOutcomes();
+				}else{
+					console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
+				}
 			}
-
-			this.possibleOutcomes();
-		}else{
-			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
+			else{
+				console.log("It is not your turn. It is currently, player: " + (this.currentPlayer+1) + "'s turn");
+			}
 		}
-
-
+		
 	}
 
 	lockCheckedDices() {
@@ -444,11 +450,14 @@ class Game{
 	}
 
 	endTurn(){
-
+		
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
+			
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 			this.currentPlayer++;
+			console.log("current player:", this.currentPlayer);
 			this.uncheckDices();
+	
 			if(this.currentPlayer === this.scoreBoards.length){
 			this.currentPlayer = 0;
 			}
