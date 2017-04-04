@@ -91,7 +91,33 @@ function checkInputFields(numOfPlayers){
 	}
 }
 
+setInterval(function(){
+	if(this.scoreBoards){ //If scoreboards have been initialized, just to make sure that they exist
 
+		let index = currentGame.currentPlayer; //Assign the index of the player
+		if(this.scoreBoards[index].timer > 0){ //If the timer of the respective scoreboard is greater than 0
+
+			this.scoreBoards[index].minutes = Math.floor(this.scoreBoards[index].timer/60); //Find the minutes
+			//by virtue of flooring the splitting of minutes
+			if(this.scoreBoards[index].timer % 60 == 0){ //if the timer is evenly dividable by 60, a minute has passed
+				this.scoreBoards[index].minutes -= 1; //Reduce a minute
+				this.scoreBoards[index].seconds = 60; //Assign seconds
+			}
+			this.scoreBoards[index].timer -= 1; //Reduce the TOTAL timer by 1 second
+			this.scoreBoards[index].seconds -= 1; //reduce the seconds displayed by 1
+			console.log("THERE ARE: ", this.scoreBoards[index].minutes + " " + this.scoreBoards[index].seconds + " Left");
+			//Console log just to iterate results
+		}
+		else{
+			//The timer hit 0
+			console.log("TIME IS OVER; POWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+		}
+		
+
+	}
+}, 1000); //The function is based on a interval with calling the anonymous function every 1 second,
+//meaning that the timer is a manually controlled timer ticking down each second and being allocated to
+//each respective scoreboard
 
 
 

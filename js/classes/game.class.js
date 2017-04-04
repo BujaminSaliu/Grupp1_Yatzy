@@ -4,6 +4,9 @@ class Game{
 		this.scoreBoards = scoreBoards;
 		this.currentPlayer = 0;
 		this.turnActive = true;
+		this.timer = 300;
+		
+
 		//array used to loop through Ids
 		this.listOfBonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
@@ -453,4 +456,7 @@ class Game{
 		}
 	}	
 
+
+
 }
+
