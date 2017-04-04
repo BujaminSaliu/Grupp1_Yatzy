@@ -331,7 +331,7 @@ class Game{
 
 							//unchecks dices and prepares for the next player
 							activeGame.uncheckDices();
-							activeGame.endTurn	();
+							activeGame.endTurn();
 						}
 					}
 				});
@@ -441,16 +441,39 @@ class Game{
 	}
 
 	endTurn(){
-
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
+
+			this.scoreBoards[this.currentPlayer].turnCounter++;
+			console.log(this.scoreBoards[this.currentPlayer].turnCounter);
+			this.checkIfGameIsOver();
+
 			this.currentPlayer++;
 			this.uncheckDices();
 			if(this.currentPlayer === this.scoreBoards.length){
-			this.currentPlayer = 0;
+				this.currentPlayer = 0;
 			}
 			this.testRoll();
 		}
+	}
+
+	checkIfGameIsOver(){
+		let noMoreTurns = false;
+
+		for(let scoreBoard of this.scoreBoards){
+			console.log(scoreBoard.playerName, scoreBoard.turnCounter);
+			if(scoreBoard.turnCounter >= 15){
+				noMoreTurns = true;
+			} else {
+				noMoreTurns = false;
+			}
+		}
+
+		if(noMoreTurns){
+			$('#gameOverModal').modal('show');
+		}
+
+
 	}	
 
 }
