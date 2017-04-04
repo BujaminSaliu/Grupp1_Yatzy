@@ -70,6 +70,10 @@
     to { -webkit-transform: rotate(0deg); }
 }
 
+.check-container>img {
+	width:100%;
+	height:100%;
+}
 
 .dice-container>img {
 	width: 100%;
