@@ -413,7 +413,6 @@ class Game{
 	lockCheckedDices() {
 		var checkBoxes = $('.check-container');
 		for(let checkBox of checkBoxes) {
-			console.log('!!', checkBox);
 
 			var splittedId = checkBox.id.split('-');
 
@@ -423,7 +422,6 @@ class Game{
 	
 				this.scoreBoards[this.currentPlayer].dices[idToLockOrUnLock].lockDice();
 			} else {
-				console.log('waaaa');
 				this.scoreBoards[this.currentPlayer].dices[idToLockOrUnLock].unLockDice();
 			}
 		}
@@ -434,11 +432,11 @@ class Game{
 		for(let checkBox of checkBoxes) {
 
 			let splittedId = checkBox.id.split('-');
-
+			let checkContainer = $('#check-container-'+splittedId[2]);
 			
 			if(checkBox.getAttribute('locked') === 'true') {
 				checkBox.setAttribute('locked', 'false');
-
+				checkContainer.removeClass('AnimateLock');
 				$('#check-container-'+ splittedId[2]+ ' img').remove();
 				scoreBoards[this.currentPlayer].dices[splittedId[2]].unLockDice();
 

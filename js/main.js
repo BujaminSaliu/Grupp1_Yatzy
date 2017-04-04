@@ -24,13 +24,11 @@ $( document ).ready(function() {
 		let splittedId = this.id.split('-');
 
 		let foundDice = $('#check-container-'+splittedId[2]);
-
+		let foundDiceId = $(this).find("img").attr('data-id');
 
 		if(!($('#check-container-' + splittedId[2]).attr('locked') === 'true')){
 
 			$('#check-container-' + splittedId[2]).attr('locked', 'true');
-			let foundDiceId = $(this).find("img").attr('data-id');
-			let foundDice = $('#check-container-'+splittedId[2]);
 			foundDice.append('<IMG data-id=' + foundDiceId + ' SRC=img/padlock.png>');
 			foundDice.addClass('AnimateLock');
 			
@@ -40,7 +38,6 @@ $( document ).ready(function() {
 			
 			let foundDice = $('#check-container-'+splittedId[2]);
 			foundDice.removeClass('AnimateLock');
-
 
 		}
 	});
