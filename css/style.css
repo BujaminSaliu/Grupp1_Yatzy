@@ -70,29 +70,6 @@
     to { -webkit-transform: rotate(0deg); }
 }
 
-.check-container.AnimateLockaa {
-	transition        : 0.3s linear;
-	transition-timing-function: ease-out;
-    color             : red;
-    /** 
-     * Not that ugly as the JavaScript approach.
-     * Easy to maintain, the most portable solution.
-     */
-    -webkit-transform : rotate(-60deg);
- 
-}
-
-.check-container.AnimateLock2 {
-	transition        : 0.9s linear;
-	transition-timing-function: ease-in-out;
-    color             : red;
-    /** 
-     * Not that ugly as the JavaScript approach.
-     * Easy to maintain, the most portable solution.
-     */
-    -webkit-transform : rotate(180deg);
- 
-}
 
 .dice-container>img {
 	width: 100%;
