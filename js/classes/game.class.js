@@ -479,8 +479,16 @@ class Game{
 	insertPlacementOfMatch(){
 		$('#placements').append('<ol></ol>');
 		this.changeOrderOfScoreBoardsFromMatchPlacement();
+
+		let previousTotalScore = 0;
 		for(let scoreBoard of this.scoreBoards){
-			$('#placements>ol').append(`<li>${scoreBoard.playerName}: ${scoreBoard.totalScore}</li>`);
+			if(previousTotalScore != scoreBoard.totalScore) {
+				$('#placements>ol').append(`<li><span>${scoreBoard.playerName}</span>: ${scoreBoard.totalScore}</li>`);	
+			} else {
+				$('#placements>ol>li:last-child>span').append(`, ${scoreBoard.playerName}`);
+			}
+
+			previousTotalScore = scoreBoard.totalScore;
 		}
 
 	}

@@ -21,6 +21,10 @@
 	background-color: green;
 }
 
+.placements {
+	font-size: 18px;
+}
+
 .play-container {
 	position: absolute;
 	top: 50%;
