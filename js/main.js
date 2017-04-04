@@ -22,10 +22,26 @@ $( document ).ready(function() {
 
 	$('.dice-container').on('click', function(){
 		let splittedId = this.id.split('-');
-		if(!$('#checkbox-' + splittedId[2]).prop('checked')){
-			$('#checkbox-' + splittedId[2]).prop('checked', true);
+
+		let foundDice = $('#check-container-'+splittedId[2]);
+
+
+		if(!($('#check-container-' + splittedId[2]).attr('locked') === 'true')){
+
+			$('#check-container-' + splittedId[2]).attr('locked', 'true');
+			let foundDiceId = $(this).find("img").attr('data-id');
+			let foundDice = $('#check-container-'+splittedId[2]);
+			foundDice.append('<IMG data-id=' + foundDiceId + ' SRC=img/padlock.png>');
+			foundDice.addClass('AnimateLock');
+			
 		} else {
-			$('#checkbox-' + splittedId[2]).prop('checked', false);
+			$('#check-container-' + splittedId[2]).attr('locked', false);
+			$('#check-container-'+splittedId[2]+ ' img').remove();
+			
+			let foundDice = $('#check-container-'+splittedId[2]);
+			foundDice.removeClass('AnimateLock');
+
+
 		}
 	});
 

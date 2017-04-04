@@ -31,6 +31,17 @@
 	text-align: center;
 }
 
+.check-container.AnimateLock {
+	transition        : .8s linear;
+    color             : red;
+    /** 
+     * Not that ugly as the JavaScript approach.
+     * Easy to maintain, the most portable solution.
+     */
+    -webkit-transform : rotate(90deg);
+    -webkit-transform : rotate(-45deg);
+}
+
 .dice-container>img {
 	width: 100%;
 	height: 100%;
