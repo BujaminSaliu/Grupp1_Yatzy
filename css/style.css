@@ -32,8 +32,8 @@
 }
 
 .check-container.AnimateLock {
-    -webkit-animation-delay: 0s, 0.1s, .5s, .8s, 1.05s;
-    -webkit-animation-duration: 100ms, 400ms, 300ms, 250ms, 100ms;
+    -webkit-animation-delay: 0s, 0.1s, .5s, .8s, 1.05s, 1.25s;
+    -webkit-animation-duration: 100ms, 400ms, 300ms, 250ms, 200ms, 200ms;
     -webkit-animation-timing-function: ease-in-out;
     -webkit-animation-name: Lock1, Lock2, Lock3, Lock4, Lock5, Lock6;
 }
@@ -41,13 +41,6 @@
  @-webkit-keyframes Lock1 {
  	from { -webkit-transform: rotate(-40deg); }
     to { -webkit-transform: rotate(-45deg); }
- 0% {
-
-    -webkit-animation-timing-function: cubic-bezier(0.05, 0.1, 0.05, 1);
-
- }
-
-
 }
 
 @-webkit-keyframes Lock2 {
@@ -67,6 +60,11 @@
 
 @-webkit-keyframes Lock5 {
     from { -webkit-transform: rotate(5deg); }
+    to { -webkit-transform: rotate(-3deg); }
+}
+
+@-webkit-keyframes Lock6 {
+    from { -webkit-transform: rotate(-3deg); }
     to { -webkit-transform: rotate(0deg); }
 }
 
