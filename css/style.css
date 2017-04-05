@@ -17,14 +17,31 @@
 	padding: 0;
 }
 
+.dices-in-play {
+	position:absolute;
+	float:left;
+}
+
 .game-board {
 	background-color: green;
 }
 
+.buttons {
+	position:absolute;
+	bottom:35%;
+}
+
 .play-container {
 	position: absolute;
-	top: 50%;
+	top: 30%;
 	width: 100%;
+}
+
+
+
+.check-container {
+	pointer-events: none;
+	padding-top: 1.5%;
 }
 
 .dice-container, .check-container {
