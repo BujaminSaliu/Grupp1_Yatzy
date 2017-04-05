@@ -17,6 +17,10 @@
 	padding: 0;
 }
 
+.scores{
+	overflow-y: auto;
+}
+
 .scores h1 {
 	text-align: center;
 	background-color: lightgrey;
