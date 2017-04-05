@@ -32,6 +32,7 @@ $( document ).ready(function() {
 			$('#check-container-' + splittedId[2]).attr('locked', 'true');
 			foundDice.append('<IMG data-id=' + foundDiceId + ' SRC=img/padlock.png>');
 			foundDice.addClass('AnimateLock');
+			console.log(foundDice);
 			
 			
 		} else {

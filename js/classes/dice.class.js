@@ -54,7 +54,10 @@ class Dice{
 
 	clearDicesInDOM(){
 		if(!this.locked) {
-			$(`#dice-container-${this.diceNumber}`).empty();	
+			
+
+			$('#dice-container-' + this.diceNumber + ' img').remove();
+
 		}
 	}
 }
