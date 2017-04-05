@@ -1,8 +1,12 @@
-$( document ).ready(function() {
+$(init);
 
+function init(){
 	var dbConnection = new DbConnector();
-	var players = dbConnection.getPreviousMatches();
-	
+	var players = dbConnection.getHighScore(start);
+}
+
+function start(players) {
+	writeScoresToHighScores(players);
 
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
@@ -32,7 +36,17 @@ $( document ).ready(function() {
 		}
 	});
 
-});
+}
+
+function writeScoresToHighScores(players){
+	console.log(players);
+	$('.scores').append('<ol/>');
+	for(player of players){
+		$('.scores>ol').append(`
+			<li>${player.name} ${player.score}</li>
+		`)
+	}
+}
 
 function provideInputFields(numOfPlayers){
 	$('.playerValues').empty();

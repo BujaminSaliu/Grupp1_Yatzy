@@ -30,11 +30,11 @@ class DbConnector extends Base{
 		}
 	}
 
-	getPreviousMatches(){
-		this.db.getPreviousPlayers((players)=>{
-			console.log(players);
-			return players;
-		});		
+	getHighScore(callback){
+		this.db.getHighScore((players)=>{
+			callback(players);
+		});	
+
 	}
 
 	static get sqlQueries(){
@@ -55,8 +55,8 @@ class DbConnector extends Base{
       writePlayerToDb: `
         INSERT INTO players SET ?	
       `,
-      getPreviousPlayers: `
-        SELECT * FROM players	
+      getHighScore: `
+        SELECT * FROM players ORDER BY score DESC LIMIT 10	
       `
     }
   }
