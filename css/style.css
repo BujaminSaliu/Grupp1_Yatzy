@@ -7,18 +7,33 @@
 }
 
 .score-board, .high-scores {
-	background-color: grey;
+	background-image: url("wood2.jpg");
 	padding: 5% 2%;
+}
+
+#score-board img{
+	width:20%;
 }
 
 .protocol, .scores {
 	border: 2px solid black;
 	background-color: white;
 	padding: 0;
+	opacity: 0.4;
 }
 
-.game-board {
-	background-color: green;
+#game-board{
+	padding:0px;
+}
+
+img{
+	background-size: cover;
+}
+#game-board img{
+background-size: cover;
+background-position: center;
+width: 100%;
+height:100%;
 }
 
 .placements {
