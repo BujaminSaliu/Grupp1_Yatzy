@@ -17,6 +17,13 @@
 	padding: 0;
 }
 
+.scores h1 {
+	text-align: center;
+	background-color: lightgrey;
+	margin: 0;
+	padding: 2% 0;
+}
+
 .game-board {
 	background-color: green;
 }

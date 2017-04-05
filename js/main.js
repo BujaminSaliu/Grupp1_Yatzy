@@ -40,11 +40,13 @@ function start(players) {
 
 function writeScoresToHighScores(players){
 	console.log(players);
-	$('.scores').append('<ol/>');
+	$('.scores').append('<ol class="list-group"/>');
+	let highScorePlacement = 1;
 	for(player of players){
 		$('.scores>ol').append(`
-			<li>${player.name} ${player.score}</li>
+			<li class="list-group-item">${highScorePlacement}. ${player.name} ${player.score} poäng</li>
 		`)
+		highScorePlacement++;
 	}
 }
 
