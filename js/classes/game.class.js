@@ -499,5 +499,22 @@ class Game{
 		}
 	}
 
+	putTargetScoreToZero(targetPlayer, scoreToZero){
+		if(scoreToZero !== "sum" && scoreToZero !== "bonus" && !== "yahtzee" && scoreToZero !== "totalSum"){
+			if(this.currentPlayer !== targetPlayer){
+				let enemyBox = document.getElementById(targetPlayer + '-' +  scoreToZero);
+				enemyBox.empty();
+				enemyBox.append(0);
+
+			}
+			else{
+				console.log("You can only target enemy players with this power-up!");
+			}
+		}
+		else{
+			console.log("You cannot target Total Sum, Bonus, Yahtzee or their Upper Sum!");
+		}
+	}
+
 }
 
