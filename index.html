@@ -15,11 +15,14 @@
 	<link rel="stylesheet" href="css/libs/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body>		
 	<nav class="hideable">
-		<a href="#score-board">Protokoll</a>
-		<a href="#game-board">Spelbräde</a>
-		<a href="#high-scores">Poängtoppen</a>
+	<a href="#" class="showNav"> <span class="glyphicon glyphicon-th-list"></span> </a>
+		<ul>
+		<li><a href="#score-board">Protokoll</a></li>
+		<li><a href="#game-board">Spelbräde</a></li>
+		<li><a href="#high-scores">Poängtoppen</a></li>
+		</ul>
 	</nav>
 	<div class="container-fluid">
 		<div class="row">
@@ -258,8 +261,9 @@
 					<div class="buttons row">
 						<button type="button" id="roll-dices">Kasta!</button>
 					</div>
-				</div>
-				
+				</div>		
+<a href="#" class="showNav"> <span class="glyphicon glyphicon-th-list"></span> </a>
+
 <a href="#" class="help"> <span class="glyphicon glyphicon-question-sign"> </span> </a>
 <!-- Modal -->
 <div class="modal fade" id="getHelp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

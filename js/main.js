@@ -37,6 +37,9 @@ $( document ).ready(function() {
 		$('#getHelp').modal('hide');
 	});
 
+	$('.showNow').click(function(){
+		$
+	});
 
 });
 
