@@ -516,5 +516,24 @@ class Game{
 		}
 	}
 
+	stealTime(targetPlayer){
+		let currentPlayer = 0;
+
+		for (let i = 0; i < this.scoreBoards.length; i++){
+			if(i === this.currentPlayer){
+				currentPlayer = this.scoreBoards[i];
+			}
+			if(i === targetPlayer){
+				player = this.scoreBoards[i];
+				player.timer -= 30;
+				console.log("Target player lost 30 seconds!");
+
+			}
+		}
+		console.log("Current played gained 30 seconds!");
+		currentPlayer.timer += 30;
+
+	}
+
 }
 
