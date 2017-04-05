@@ -1,6 +1,13 @@
-$( document ).ready(function() {
+$(init);
 
-	
+function init(){
+	var dbConnection = new DbConnector();
+	var players = dbConnection.getHighScore(start);
+}
+
+function start(players) {
+	writeScoresToHighScores(players);
+
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
 	
@@ -29,11 +36,19 @@ $( document ).ready(function() {
 		}
 	});
 
+}
 
-
-
-
-});
+function writeScoresToHighScores(players){
+	console.log(players);
+	$('.scores').append('<ol class="list-group"/>');
+	let highScorePlacement = 1;
+	for(player of players){
+		$('.scores>ol').append(`
+			<li class="list-group-item">${highScorePlacement}. ${player.name} ${player.score} poäng</li>
+		`)
+		highScorePlacement++;
+	}
+}
 
 function provideInputFields(numOfPlayers){
 	$('.playerValues').empty();
