@@ -483,6 +483,21 @@ class Game{
 
 	}
 
+	removePowerUp(targetPlayer, powerUpToRemove){
+		for (let i = 0; i < this.scoreBoards.length; i++) {
+			if(i === targetPlayer){ //if index of iterating through the scoreBoards is the same as the
+				//id of the target player we are targeting against
+
+				player = this.scoreBoards[i]; //Assign who the player is
+				for(let e = 0; e < player.powerUps.length ; e++){ //loop through powerups length to access index
+					if(player.powerUps[e].getName() === powerUpToRemove){ //Is the name the same as the poweruptoremove?
+						player.powerUps[e].splice(e, 1); //Remove the powerup that is at that given index
+						//assuming that it shares name with the one that we wish to remove
+					}
+				} 
+			}
+		}
+	}
 
 }
 
