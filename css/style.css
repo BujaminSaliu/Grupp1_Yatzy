@@ -21,31 +21,14 @@
 	background-color: green;
 }
 
-.new-div {
-	width:100%;
-	height:100%;
-	position:relative;
-}
-
 .play-container {
 	position: absolute;
-	top: 30%;
+	top: 50%;
 	width: 100%;
 }
 
-
-.check-container {
-	height:100%;
-	width:100%;
-	position:absolute;
-	
-}
-
-.dice-container {
-	height:100%;
-	width:100%;
+.dice-container, .check-container {
 	text-align: center;
-	position:relative;
 }
 
 .check-container.AnimateLock {
