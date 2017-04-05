@@ -17,10 +17,10 @@ class Game{
 			$('#'+ i + '-totalSum').append(this.scoreBoards[i].bonusScore);
 			//Saves, cuts the playernames to 4 letters and adds it to the right place in the scoreboard
 			var shortName = this.scoreBoards[i].playerName;
-            if(shortName.length > 4){
-            shortName = shortName.substring(0,4);
+            if(shortName.length > 2){
+            shortName = shortName.substring(0,2);
             }
-			$('#'+ 'player' + (i+1) ).html(shortName);
+			$('#'+ 'player' + (i+1) ).html(shortName+'...');
 		}
 
 	}
