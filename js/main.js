@@ -39,7 +39,6 @@ function start(players) {
 }
 
 function writeScoresToHighScores(players){
-	console.log(players);
 	$('.scores').append('<ol class="list-group"/>');
 	let highScorePlacement = 1;
 	for(player of players){
