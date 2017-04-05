@@ -472,8 +472,8 @@ class Game{
 		if(noMoreTurns){
 			this.insertPlacementOfMatch();
 			$('#gameOverModal').modal('show');
-			var dbConnection = new DbConnector(this.scoreBoards);
-			dbConnection.writeFinishedMatchToDb();
+			var dbConnection = new DbConnector();
+			dbConnection.writeFinishedMatchToDb(this.scoreBoards);
 		}
 
 	}

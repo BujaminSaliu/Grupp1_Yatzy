@@ -1,6 +1,9 @@
 $( document ).ready(function() {
 
+	var dbConnection = new DbConnector();
+	var players = dbConnection.getPreviousMatches();
 	
+
 	//To match the heights of protocol and scores:
 	$('.scores').height($('.protocol').height());
 	
@@ -28,10 +31,6 @@ $( document ).ready(function() {
 			$('#checkbox-' + splittedId[2]).prop('checked', false);
 		}
 	});
-
-
-
-
 
 });
 

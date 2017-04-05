@@ -1,26 +1,25 @@
 class DbConnector extends Base{
 
-	constructor(scoreBoards){
+	constructor(){
 		super();
-		this.scoreBoards = scoreBoards;
 	}
 
-	writeFinishedMatchToDb(){
+	writeFinishedMatchToDb(scoreBoards){
 		this.db.writeMatchToDb(()=>{
 			console.log('written to db');
-			this.getLatestMatchIdFromDb();
+			this.getLatestMatchIdFromDb(scoreBoards);
 		});
 	}
 
-	getLatestMatchIdFromDb(){
+	getLatestMatchIdFromDb(scoreBoards){
 		this.db.getLatestMatchId((data)=>{
-			this.writeFinishedMatchPlayersToDb(data[0].idMatch);
+			this.writeFinishedMatchPlayersToDb(data[0].idMatch, scoreBoards);
 		});	
 	}
 
-	writeFinishedMatchPlayersToDb(matchId){
+	writeFinishedMatchPlayersToDb(matchId, scoreBoards){
 		console.log(matchId);
-		for(var scoreBoard of this.scoreBoards){
+		for(var scoreBoard of scoreBoards){
 			this.db.writePlayerToDb({
 	        	name: scoreBoard.playerName,
 	        	score: scoreBoard.totalScore,
@@ -29,6 +28,13 @@ class DbConnector extends Base{
 
   			console.log('written to db', scoreBoard.playerName);
 		}
+	}
+
+	getPreviousMatches(){
+		this.db.getPreviousPlayers((players)=>{
+			console.log(players);
+			return players;
+		});		
 	}
 
 	static get sqlQueries(){
@@ -48,6 +54,9 @@ class DbConnector extends Base{
       `,
       writePlayerToDb: `
         INSERT INTO players SET ?	
+      `,
+      getPreviousPlayers: `
+        SELECT * FROM players	
       `
     }
   }
