@@ -461,7 +461,6 @@ class Game{
 		let noMoreTurns = false;
 
 		for(let scoreBoard of this.scoreBoards){
-			console.log(scoreBoard.playerName, scoreBoard.turnCounter);
 			if(scoreBoard.turnCounter >= 15){
 				noMoreTurns = true;
 			} else {
