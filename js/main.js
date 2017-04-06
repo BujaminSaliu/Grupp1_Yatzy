@@ -6,6 +6,8 @@ $( document ).ready(function() {
 	
 	$('#myModal').modal('show');
 
+	$('nav.hideable').hide();
+
 	$('#startGame').on('click', function(){
 		checkInputFields();
 	});
@@ -33,13 +35,15 @@ $( document ).ready(function() {
 	$('.help').click(function() {
     	$("#getHelp").modal('show');
 });
+
 	$('.close').click(function(){
 		$('#getHelp').modal('hide');
 	});
 
-	$('.showNow').click(function(){
-		$
-	});
+	$('.showNav').click(function(){
+		$('nav.hideable').toggle();
+			console.log("This is check", $('nav.hideable').is(":visible"));
+				});
 
 });
 
