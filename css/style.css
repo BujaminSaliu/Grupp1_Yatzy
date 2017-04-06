@@ -137,6 +137,35 @@ tbody>tr:nth-child(18){
 	background-color: lightgrey;
 }
 
+
+
+
+
+
+.dice-container.animateDice{
+	
+	-webkit-animation-name: slideIn;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 5000ms;
+
+}
+
+/*.dice-container{
+	animation-name: rotate;
+	animation-duration: 3s;
+}*/
+
+@keyframes slideIn{
+	from { bottom: -120vh; right: -50vw; }
+
+   to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+}
+}
+
+
+
+
+
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
 
