@@ -120,7 +120,7 @@ function checkInputFields(numOfPlayers){
 	var correctInput = true;
 	$('.playerValues').children().each(function(){
 		if($.trim($(this).val()).length == 0){
-			$('#errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
+			$('.errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
 			correctInput = false;
 		}
 	

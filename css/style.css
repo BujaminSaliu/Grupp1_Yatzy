@@ -134,10 +134,9 @@
 	margin:0;
 }
 
-.modal p{
-	bottom:0;
-	position:absolute;
-	color:red;
+.errorMessage {
+	text-align: left;
+	color: red;
 }
 
 a.help{
