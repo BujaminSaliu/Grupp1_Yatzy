@@ -346,6 +346,7 @@ class Game{
 	possibleOutcomes(){
 		this.emptyScoreBoard();
 		this.createEventForElement();
+		
 
 		//array of all methods to be applied when calculating a score
 		//to be displayed
@@ -390,22 +391,63 @@ class Game{
 		}
 
 	}
+	resetDiceAnimation(){
+		for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+				
+				let element = $("#dice-container-0");
+				console.log(element);
+				element.removeClass("animateDice");
+	}
+}
 
 	testRoll() {
+		
 
 		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
 			this.scoreBoards[this.currentPlayer].totalRolls--;
 			this.lockCheckedDices();
+			
+
 			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+
 				dice.clearDicesInDOM();
+				
 				dice.roll();
+				
 				dice.writeDiceToDOM();
+				let element = document.getElementById("dice-container-0");
+				element.addEventListener('webkitTransitionEnd', function(){
+					console.log("text");
+					let element2 = $("#dice-container-2");
+					element2.removeClass("animateDice");
+				});
+				$("#dice-container-2").addClass("animateDice");
+				
+
+				
+
 			}
 
 			this.possibleOutcomes();
 		}else{
 			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
+			
 		}
+
+
+		/*$("#dice-container-0>img").effect("shake",50);
+		$("#dice-container-1>img").effect("shake",50);
+		$("#dice-container-2>img").effect("shake",50);
+		$("#dice-container-3>img").effect("shake",50);
+		$("#dice-container-4>img").effect("shake",50);*/
+
+
+
+		
+
+
+
+		
 
 
 	}
