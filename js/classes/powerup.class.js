@@ -30,4 +30,8 @@ class PowerUp{
 	getActive(){
 		return (this.charges > 0); //Find out if a power is available or not
 	}
+
+	getPowerUp(){
+		return this;
+	}
 }

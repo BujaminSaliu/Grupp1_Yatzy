@@ -535,5 +535,20 @@ class Game{
 
 	}
 
+	duplicatePowerUp(powerUpName){
+		let currentPlayer = this.scoreBoards[this.currentPlayer];
+		if(currentPlayer.powerUps.length > 0){
+			for(let power of currentPlayer.powerUps){
+				if(power.getName() === powerUpName && power.getName() !== "Duplicate"){
+					let toCopy = power.getPowerUp();
+					currentPlayer.powerUps.push(toCopy);
+				}
+				if(power.getName() === "Duplicate"){
+					console.log("You cannot Duplicate the Duplicate powerup!");
+				}
+			}
+		}
+	}
+
 }
 
