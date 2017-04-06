@@ -15,6 +15,12 @@ class Game{
 		for(let i = 0; i < this.scoreBoards.length; i++){
 			$('#'+ i + '-sum').append(this.scoreBoards[i].bonusScore);
 			$('#'+ i + '-totalSum').append(this.scoreBoards[i].bonusScore);
+			//Saves, cuts the playernames to 4 letters and adds it to the right place in the scoreboard
+			var shortName = this.scoreBoards[i].playerName;
+            if(shortName.length > 2){
+            shortName = shortName.substring(0,2);
+            }
+			$('#'+ 'player' + (i+1) ).html(shortName+'...');
 		}
 
 	}
@@ -513,6 +519,16 @@ class Game{
 		    if(keyA < keyB) return 1;
 		    return 0;
 		});
+	}
+
+    addname(playerName, numOfPlayers){
+
+		//for (var i = 0; i < numOfPlayers.length; i++) {
+			$('#player1').html(playerName);
+		//}
+		     console.log(playerName);
+
+
 	}	
 
 }
