@@ -206,6 +206,14 @@ nav a:hover, nav a:focus {
 	padding:0;
 }
 
+td{
+	text-align: center;
+}
+
+.textLeft{
+	text-align: left;
+}
+
 tbody>tr:nth-child(7){
 	
 	background-color: lightgrey;
