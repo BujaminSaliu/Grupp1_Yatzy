@@ -34,4 +34,9 @@ class PowerUp{
 	getPowerUp(){
 		return this;
 	}
+
+	getPossiblePowerups(){
+		return [["Remove Target Powerup", "Turn Score to 0", "Switch Score"], ["Duplicate Powerup", "Randomize",
+		"Reduce Toss"], ["Remove Dice", "Give Extra Toss"]];
+	}
 }

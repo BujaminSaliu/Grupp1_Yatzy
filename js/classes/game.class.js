@@ -454,7 +454,11 @@ class Game{
 			}
 			this.testRoll();
 		}
-	}	
+	}
+
+	//Modal->klicka på Lista av Powerups->respektive Powerup med respektive argument feedas in
+	//Vissa kräver target, vissa kräver target powerup osv.
+	//	
 
 	HouseSwitch(target){ //Assign the numeric id of who your enemy is
 		let enemyBox = document.getElementById(target + '-' +  "fullHouse"); //Retrieve value of enemy box
@@ -549,6 +553,115 @@ class Game{
 			}
 		}
 	}
+
+
+
+	randomizePowerUp(targetPlayer, targetPowerUp){
+		powerUpToRandomize = 0; //What powerup to randomize
+		let toEnableList = new PowerUp("N/A", "N/A", "N/A", "N/A"); //Initiate to access method to get list
+		randomizeList = toEnableList.getPossiblePowerups(); //Get the list
+
+		for (let i = 0; i < this.scoreBoards.length; i++){
+			if(i === targetPlayer){
+				player = this.scoreBoards[i];
+				for(let power of player.powerUps){
+					if(power.getName() === targetPowerUp){
+						powerUpToRandomize = power;
+					}
+				}
+			}
+		}
+
+		let listIndexToRandomize = 0;
+		let firstIndex = 0; //First index of randomizeList
+		let secondIndex = 0; //second index of randomizeList
+		let passedFirst = false;
+		let passedSecond = false;
+
+		let breakFirstLoop = false;
+		if(powerUpToRandomize !== 0){
+			for(let tierListOfPowerups of randomizeList){
+
+				for(let powerUp of tierListOfPowerups){
+					if(powerUp.getName() === powerUpToRandomize.getName()){
+						breakFirstLoop = true;
+						break;
+					}
+					if(passedSecond === true){
+						secondIndex += 1;
+					}
+					passedSecond = true;
+				}
+				if(breakFirstLoop === true){
+					break;
+				}
+				if(passedFirst === true){
+					firstIndex += 1;
+				}
+				passedFirst = true;
+				passedSecond = false;
+			}
+
+			//If highest, roll between self-1 (3 does 3-2)
+			//if middle, roll between self+-1 (2 does 3-1)
+			//if lowest, roll between self+1 (1 does 2-1)
+			let UpOrDownListIndex = 0;
+		
+			currentPowerBeingRandomized = randomizeList[firstIndex][secondIndex];
+
+
+			let lowerLimit = 0;
+			let higherLimit = 0;
+			if(firstIndex == 2){
+				higherLimit = 2;
+				lowerLimit = 1;
+			}
+			if(firstIndex == 1){
+				higherLimit = Math.floor(Math.random() * (1 + 2 - 0)) + 0; //highest limit is a random value
+				//between 0 and 2, meaning we can get any of the tiers
+				if(higherlimit == 2){
+					lowerLimit = 1;
+				}
+				else{
+					lowerLimit = 0;
+				}
+			}
+			if(firstIndex == 0){
+				higherLimit = 1;
+				lowerLimit = 0;
+			}
+
+
+			let randomizeFirstIndex = Math.floor(Math.random() * (1 + higherLimit - lowerLimit)) + lowerLimit;
+
+			let secondHigherLimit = randomizeList[randomizeFirstIndex].length - 1;
+			let randomizeSecondIndex = Math.floor(Math.random() *(1 + secondHigherLimit - 0)) + 0;
+			newPower = randomizeList[randomizeFirstIndex][randomizeSecondIndex];
+			if(newPower === currentPowerBeingRandomized){
+				//Case of handling re-randomization, recursion or just copy paste into other function?
+
+			}
+			else{
+				let indexToSplice = 0;
+				for(let powerUp of this.scoreBoards[this.currentPlayer].powerUps){
+					if(powerUp.getName() === currentPowerBeingRandomized){
+						this.scoreBoards[this.currentPlayer].powerUps.splice(indexToSplice, 1);
+						console.log("Randomized your " + currentPowerBeingRandomized + " Power-Up into " + newPower + " Powerup!");
+						break;
+					}
+					indexToSplice += 1;
+				}
+				let NewPowerToAdd = 0;
+				switch(currentPowerBeingRandomized){
+					NewPowerToAdd = new PowerUp(); //Add values for construction
+				}
+				this.scoreBoards[this.currentPlayer].powerUps.push(NewPowerToAdd);
+			}
+		}
+
+	}
+
+
 
 }
 
