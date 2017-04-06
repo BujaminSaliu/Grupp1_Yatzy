@@ -8,9 +8,6 @@ function init(){
 function start(players) {
 	writeScoresToHighScores(players);
 
-	//To match the heights of protocol and scores:
-	$('.scores').height($('.protocol').height());
-	
 	$('#myModal').modal('show');
 
 	$('#startGame').on('click', function(){
@@ -39,10 +36,10 @@ function start(players) {
 }
 
 function writeScoresToHighScores(players){
-	$('.scores').append('<ol class="list-group"/>');
+	$('.top-ten').append('<ol class="list-group"/>');
 	let highScorePlacement = 1;
 	for(player of players){
-		$('.scores>ol').append(`
+		$('.top-ten>ol').append(`
 			<li class="list-group-item">${highScorePlacement}. ${player.name} ${player.score} poäng</li>
 		`)
 		highScorePlacement++;

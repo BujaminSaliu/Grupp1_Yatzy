@@ -17,8 +17,8 @@
 	padding: 0;
 }
 
-.scores{
-	overflow-y: auto;
+.list-group {
+	margin: 0;
 }
 
 .scores h1 {
