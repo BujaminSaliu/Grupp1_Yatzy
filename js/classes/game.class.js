@@ -407,7 +407,7 @@ class Game{
 			this.scoreBoards[this.currentPlayer].totalRolls--;
 			this.lockCheckedDices();
 			
-
+				
 			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
 
 				dice.clearDicesInDOM();
@@ -415,13 +415,24 @@ class Game{
 				dice.roll();
 				
 				dice.writeDiceToDOM();
-				let element = document.getElementById("dice-container-0");
-				element.addEventListener('webkitTransitionEnd', function(){
-					console.log("text");
-					let element2 = $("#dice-container-2");
-					element2.removeClass("animateDice");
+
+
+				if(!($('#check-container-' + dice.diceNumber).attr('locked') === 'true')){
+					$("#dice-container-" + dice.diceNumber).addClass("animateDice" + dice.diceNumber);
+					
+				}
+
+
+				let element = document.getElementById("dice-container-" + dice.diceNumber);
+				console.log("for sparta", element);
+				element.addEventListener('animationend', function(){
+					
+					let splittedId = this.id.split('-');
+					$(this).removeClass("animateDice" + splittedId[2]);
+
+					
 				});
-				$("#dice-container-2").addClass("animateDice");
+				
 				
 
 				

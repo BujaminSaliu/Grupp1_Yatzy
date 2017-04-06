@@ -197,29 +197,74 @@ tbody>tr:nth-child(18){
 }
 
 
-
-
-
-
-.dice-container.animateDice{
+.dice-container.animateDice0{
 	
-	-webkit-animation-name: slideIn;
+	-webkit-animation-name: slideInDiceZero;
 	-webkit-animation-delay: 0s;
-	-webkit-animation-duration: 5000ms;
-
+	-webkit-animation-duration: 1000ms;
 }
 
-/*.dice-container{
-	animation-name: rotate;
-	animation-duration: 3s;
-}*/
-
-@keyframes slideIn{
-	from { bottom: -120vh; right: -50vw; }
-
-   to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+.dice-container.animateDice1{
+	
+	-webkit-animation-name: slideInDiceOne;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
 }
+
+.dice-container.animateDice2{
+	
+	-webkit-animation-name: slideInDiceTwo;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
 }
+
+.dice-container.animateDice3{
+	
+	-webkit-animation-name: slideInDiceThree;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
+}
+
+.dice-container.animateDice4{
+	
+	-webkit-animation-name: slideInDiceFour;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
+}
+
+
+
+
+@keyframes slideInDiceZero{
+	from { bottom: -90vh; right: -50vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceOne{
+	from { bottom: -90vh; right: -25vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceTwo{
+	from { bottom: -90vh; right: 0vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceThree{
+	from { bottom: -90vh; right: 25vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceFour{
+	from { bottom: -90vh; right: 50vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
 
 
 
