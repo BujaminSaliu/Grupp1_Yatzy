@@ -30,6 +30,13 @@ $( document ).ready(function() {
 	});
 
 
+	$('.help').click(function() {
+    	$("#getHelp").modal('show');
+});
+	$('.close').click(function(){
+		$('#getHelp').modal('hide');
+	});
+
 
 
 

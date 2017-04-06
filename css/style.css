@@ -65,7 +65,11 @@
 	color:red;
 }
 
-
+a.help{
+	color:black;
+	font-size:30px;
+	justify-content: flex-end;
+}
 
 nav {
 	position: fixed;
