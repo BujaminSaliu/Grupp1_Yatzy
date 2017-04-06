@@ -10,6 +10,14 @@ function start(players) {
 
 	$('#myModal').modal('show');
 
+	$('.help').click(function() {
+    	$("#getHelp").modal('show');
+	});
+	
+	$('.close').click(function(){
+		$('#getHelp').modal('hide');
+	});
+
 	$('#startGame').on('click', function(){
 		checkInputFields();
 	});
@@ -45,6 +53,12 @@ function writeScoresToHighScores(players){
 		highScorePlacement++;
 	}
 }
+	$('.help').click(function() {
+    	$("#getHelp").modal('show');
+});
+	$('.close').click(function(){
+		$('#getHelp').modal('hide');
+	});
 
 function provideInputFields(numOfPlayers){
 	$('.playerValues').empty();
