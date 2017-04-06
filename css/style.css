@@ -29,6 +29,11 @@
 	padding: 2% 0;
 }
 
+.dices-in-play {
+	position:absolute;
+	float:left;
+}
+
 .game-board {
 	background-image: url("/img/green2.jpg");
 }
@@ -37,14 +42,68 @@
 	font-size: 18px;
 }
 
+.buttons {
+	position:absolute;
+	bottom:35%;
+}
+
 .play-container {
 	position: absolute;
-	top: 50%;
+	top: 30%;
 	width: 100%;
+}
+
+
+
+.check-container {
+	pointer-events: none;
+	padding-top: 1.5%;
 }
 
 .dice-container, .check-container {
 	text-align: center;
+}
+
+.check-container.AnimateLock {
+    -webkit-animation-delay: 0s, 0.1s, .5s, .8s, 1.05s, 1.25s;
+    -webkit-animation-duration: 100ms, 400ms, 300ms, 250ms, 200ms, 200ms;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-name: Lock1, Lock2, Lock3, Lock4, Lock5, Lock6;
+}
+
+ @-webkit-keyframes Lock1 {
+ 	from { -webkit-transform: rotate(-40deg); }
+    to { -webkit-transform: rotate(-45deg); }
+}
+
+@-webkit-keyframes Lock2 {
+    from { -webkit-transform: rotate(-45deg); }
+    to { -webkit-transform: rotate(25deg); }
+}
+
+@-webkit-keyframes Lock3 {
+    from { -webkit-transform: rotate(25deg); }
+    to { -webkit-transform: rotate(-15deg); }
+}
+
+@-webkit-keyframes Lock4 {
+    from { -webkit-transform: rotate(-15deg); }
+    to { -webkit-transform: rotate(5deg); }
+}
+
+@-webkit-keyframes Lock5 {
+    from { -webkit-transform: rotate(5deg); }
+    to { -webkit-transform: rotate(-3deg); }
+}
+
+@-webkit-keyframes Lock6 {
+    from { -webkit-transform: rotate(-3deg); }
+    to { -webkit-transform: rotate(0deg); }
+}
+
+.check-container>img {
+	width:100%;
+	height:100%;
 }
 
 .dice-container>img {

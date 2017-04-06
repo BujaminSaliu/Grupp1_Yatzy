@@ -14,13 +14,18 @@ class Dice{
 	}
 	
 	writeDiceToDOM(){
+		
+
+		
+
 		if(!this.locked) {
 			switch(this.currentValue){
 				case 1:
-					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/1.png'>`);
+					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/1.png'>`);					
 					break;
 				case 2:
 					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/2.png'>`);
+
 					break;
 				case 3:
 					$(`#dice-container-${this.diceNumber}`).append(`<IMG data-id=${this.diceNumber} SRC='img/3.png'>`);

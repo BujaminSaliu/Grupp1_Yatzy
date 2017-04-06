@@ -411,24 +411,35 @@ class Game{
 	}
 
 	lockCheckedDices() {
-		var checkBoxes = $('.check-container').children();
+		var checkBoxes = $('.check-container');
 		for(let checkBox of checkBoxes) {
-			var idToLockOrUnLock = this.parseCheckBoxIdToIndexOfDice(checkBox.id);
 
-			if($('#' + checkBox.id).is(":checked")) {
+			var splittedId = checkBox.id.split('-');
+
+			var idToLockOrUnLock = splittedId[2];
+
+			if(checkBox.getAttribute('locked') === 'true') {
+	
 				this.scoreBoards[this.currentPlayer].dices[idToLockOrUnLock].lockDice();
 			} else {
-				scoreBoards[this.currentPlayer].dices[idToLockOrUnLock].unLockDice();
+				this.scoreBoards[this.currentPlayer].dices[idToLockOrUnLock].unLockDice();
 			}
 		}
 	}
 
 	uncheckDices(){
-		var checkBoxes = $('.check-container').children();
+		var checkBoxes = $('.check-container');
 		for(let checkBox of checkBoxes) {
-			var idToLockOrUnLock = this.parseCheckBoxIdToIndexOfDice(checkBox.id);
-			if($('#' + checkBox.id).is(":checked")) {
-				$('#' + checkBox.id).prop('checked', false);
+
+			let splittedId = checkBox.id.split('-');
+			let checkContainer = $('#check-container-'+splittedId[2]);
+			
+			if(checkBox.getAttribute('locked') === 'true') {
+				checkBox.setAttribute('locked', 'false');
+				checkContainer.removeClass('AnimateLock');
+				$('#check-container-'+ splittedId[2]+ ' img').remove();
+				scoreBoards[this.currentPlayer].dices[splittedId[2]].unLockDice();
+
 			}
 
 		}
