@@ -7,7 +7,16 @@ function init(){
 }
 
 function addPlayer(dbConnection){
-	dbConnection.checkIfActiveMatch();
+	dbConnection.checkIfActiveMatch(setSessionStorage);
+}
+
+function setSessionStorage(){
+	var dbConnection = new DbConnector();
+	dbConnection.getNumOfPlayers(function(numOfPlayers){
+		console.log(numOfPlayers);
+		sessionStorage.playerNumber = numOfPlayers - 1;
+	});
+	console.log('Detta ska komma sist! Snälla');
 }
 
 function start(players) {

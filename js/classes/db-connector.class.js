@@ -32,40 +32,53 @@ class DbConnector extends Base{
 
 	getHighScore(callback){
 		this.db.getHighScore((players)=>{
+			console.log('High score', players);
 			callback(players);
 		});	
 
 	}
 
-	checkIfActiveMatch(){
+	checkIfActiveMatch(callback){
 		this.db.checkIfActiveMatch((match)=>{
-			console.log(match);
 			if(match.length > 0){
-				this.getCurrentMatch();	
+				this.getNumOfPlayers((numOfPlayers)=>{
+					if(numOfPlayers < 4){
+						this.getCurrentMatch(callback);
+					}else{
+						console.log('Already 4 players!');
+					}
+				});
 			} else {
-				this.createMatch();
+				this.createMatch(callback);
 			}
 			
 		});	
 	}
 
-	createMatch(){
+	createMatch(callback){
 		this.db.startNewGame(()=>{
 			console.log('Creating match!');
+			callback();
 		});
 	}
 
-	getCurrentMatch(){
+	getCurrentMatch(callback){
 		this.db.getCurrentMatch((current_match)=>{
-			console.log(current_match);
-			this.addPlayer(current_match[0].matchId);	
+			this.addPlayer(current_match[0].matchId, callback);	
 		});
 	}
 
-	addPlayer(match){
-		console.log(match);
+	addPlayer(match, callback){
 		this.db.addPlayer({
 			idMatch: match	
+		},()=>{
+			callback();	
+		});		
+	}
+
+	getNumOfPlayers(callback){
+		this.db.getNumOfPlayers((numOfPlayers)=>{
+			callback(numOfPlayers[0].num_of_players);
 		});	
 	}
 
@@ -101,6 +114,9 @@ class DbConnector extends Base{
       `, 
       addPlayer: `
       	UPDATE current_match SET num_of_players = num_of_players + 1 WHERE ?
+      `,
+      getNumOfPlayers: `
+      	SELECT num_of_players FROM current_match WHERE idMatch = (SELECT MAX(idMatch) FROM current_match)
       `
     }
   }
