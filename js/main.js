@@ -41,11 +41,18 @@ function start(players) {
 		});
 
 		$('#startGame').on('click', function(){
-			checkInputFields(createScoreboards);
+			if(checkInputFields()){
+				var dbConnection = new DbConnector();
+				dbConnection.readScoreBoardFromDb(createScoreboards);
+			}
 		});
 
 		$('#joinGame').on('click', function(){
-			
+			if(checkInputFields()){
+				var dbConnection = new DbConnector();
+				new ScoreBoard($('#playerName').val(), sessionStorage.playerNumber);
+				$('#joinGame').hide();
+			}
 		});
 
 		$('#numOfPlayers').change(function(){
@@ -145,8 +152,7 @@ function createScoreboards(scoreBoardsFromDb){
 		this.currentGame.testRoll();
 }
 
-function checkInputFields(callback){
-	var dbConnection = new DbConnector();
+function checkInputFields(){
 	var correctInput = true;
 	$('.playerValues').children().each(function(){
 		console.log($('.playerValues').children());
@@ -157,10 +163,10 @@ function checkInputFields(callback){
 	
 	});
 
-	if(correctInput){
-		dbConnection.readScoreBoardFromDb(createScoreboards);
-	}
+	return correctInput;
 }
+
+
 
 
 
