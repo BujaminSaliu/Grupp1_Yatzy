@@ -37,17 +37,35 @@ class DbConnector extends Base{
 
 	}
 
-	setCurrentPlayer(){
-		console.log('text');	
-	}
-
-	checkCurrentPlayer(){
-		this.db.checkCurrentPlayer((match)=>{
+	checkIfActiveMatch(){
+		this.db.checkIfActiveMatch((match)=>{
 			console.log(match);
 			if(match.length > 0){
-				this.setCurrentPlayer();	
+				this.getCurrentMatch();	
+			} else {
+				this.createMatch();
 			}
 			
+		});	
+	}
+
+	createMatch(){
+		this.db.startNewGame(()=>{
+			console.log('Creating match!');
+		});
+	}
+
+	getCurrentMatch(){
+		this.db.getCurrentMatch((current_match)=>{
+			console.log(current_match);
+			this.addPlayer(current_match[0].matchId);	
+		});
+	}
+
+	addPlayer(match){
+		console.log(match);
+		this.db.addPlayer({
+			idMatch: match	
 		});	
 	}
 
@@ -72,8 +90,17 @@ class DbConnector extends Base{
       getHighScore: `
         SELECT * FROM players ORDER BY score DESC LIMIT 10	
       `,
-      checkCurrentPlayer: `
+      checkIfActiveMatch: `
       	SELECT * FROM current_match  	
+      `,
+      startNewGame: `
+      	INSERT INTO current_match(current_player, num_of_players) VALUES (0, 1)
+      `,
+      getCurrentMatch: `
+      	SELECT MAX(idMatch) AS matchId FROM current_match
+      `, 
+      addPlayer: `
+      	UPDATE current_match SET num_of_players = num_of_players + 1 WHERE ?
       `
     }
   }

@@ -7,7 +7,7 @@ function init(){
 }
 
 function addPlayer(dbConnection){
-	dbConnection.checkCurrentPlayer();
+	dbConnection.checkIfActiveMatch();
 }
 
 function start(players) {
