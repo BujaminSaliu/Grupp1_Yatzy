@@ -176,11 +176,11 @@
   					<div class="modal-dialog" role="document">
   						<div class="modal-content">
       						<div class="modal-header">
-        						<h4 class="modal-title">Ange spelarnas namn</h4>
+        						<h4 class="modal-title">Ange ditt namn</h4>
      		 				</div>
  							<div class="modal-body">
 								<div class="playerValues">
-									<input type="text" placeholder="Namn spelare 1">
+									<input id="playerName" type="text" placeholder="Ditt namn">
 								</div>
 							</div>
     						<div class="modal-footer">
@@ -190,9 +190,24 @@
     								</div>
     								<div class="col-xs-5">
     									<button type="button" class="btn btn-primary" id="startGame">Starta spel</button>
+    									<button type="button" class="btn btn-primary" id="joinGame">Gå med i spel</button>
     								</div>
     							</div>
       						</div>
+    					</div><!-- /.modal-content -->
+  					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade" id="gameFullModal" data-backdrop="static" data-keyboard="false" role="dialog">
+  					<div class="modal-dialog" role="document">
+  						<div class="modal-content">
+      						<div class="modal-header">
+        						<h4 class="modal-title">Spelet är fullt.</h4>
+     		 				</div>
+ 							<div class="modal-body">
+								<div>
+									<p>Vänligen försök senare.</p>
+								</div>
+							</div>
     					</div><!-- /.modal-content -->
   					</div><!-- /.modal-dialog -->
 				</div><!-- /.modal -->

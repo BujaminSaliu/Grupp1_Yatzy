@@ -42,10 +42,10 @@ class DbConnector extends Base{
 		this.db.checkIfActiveMatch((match)=>{
 			if(match.length > 0){
 				this.getNumOfPlayers((numOfPlayers)=>{
-					if(numOfPlayers < 4){
+					if(numOfPlayers[0].num_of_players < 4){
 						this.getCurrentMatch(callback);
 					}else{
-						console.log('Already 4 players!');
+						$('#gameFullModal').modal('show');
 					}
 				});
 			} else {
@@ -65,6 +65,7 @@ class DbConnector extends Base{
 	getCurrentMatch(callback){
 		this.db.getCurrentMatch((current_match)=>{
 			this.addPlayer(current_match[0].matchId, callback);	
+			sessionStorage.matchId = current_match[0].matchId;
 		});
 	}
 
@@ -78,8 +79,20 @@ class DbConnector extends Base{
 
 	getNumOfPlayers(callback){
 		this.db.getNumOfPlayers((numOfPlayers)=>{
-			callback(numOfPlayers[0].num_of_players);
+			callback(numOfPlayers);
 		});	
+	}
+
+	writeScoreBoardToDb(scoreBoard){
+		console.log(scoreBoard, sessionStorage.matchId);
+		this.db.writeScoreBoardToDbInsert({
+			player_name: scoreBoard.playerName,
+			Current_match_idMatch: parseInt(sessionStorage.matchId)
+		});
+	}
+
+	readScoreBoardFromDb(){
+
 	}
 
 	static get sqlQueries(){
@@ -116,8 +129,18 @@ class DbConnector extends Base{
       	UPDATE current_match SET num_of_players = num_of_players + 1 WHERE ?
       `,
       getNumOfPlayers: `
-      	SELECT num_of_players FROM current_match WHERE idMatch = (SELECT MAX(idMatch) FROM current_match)
+      	SELECT * FROM current_match WHERE idMatch = (SELECT MAX(idMatch) FROM current_match)
+      `,
+      writeScoreBoardToDbInsert: `
+      	INSERT Scoreboards SET ?
+      `,
+      writeScoreBoardToDbUpdate: `
+
+      `,
+      readScoreBoardFromDb: `
+
       `
+
     }
   }
 }

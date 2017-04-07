@@ -3,7 +3,6 @@ $(init);
 function init(){
 	var dbConnection = new DbConnector();
 	addPlayer(dbConnection);
-	var players = dbConnection.getHighScore(start);
 }
 
 function addPlayer(dbConnection){
@@ -14,62 +13,75 @@ function setSessionStorage(){
 	var dbConnection = new DbConnector();
 	dbConnection.getNumOfPlayers(function(numOfPlayers){
 		console.log(numOfPlayers);
-		sessionStorage.playerNumber = numOfPlayers - 1;
+		sessionStorage.playerNumber = numOfPlayers[0].num_of_players - 1;
+		sessionStorage.matchId = numOfPlayers[0].idMatch;
 	});
-	console.log('Detta ska komma sist! Snälla');
+	console.log('Det som står efter detta kommer sist');
+	dbConnection.getHighScore(start);
 }
 
 function start(players) {
 	writeScoresToHighScores(players);
+	console.log(sessionStorage, sessionStorage.length);
+	if(sessionStorage.length > 0){
+		$('#myModal').modal('show');
+		$('#joinGame').hide();
 
-	$('#myModal').modal('show');
-
-	$('.help').click(function() {
-    	$("#getHelp").modal('show');
-	});
-	
-	$('.close').click(function(){
-		$('#getHelp').modal('hide');
-	});
-
-	$('#startGame').on('click', function(){
-		checkInputFields();
-	});
-
-	$('#numOfPlayers').change(function(){
-		let optionValue = $(this).val();
-		provideInputFields(optionValue); 
-	});
-
-
-	$('#roll-dices').on('click', function(){
-		currentGame.testRoll();
-	});
-
-	$('.dice-container').on('click', function(){
-		let splittedId = this.id.split('-');
-
-		let foundDice = $('#check-container-'+splittedId[2]);
-		let foundDiceId = $(this).find("img").attr('data-id');
-
-		if(!($('#check-container-' + splittedId[2]).attr('locked') === 'true')){
-			var audio = new Audio('audio/locking-sound.mp3');
-			audio.play();
-			$('#check-container-' + splittedId[2]).attr('locked', 'true');
-			foundDice.append('<IMG data-id=' + foundDiceId + ' SRC=img/padlock.png>');
-			foundDice.addClass('AnimateLock');
-			
-			
-		} else {
-			$('#check-container-' + splittedId[2]).attr('locked', false);
-			$('#check-container-'+splittedId[2]+ ' img').remove();
-			
-			let foundDice = $('#check-container-'+splittedId[2]);
-			foundDice.removeClass('AnimateLock');
-
+		if(sessionStorage.playerNumber > 0){
+			$('#startGame').hide();
+			$('#joinGame').show();
 		}
-	});
 
+		$('.help').click(function() {
+	    	$("#getHelp").modal('show');
+		});
+		
+		$('.close').click(function(){
+			$('#getHelp').modal('hide');
+		});
+
+		$('#startGame').on('click', function(){
+			checkInputFields(createScoreboards);
+		});
+
+		$('#joinGame').on('click', function(){
+			
+		});
+
+		$('#numOfPlayers').change(function(){
+			let optionValue = $(this).val();
+			provideInputFields(optionValue); 
+		});
+
+
+		$('#roll-dices').on('click', function(){
+			currentGame.testRoll();
+		});
+
+		$('.dice-container').on('click', function(){
+			let splittedId = this.id.split('-');
+
+			let foundDice = $('#check-container-'+splittedId[2]);
+			let foundDiceId = $(this).find("img").attr('data-id');
+
+			if(!($('#check-container-' + splittedId[2]).attr('locked') === 'true')){
+				var audio = new Audio('audio/locking-sound.mp3');
+				audio.play();
+				$('#check-container-' + splittedId[2]).attr('locked', 'true');
+				foundDice.append('<IMG data-id=' + foundDiceId + ' SRC=img/padlock.png>');
+				foundDice.addClass('AnimateLock');
+				
+				
+			} else {
+				$('#check-container-' + splittedId[2]).attr('locked', false);
+				$('#check-container-'+splittedId[2]+ ' img').remove();
+				
+				let foundDice = $('#check-container-'+splittedId[2]);
+				foundDice.removeClass('AnimateLock');
+
+			}
+		});
+	}
 }
 
 function writeScoresToHighScores(players){
@@ -130,9 +142,10 @@ function createScoreboards(){
 		this.currentGame.testRoll();
 }
 
-function checkInputFields(numOfPlayers){
+function checkInputFields(callback){
 	var correctInput = true;
 	$('.playerValues').children().each(function(){
+		console.log($('.playerValues').children());
 		if($.trim($(this).val()).length == 0){
 			$('.errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
 			correctInput = false;
@@ -141,9 +154,10 @@ function checkInputFields(numOfPlayers){
 	});
 
 	if(correctInput){
-		createScoreboards();
+		callback();
 	}
 }
+
 
 
 
