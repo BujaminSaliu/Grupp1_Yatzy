@@ -1,7 +1,8 @@
 class ScoreBoard {
 
-	constructor(playerName){
+	constructor(playerName, playerNumber){
 		this.playerName = playerName;
+		this.playerNumber = playerNumber;
 		this.dices = [];  
 		this.bonusScore = 0; 
 		this.bonusUsed = 'false';

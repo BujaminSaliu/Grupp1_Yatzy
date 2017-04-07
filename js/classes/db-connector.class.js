@@ -87,12 +87,16 @@ class DbConnector extends Base{
 		console.log(scoreBoard, sessionStorage.matchId);
 		this.db.writeScoreBoardToDbInsert({
 			player_name: scoreBoard.playerName,
-			Current_match_idMatch: parseInt(sessionStorage.matchId)
+			Current_match_idMatch: parseInt(sessionStorage.matchId),
+			player_number: parseInt(sessionStorage.playerNumber)
 		});
 	}
 
-	readScoreBoardFromDb(){
-
+	readScoreBoardFromDb(callback){
+		this.db.readScoreBoardFromDb((scoreboards)=>{
+			console.log(scoreboards);
+			callback(scoreboards);
+		});	
 	}
 
 	static get sqlQueries(){
@@ -138,7 +142,7 @@ class DbConnector extends Base{
 
       `,
       readScoreBoardFromDb: `
-
+      	SELECT * FROM Scoreboards
       `
 
     }

@@ -110,13 +110,16 @@ function provideInputFields(numOfPlayers){
 	}
 }
 
-function createScoreboards(){
+function createScoreboards(scoreBoardsFromDb){
+	console.log('Info från bd', scoreBoardsFromDb);
 	this.scoreBoards = [];
-	let inputFields = $('.playerValues').children();
-	for(let i = 0; i < inputFields.length; i++){
-		let scoreBoard = new ScoreBoard(inputFields[i].value);
-		scoreBoards.push(scoreBoard);
-	}
+
+	scoreBoards.push(new ScoreBoard($('#playerName').val(), sessionStorage.playerNumber));
+	
+ 	for(let i = 0; i < scoreBoardsFromDb.length; i++){
+ 		let scoreBoard = new ScoreBoard(scoreBoardsFromDb[i].player_name, scoreBoardsFromDb[i].player_number);
+ 		scoreBoards.push(scoreBoard);
+ 	}
 	
 	$('#myModal').modal('hide');
 		this.currentGame = new Game(this.scoreBoards);
@@ -143,6 +146,7 @@ function createScoreboards(){
 }
 
 function checkInputFields(callback){
+	var dbConnection = new DbConnector();
 	var correctInput = true;
 	$('.playerValues').children().each(function(){
 		console.log($('.playerValues').children());
@@ -154,9 +158,10 @@ function checkInputFields(callback){
 	});
 
 	if(correctInput){
-		callback();
+		dbConnection.readScoreBoardFromDb(createScoreboards);
 	}
 }
+
 
 
 
