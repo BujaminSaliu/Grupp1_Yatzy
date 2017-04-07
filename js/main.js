@@ -2,7 +2,12 @@ $(init);
 
 function init(){
 	var dbConnection = new DbConnector();
+	addPlayer(dbConnection);
 	var players = dbConnection.getHighScore(start);
+}
+
+function addPlayer(dbConnection){
+	dbConnection.checkCurrentPlayer();
 }
 
 function start(players) {

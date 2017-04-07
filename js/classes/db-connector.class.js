@@ -37,6 +37,20 @@ class DbConnector extends Base{
 
 	}
 
+	setCurrentPlayer(){
+		console.log('text');	
+	}
+
+	checkCurrentPlayer(){
+		this.db.checkCurrentPlayer((match)=>{
+			console.log(match);
+			if(match.length > 0){
+				this.setCurrentPlayer();	
+			}
+			
+		});	
+	}
+
 	static get sqlQueries(){
     //
     // Please note: This part of the class is read by
@@ -57,6 +71,9 @@ class DbConnector extends Base{
       `,
       getHighScore: `
         SELECT * FROM players ORDER BY score DESC LIMIT 10	
+      `,
+      checkCurrentPlayer: `
+      	SELECT * FROM current_match  	
       `
     }
   }
