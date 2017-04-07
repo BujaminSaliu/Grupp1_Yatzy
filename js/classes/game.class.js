@@ -352,6 +352,7 @@ class Game{
 	possibleOutcomes(){
 		this.emptyScoreBoard();
 		this.createEventForElement();
+		
 
 		//array of all methods to be applied when calculating a score
 		//to be displayed
@@ -396,22 +397,74 @@ class Game{
 		}
 
 	}
+	resetDiceAnimation(){
+		for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+				
+				let element = $("#dice-container-0");
+				console.log(element);
+				element.removeClass("animateDice");
+	}
+}
 
 	testRoll() {
+		
 
 		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
 			this.scoreBoards[this.currentPlayer].totalRolls--;
 			this.lockCheckedDices();
+			
+				
 			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+
 				dice.clearDicesInDOM();
+				
 				dice.roll();
+				
 				dice.writeDiceToDOM();
+
+
+				if(!($('#check-container-' + dice.diceNumber).attr('locked') === 'true')){
+					$("#dice-container-" + dice.diceNumber).addClass("animateDice" + dice.diceNumber);
+					
+				}
+
+
+				let element = document.getElementById("dice-container-" + dice.diceNumber);
+				console.log("for sparta", element);
+				element.addEventListener('animationend', function(){
+					
+					let splittedId = this.id.split('-');
+					$(this).removeClass("animateDice" + splittedId[2]);
+
+					
+				});
+				
+				
+
+				
+
 			}
 
 			this.possibleOutcomes();
 		}else{
 			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
+			
 		}
+
+
+		/*$("#dice-container-0>img").effect("shake",50);
+		$("#dice-container-1>img").effect("shake",50);
+		$("#dice-container-2>img").effect("shake",50);
+		$("#dice-container-3>img").effect("shake",50);
+		$("#dice-container-4>img").effect("shake",50);*/
+
+
+
+		
+
+
+
+		
 
 
 	}
