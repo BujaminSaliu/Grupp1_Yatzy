@@ -236,13 +236,13 @@ tbody>tr:nth-child(18){
 
 
 @keyframes slideInDiceZero{
-	from { bottom: -90vh; right: -50vw; }
+	from { bottom: -90vh; right: -20vw; }
 
 	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
 	}
 
 @keyframes slideInDiceOne{
-	from { bottom: -90vh; right: -25vw; }
+	from { bottom: -90vh; right: -10vw; }
 
 	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
 	}
@@ -254,13 +254,13 @@ tbody>tr:nth-child(18){
 	}
 
 @keyframes slideInDiceThree{
-	from { bottom: -90vh; right: 25vw; }
+	from { bottom: -90vh; right: 10vw; }
 
 	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
 	}
 
 @keyframes slideInDiceFour{
-	from { bottom: -90vh; right: 50vw; }
+	from { bottom: -90vh; right: 20vw; }
 
 	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
 	}
