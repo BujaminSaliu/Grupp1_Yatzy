@@ -194,14 +194,15 @@ nav a:hover, nav a:focus {
 	overflow:hidden;
 	text-align: center;	
 	word-wrap:break-word;
-	background-color: lightgrey;
+;
 }
 
 .table-bordered>tbody>tr>th{
 	padding:0px;
 	text-align: left;	
 	word-wrap:break-word;
-	background-color: lightgrey;
+	background-color: #CD853F;
+	opacity: 150%;
 }
 
 .table-bordered>thead>tr>th:first-child{
@@ -220,15 +221,18 @@ td{
 
 tbody>tr:nth-child(7){
 	
-	background-color: lightgrey;
+	
+	
 }
 tbody>tr:nth-child(8){
 	
-	background-color: lightgrey;
+	
+	
 }
 tbody>tr:nth-child(18){
 	
-	background-color: lightgrey;
+	background-color: #CD853F;
+	opacity: 0.7;
 }
 
 
@@ -300,6 +304,10 @@ tbody>tr:nth-child(18){
 	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
 	}
 
+.red{
+	background-color: #778899;
+	opacity: 0.7;
+}
 
 
 
