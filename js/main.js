@@ -1,6 +1,10 @@
 $(init);
 
 function init(){
+
+window.onbeforeunload = confirmExit;
+
+
 	var dbConnection = new DbConnector();
 	addPlayer(dbConnection);
 }
@@ -20,9 +24,25 @@ function setSessionStorage(){
 	dbConnection.getHighScore(start);
 }
 
+function confirmExit(){
+    	var dbConnection = new DbConnector();
+    	dbConnection.removePlayer(sessionStorage.matchId);
+    	
+    	return undefined;
+}
+
 function start(players) {
 	writeScoresToHighScores(players);
 	console.log(sessionStorage, sessionStorage.length);
+	
+
+
+
+	window.addEventListener("window.beforeunload", function(){
+		var audio = new Audio('audio/locking-sound.mp3');
+		audio.play();
+	});
+
 	if(sessionStorage.length > 0){
 		$('#myModal').modal('show');
 		$('#joinGame').hide();
