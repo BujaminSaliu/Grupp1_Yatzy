@@ -326,10 +326,8 @@ class Game{
 							activeGame.scoreBoards[activeGame.currentPlayer].totalRolls = 0;
 
 							if (splittedId[1]<7) {
-
 								activeGame.calcBonusScore(parseInt($(this).text()));
 							}
-
 							activeGame.calcTotalScore(parseInt($(this).text()));
 
 							//unchecks dices and prepares for the next player
@@ -338,10 +336,8 @@ class Game{
 						}
 					}
 				});
-
 			}
 		}
-
 	}
 
 	//prints possible outcomes, ignoring the elements that have previously
@@ -363,7 +359,6 @@ class Game{
 		this.filterFullHouse(), this.filterChance(), this.filterYatzy(),
 		this.scoreBoards[this.currentPlayer].totalScore
 		];
-
 
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {
 			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
@@ -391,11 +386,9 @@ class Game{
 				}
 			}
 		}
-
 	}
 
 	testRoll() {
-
 		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
 			this.scoreBoards[this.currentPlayer].totalRolls--;
 			this.lockCheckedDices();
@@ -404,13 +397,10 @@ class Game{
 				dice.roll();
 				dice.writeDiceToDOM();
 			}
-
 			this.possibleOutcomes();
 		}else{
 			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
 		}
-
-
 	}
 
 	lockCheckedDices() {
@@ -460,6 +450,10 @@ class Game{
 	//Vissa kräver target, vissa kräver target powerup osv.
 	//	
 
+
+	//Can be refactored to account for handling logic being outside of the method
+	//instead of having it be on the inside of the Method
+	
 	HouseSwitch(target){ //Assign the numeric id of who your enemy is
 		let enemyBox = document.getElementById(target + '-' +  "fullHouse"); //Retrieve value of enemy box
 		let yourBox = document.getElementById(this.currentPlayer + '-' + "fullHouse"); //get value of your box
@@ -484,18 +478,17 @@ class Game{
 		else{ //You did not have >= 1 point
 			console.log("You must have at least 1 point to do a switch!");
 		}
-
 	}
 
-	removePowerUp(targetPlayer, powerUpToRemove){
-		for (let i = 0; i < this.scoreBoards.length; i++) {
+	removePowerUp(targetPlayer, powerUpToRemove){ //Remove a powerup
+		for (let i = 0; i < this.scoreBoards.length; i++) { //Go through the scoreboard
 			if(i === targetPlayer){ //if index of iterating through the scoreBoards is the same as the
 				//id of the target player we are targeting against
 
 				player = this.scoreBoards[i]; //Assign who the player is
 				for(let e = 0; e < player.powerUps.length ; e++){ //loop through powerups length to access index
 					if(player.powerUps[e].getName() === powerUpToRemove){ //Is the name the same as the poweruptoremove?
-						player.powerUps[e].splice(e, 1); //Remove the powerup that is at that given index
+						player.powerUps.splice(e, 1); //Remove the powerup that is at that given index
 						//assuming that it shares name with the one that we wish to remove
 					}
 				} 
@@ -503,13 +496,15 @@ class Game{
 		}
 	}
 
-	putTargetScoreToZero(targetPlayer, scoreToZero){
+	putTargetScoreToZero(targetPlayer, scoreToZero){ //Give target id and name of the box to target
 		if(scoreToZero !== "sum" && scoreToZero !== "bonus" && !== "yahtzee" && scoreToZero !== "totalSum"){
+			//You can't target yourself
 			if(this.currentPlayer !== targetPlayer){
+
+				//empty the enemy box and fill it with a 0
 				let enemyBox = document.getElementById(targetPlayer + '-' +  scoreToZero);
 				enemyBox.empty();
 				enemyBox.append(0);
-
 			}
 			else{
 				console.log("You can only target enemy players with this power-up!");
@@ -520,23 +515,22 @@ class Game{
 		}
 	}
 
-	stealTime(targetPlayer){
-		let currentPlayer = 0;
+	stealTime(targetPlayer){ //targetPlayer is just a id sent in to check against who is being attacked
+		let currentPlayer = 0; //For clarity, we assign player to this slot for reference
+		let enemyPlayer = 0; //Container for the enemy player
 
-		for (let i = 0; i < this.scoreBoards.length; i++){
-			if(i === this.currentPlayer){
-				currentPlayer = this.scoreBoards[i];
+		for (let i = 0; i < this.scoreBoards.length; i++){ //Go through all players
+			if(i === this.currentPlayer){ //Access who's current turn it is
+				currentPlayer = this.scoreBoards[i]; //assign the player to the slot
 			}
-			if(i === targetPlayer){
-				player = this.scoreBoards[i];
-				player.timer -= 30;
-				console.log("Target player lost 30 seconds!");
-
+			if(i === targetPlayer){ //If we found the enemy
+				enemyPlayer = this.scoreBoards[i]; //assign the enemy
+				enemyPlayer.timer -= 30; //Subtract from the timer
 			}
 		}
-		console.log("Current played gained 30 seconds!");
+		console.log(this.scoreBoards[this.currentPlayer].playerName + " stole 30 seconds from " + enemyPlayer.playerName + "!");
+		//Give 30 seconds to the player who stole
 		currentPlayer.timer += 30;
-
 	}
 
 	duplicatePowerUp(powerUpName){
@@ -554,17 +548,34 @@ class Game{
 		}
 	}
 
+	reuseRandomization(randomizeList, higherLimit, lowerLimit){
 
+		//Since higherLimit and lowerLimit are only relative values that do not fluxuate
+		//we just pass them in since having set them earlier
+		let randomizeFirstIndex = Math.floor(Math.random() * (1 + higherLimit - lowerLimit)) + lowerLimit;
+		//the secondHigherLimit is the length of the first randomized arrays length minus 1
+		let secondHigherLimit = randomizeList[randomizeFirstIndex].length - 1;
+
+		//the second index derives from running randomization against the secondHigherLimit
+		let randomizeSecondIndex = Math.floor(Math.random() *(1 + secondHigherLimit - 0)) + 0;
+
+		//Assign the new power that has been randomized
+		let newPower = randomizeList[randomizeFirstIndex][randomizeSecondIndex];
+
+		//Return the new power 
+		return newPower;
+	}
 
 	randomizePowerUp(targetPlayer, targetPowerUp){
 		powerUpToRandomize = 0; //What powerup to randomize
 		let toEnableList = new PowerUp("N/A", "N/A", "N/A", "N/A"); //Initiate to access method to get list
-		randomizeList = toEnableList.getPossiblePowerups(); //Get the list
+		randomizeList = toEnableList.getPossiblePowerups(); //Get the list for all possible powerups
 
+		//Find the player
 		for (let i = 0; i < this.scoreBoards.length; i++){
 			if(i === targetPlayer){
 				player = this.scoreBoards[i];
-				for(let power of player.powerUps){
+				for(let power of player.powerUps){ //find the Powerup being randomized
 					if(power.getName() === targetPowerUp){
 						powerUpToRandomize = power;
 					}
@@ -572,96 +583,181 @@ class Game{
 			}
 		}
 
+		//declare all the indexes and variables that we will need for the randomization part
 		let listIndexToRandomize = 0;
+
+		//Since RandomizeList is a multidimensional array, we access the different levels
+		//And different parts
 		let firstIndex = 0; //First index of randomizeList
 		let secondIndex = 0; //second index of randomizeList
+
+		//Flags for two index points, to which if you passed the first one and second one
+		//We need these for the purpose of skipping the first point in the index, so that
+		//We don't access stuff at index [1] when we actually mean index [0] etc.
 		let passedFirst = false;
 		let passedSecond = false;
 
+		//To be able to break outer loop after inner loop finishes
 		let breakFirstLoop = false;
-		if(powerUpToRandomize !== 0){
-			for(let tierListOfPowerups of randomizeList){
 
-				for(let powerUp of tierListOfPowerups){
-					if(powerUp.getName() === powerUpToRandomize.getName()){
-						breakFirstLoop = true;
+		if(powerUpToRandomize !== 0){ //Redundant security check, added for clarity of that we have the powerUpToRandomize
+			for(let tierListOfPowerups of randomizeList){ //Go through first layer
+
+				for(let powerUp of tierListOfPowerups){ //Go through each powerup in each tierList
+					if(powerUp.getName() === powerUpToRandomize.getName()){ //compare names of iterating element
+						//versus the one we wish to randomize
+						breakFirstLoop = true; //Save as flag for breaking the outer loop
 						break;
 					}
-					if(passedSecond === true){
+					if(passedSecond === true){ //Assert that we passed first index, so that we can use
+						//manual counter for allocating of index accessing
 						secondIndex += 1;
 					}
-					passedSecond = true;
+					passedSecond = true; //We passed the first element, assign the flag
 				}
-				if(breakFirstLoop === true){
+				if(breakFirstLoop === true){ //break the outer loop, since the inner finished
 					break;
 				}
-				if(passedFirst === true){
-					firstIndex += 1;
+				if(passedFirst === true){ //Same principle for index accessing
+					firstIndex += 1; //manual counter for allocating index accessing
 				}
-				passedFirst = true;
-				passedSecond = false;
+				passedFirst = true; //Same principle as before
+				passedSecond = false; //Each time we exit the second loop, we reset the fact of that
+				//we passed the first index
 			}
 
-			//If highest, roll between self-1 (3 does 3-2)
-			//if middle, roll between self+-1 (2 does 3-1)
-			//if lowest, roll between self+1 (1 does 2-1)
-			let UpOrDownListIndex = 0;
-		
+			//The power being randomized is this one, this assignment is sort of
+			//redundant, as we could use Target name of powerup instead,
+			//but i choose to save this for comparison purposes.
+			//Other than that, we actually need the indexes in terms of comparisons.
 			currentPowerBeingRandomized = randomizeList[firstIndex][secondIndex];
 
-
+			//The lower limit in terms of what we must have "at least", relative to tier level power
 			let lowerLimit = 0;
+
+			//The upper limit, in terms of what we must have "at max", relative to tier level power
 			let higherLimit = 0;
-			if(firstIndex == 2){
-				higherLimit = 2;
-				lowerLimit = 1;
+
+			//Define limits based on what tier we are talking about
+			if(firstIndex == 2){ //It's a tier 3, position 2 in Array
+				higherLimit = 2; //Set higher limit
+				lowerLimit = 1; //Set lower limit
 			}
-			if(firstIndex == 1){
-				higherLimit = Math.floor(Math.random() * (1 + 2 - 0)) + 0; //highest limit is a random value
-				//between 0 and 2, meaning we can get any of the tiers
-				if(higherlimit == 2){
-					lowerLimit = 1;
+			if(firstIndex == 1){ //It's a tier 2, position 1 in Array
+				//Tier 2 can roll to become 2, 1 or 0, as it can become 2+-1 in tier level (3,2,1)
+				higherLimit = Math.floor(Math.random() * (1 + 2 - 0)) + 0; //The upper limit
+				if(higherLimit == 2){ //if the higherLimit is a tier 3
+					lowerLimit = 1; //lower limit is tier 2
 				}
-				else{
-					lowerLimit = 0;
+				else{ //if the higherLimit is not a tier 3, then the lowerLimit is tier 1
+					lowerLimit = 0; //lower limit is tier 1
 				}
 			}
-			if(firstIndex == 0){
-				higherLimit = 1;
-				lowerLimit = 0;
+			if(firstIndex == 0){ //It's a tier 1, position 0 in array
+				higherLimit = 1; //Upper limit is a tier 2 
+				lowerLimit = 0; //Lower limit is a tier 1
 			}
 
-
+			//We have to randomize based on the factor of what tier of the powerup we are running against is.
+			//Tier 3 goes T3 | T2, T2 goes T3 | T2 | T1, T1 goes T2 | T1
 			let randomizeFirstIndex = Math.floor(Math.random() * (1 + higherLimit - lowerLimit)) + lowerLimit;
-
+			
+			//The second index is for randomizing the actual value within the array, it can max be 
+			//the length of the second list - 1, cause 0 indexing arrays
 			let secondHigherLimit = randomizeList[randomizeFirstIndex].length - 1;
+
+			//The index of which we will access the actual list with, running randomization
+			//with the higher limit being the length of the list
 			let randomizeSecondIndex = Math.floor(Math.random() *(1 + secondHigherLimit - 0)) + 0;
-			newPower = randomizeList[randomizeFirstIndex][randomizeSecondIndex];
+			
+			//To roll a new power, we must pass along randomizeList, randomizeFirstIndex,
+			//randomizeSecondIndex
+			//The new power to allocate is the following
+			let newPower = randomizeList[randomizeFirstIndex][randomizeSecondIndex];
+
+			//Have an if for clearer structure in terms of what it is we are doing,
+			//the If is actually redundant
 			if(newPower === currentPowerBeingRandomized){
-				//Case of handling re-randomization, recursion or just copy paste into other function?
+				//While the new power randomized is the same as the one being randomized,
+				//keep randomizing and re-assignign it
+				while(currentPowerBeingRandomized === newPower){
+					//Fetch a new power to be randomized by just re-calling the randomization
+					//on the array and reasign newPower to be that
+					newPower = reuseRandomization(randomizeList, lowerLimit, higherLimit);
+				}
 
 			}
-			else{
-				let indexToSplice = 0;
-				for(let powerUp of this.scoreBoards[this.currentPlayer].powerUps){
-					if(powerUp.getName() === currentPowerBeingRandomized){
-						this.scoreBoards[this.currentPlayer].powerUps.splice(indexToSplice, 1);
-						console.log("Randomized your " + currentPowerBeingRandomized + " Power-Up into " + newPower + " Powerup!");
-						break;
-					}
-					indexToSplice += 1;
-				}
-				let NewPowerToAdd = 0;
-				switch(currentPowerBeingRandomized){
-					NewPowerToAdd = new PowerUp(); //Add values for construction
-				}
-				this.scoreBoards[this.currentPlayer].powerUps.push(NewPowerToAdd);
+			
+			//When we get to this point, we have either randomized the value as per 
+			//what we needed, or, we already had a different powerup 
+
+			let indexToSplice = 0; //Find the power-up to cut out
+			for(let powerUp of this.scoreBoards[this.currentPlayer].powerUps){ //Go through powerups
+				if(powerUp.getName() === currentPowerBeingRandomized){ //if the name is the same as the one being randomized
+					
+					//Splice out the powerup out of the array, removing it
+					this.scoreBoards[this.currentPlayer].powerUps.splice(indexToSplice, 1);
+
+					console.log("Randomized your " + currentPowerBeingRandomized + " Power-Up into " + newPower + " Powerup!");
+					break;
+				} 
+				//It was not that one we wish to cut out, keep searching
+				indexToSplice += 1;
 			}
+
+			//We now have all the info we need! newPower is the powerup name, 
+			//randomizeFirstIndex + 1 is tier level,
+			//charge is 1, and it belongs to the currentPlayer
+
+			//The constructor for the PowerUp object is: name, power (tier), charges, playerNumber
+
+			let NewPowerToAdd = new PowerUp(newPower, (randomizeFirstIndex + 1), 1, this.currentPlayer);
+
+			//Add the powerUp to the relevant players scoreBoard
+			this.scoreBoards[this.currentPlayer].powerUps.push(NewPowerToAdd);
 		}
-
 	}
 
+	renderPowerUps()
+	{
+		
+		//clear the list
+		if(this.scoreBoards[this.currentPlayer].powerUps.length > 0){
 
 
+			for(let powerup of this.scoreBoards[this.currentPlayer].powerUps){
+				//push the elements
+
+				switch(powerup.getName()){
+					case "Remove Target Powerup":
+						//append said element
+						//assign click function 
+						break;
+					case "Turn Score to 0":
+						//append said element
+						//assign click function
+						break;
+					case "Switch Score":
+						//append said element
+						//etc.
+						break;
+					case "Duplicate Powerup":
+						//append said element
+						break;
+					case "Randomize":
+						//append said element
+						break;
+					case "Reduce Toss":
+						break;
+					case "Remove Dice":
+						break;
+					case "Give Extra Toss":
+						break;
+					}
+
+				}
+			}
+
+		}
+	}
 }
-
