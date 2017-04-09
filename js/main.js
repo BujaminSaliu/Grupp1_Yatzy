@@ -24,6 +24,13 @@ function setSessionStorage(){
 	dbConnection.getHighScore(start);
 }
 
+//NOTE remember that if a player leaves the other players
+//sessionstorage is not updated, meaning the next player who 
+//joins will get the same session as the previous player
+//a solution would be for the timer that checks the status of the game
+//also compares the sessionstorage playerNumber with the amount of players
+//and if the numbers are the same the sessionstorage number is decreased
+//by one
 function leaveGame(){
     	var dbConnection = new DbConnector();
     	dbConnection.removePlayer(sessionStorage.matchId);
