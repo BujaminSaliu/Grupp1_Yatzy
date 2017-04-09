@@ -77,6 +77,12 @@ class DbConnector extends Base{
 		});		
 	}
 
+	removePlayer(match){
+		this.db.removePlayer({
+			idMatch: match
+		});		
+	}
+
 	getNumOfPlayers(callback){
 		this.db.getNumOfPlayers((numOfPlayers)=>{
 			callback(numOfPlayers);
@@ -131,6 +137,9 @@ class DbConnector extends Base{
       `, 
       addPlayer: `
       	UPDATE current_match SET num_of_players = num_of_players + 1 WHERE ?
+      `,
+      removePlayer: `
+      	UPDATE current_match SET num_of_players = num_of_players - 1 WHERE ?
       `,
       getNumOfPlayers: `
       	SELECT * FROM current_match WHERE idMatch = (SELECT MAX(idMatch) FROM current_match)
