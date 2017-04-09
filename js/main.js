@@ -2,7 +2,7 @@ $(init);
 
 function init(){
 
-window.onbeforeunload = confirmExit;
+window.onbeforeunload = leaveGame;
 
 
 	var dbConnection = new DbConnector();
@@ -24,7 +24,7 @@ function setSessionStorage(){
 	dbConnection.getHighScore(start);
 }
 
-function confirmExit(){
+function leaveGame(){
     	var dbConnection = new DbConnector();
     	dbConnection.removePlayer(sessionStorage.matchId);
     	
