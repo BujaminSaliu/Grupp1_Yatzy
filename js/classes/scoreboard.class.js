@@ -12,6 +12,7 @@ class ScoreBoard {
 		this.minutes = 0;
 		this.seconds = 0;
 		this.powerUps = [];
+		this.usedPowerUps = [];
 
 		//Push to powerUps the Powerups you wish to add, just make their power attribute
 		//corespond to their tier level to allow for easy access in terms of get/set
