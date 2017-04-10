@@ -23,6 +23,7 @@ class Game{
 			$('#'+ 'player' + (i+1) ).html(shortName+'...');
 		}
 
+		this.dbConnection = new DbConnector();
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -459,19 +460,26 @@ class Game{
 
 	endTurn(){
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
+			
+			let activeGame = this;
+
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 
 			this.scoreBoards[this.currentPlayer].turnCounter++;
 			console.log(this.scoreBoards[this.currentPlayer].turnCounter);
 			this.checkIfGameIsOver();
-
 			this.currentPlayer++;
+			this.dbConnection.updateCurrentPlayer(this.currentPlayer, this.resetTurn, activeGame);
 			this.uncheckDices();
 			if(this.currentPlayer === this.scoreBoards.length){
 				this.currentPlayer = 0;
+				this.dbConnection.updateCurrentPlayer(this.currentPlayer, this.resetTurn, activeGame);
 			}
-			this.testRoll();
 		}
+	}
+
+	resetTurn(activeGame){
+		activeGame.scoreBoards[activeGame.currentPlayer].turnStarted = false;
 	}
 
 	checkIfGameIsOver(){

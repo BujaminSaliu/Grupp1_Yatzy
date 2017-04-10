@@ -111,6 +111,15 @@ class DbConnector extends Base{
 		});
 	}
 
+	updateCurrentPlayer(currentPlayer, callback, activeGame){
+		console.log(currentPlayer);
+		this.db.updateCurrentPlayer({
+			current_player: currentPlayer	
+		},()=>{
+			callback(activeGame);	
+		});	
+	}
+
 	static get sqlQueries(){
     //
     // Please note: This part of the class is read by
@@ -161,6 +170,9 @@ class DbConnector extends Base{
       `,
       setGameState: `
       	UPDATE current_match SET started = 'true' WHERE ?
+      `,
+      updateCurrentPlayer: `
+      	UPDATE current_match SET ?
       `
 
     }
