@@ -119,16 +119,15 @@
 	width: 100%;
 	display: flex;
 	justify-content: center;
-}
+}	
 
 .game-board button{
-	color:green;
+	color:#fcf8e3;
 	background-color: black;
 	font-size:20px;
 	margin:5%;
 	padding: 1%;
 }
-
 .modal input{
 	display:block;
 	margin-top:2%;
