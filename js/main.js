@@ -182,9 +182,9 @@ function createScoreboards(scoreBoardsFromDb){
 function currentPlayerCheck(gameState){
 	if(gameState[0].current_player === parseInt(sessionStorage.playerNumber)){
 		if(this.currentGame.scoreBoards[gameState[0].current_player].turnStarted === false){
-			this.currentGame.testRoll();
-			this.currentGame.current_player = gameState[0].current_player;
+			this.currentGame.currentPlayer = gameState[0].current_player;
 			this.currentGame.scoreBoards[gameState[0].current_player].turnStarted = true;
+			this.currentGame.testRoll();
 		}
 	}
 }

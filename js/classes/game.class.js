@@ -351,6 +351,8 @@ class Game{
 	//prints possible outcomes, ignoring the elements that have previously
 	//been disabled
 	possibleOutcomes(){
+		console.log(this.currentPlayer);
+
 		this.emptyScoreBoard();
 		this.createEventForElement();
 
