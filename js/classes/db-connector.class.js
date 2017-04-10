@@ -56,7 +56,7 @@ class DbConnector extends Base{
 	}
 
 	createMatch(callback){
-		this.db.startNewGame(()=>{
+		this.db.createNewGame(()=>{
 			console.log('Creating match!');
 			callback();
 		});
@@ -99,6 +99,18 @@ class DbConnector extends Base{
 		});	
 	}
 
+	getGameState(callback){
+		this.db.getGameState((gameState)=>{
+			callback(gameState);
+		});	
+	}
+
+	setGameState(match){
+		this.db.setGameState({
+			idMatch: match	
+		});
+	}
+
 	static get sqlQueries(){
     //
     // Please note: This part of the class is read by
@@ -123,8 +135,8 @@ class DbConnector extends Base{
       checkIfActiveMatch: `
       	SELECT * FROM current_match  	
       `,
-      startNewGame: `
-      	INSERT INTO current_match(current_player, num_of_players, started) VALUES (0, 1, false)
+      createNewGame: `
+      	INSERT INTO current_match(current_player, num_of_players, started) VALUES (0, 1, 'false')
       `,
       getCurrentMatch: `
       	SELECT MAX(idMatch) AS matchId FROM current_match
@@ -143,6 +155,12 @@ class DbConnector extends Base{
       `,
       readScoreBoardFromDb: `
       	SELECT * FROM Scoreboards
+      `,
+      getGameState: `
+      	SELECT * FROM current_match
+      `,
+      setGameState: `
+      	UPDATE current_match SET started = 'true' WHERE ?
       `
 
     }

@@ -1,4 +1,20 @@
+var dbConnection = new DbConnector();
+
 $(init);
+
+var gameStartTimer = setInterval(function(){
+	dbConnection.getGameState(startGame);
+
+}, 200);
+
+function startGame(gameState){
+	console.log(gameState[0].started);
+	if(gameState[0].started === 'true'){
+		$('#myModal').modal('hide');
+		dbConnection.readScoreBoardFromDb(createScoreboards);
+		clearInterval(gameStartTimer);
+	}
+}
 
 function init(){
 	var dbConnection = new DbConnector();
@@ -42,15 +58,18 @@ function start(players) {
 
 		$('#startGame').on('click', function(){
 			if(checkInputFields()){
-				var dbConnection = new DbConnector();
-				dbConnection.readScoreBoardFromDb(createScoreboards);
+				
+				let newScoreBoard = new ScoreBoard($('#playerName').val(), sessionStorage.playerNumber);
+				newScoreBoard.writeScoreBoardToDb();
+				dbConnection.setGameState(sessionStorage.matchId);
 			}
 		});
 
 		$('#joinGame').on('click', function(){
 			if(checkInputFields()){
 				var dbConnection = new DbConnector();
-				new ScoreBoard($('#playerName').val(), sessionStorage.playerNumber);
+				let newScoreBoard = new ScoreBoard($('#playerName').val(), sessionStorage.playerNumber);
+				newScoreBoard.writeScoreBoardToDb();
 				$('#joinGame').hide();
 			}
 		});
@@ -121,35 +140,53 @@ function createScoreboards(scoreBoardsFromDb){
 	console.log('Info från bd', scoreBoardsFromDb);
 	this.scoreBoards = [];
 
-	scoreBoards.push(new ScoreBoard($('#playerName').val(), sessionStorage.playerNumber));
-	
  	for(let i = 0; i < scoreBoardsFromDb.length; i++){
  		let scoreBoard = new ScoreBoard(scoreBoardsFromDb[i].player_name, scoreBoardsFromDb[i].player_number);
  		scoreBoards.push(scoreBoard);
  	}
+
+ 	scoreBoards.sort(function(a, b){
+    		var keyA = a.playerNumber;
+        	var keyB = b.playerNumber;
+		    if(keyA > keyB) return 1;
+		    if(keyA < keyB) return -1;
+		    return 0;
+		});
 	
 	$('#myModal').modal('hide');
-		this.currentGame = new Game(this.scoreBoards);
+	this.currentGame = new Game(this.scoreBoards);
 
-		let listOfBonusScores = ['1', '2', '3', '4', '5',
-		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
-		'fourOfAKind', 'smallStraight', 'largeStraight', 
-		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+	var checkCurrentPlayerTimer = setInterval(function(){
+		console.log('Checking for current player number');
+		dbConnection.getGameState(currentPlayerCheck);
+	}, 200);
 
-		for (let i = 0; i < listOfBonusScores.length; i++) {
-			for(let j = 0; j < currentGame.scoreBoards.length; j++){
-				var elementFound = document.getElementById(j + '-' +  listOfBonusScores[i]);
-				if(!(i===6 || i===listOfBonusScores.length-1 || i===7)){
-					elementFound.style.cursor = "pointer";
-					elementFound.setAttribute('disabled', false);
-				}
-				else{
-					elementFound.setAttribute('disabled', true);
-				}
+	let listOfBonusScores = ['1', '2', '3', '4', '5',
+	'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
+	'fourOfAKind', 'smallStraight', 'largeStraight', 
+	'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+	for (let i = 0; i < listOfBonusScores.length; i++) {
+		for(let j = 0; j < currentGame.scoreBoards.length; j++){
+			var elementFound = document.getElementById(j + '-' +  listOfBonusScores[i]);
+			if(!(i===6 || i===listOfBonusScores.length-1 || i===7)){
+				elementFound.style.cursor = "pointer";
+				elementFound.setAttribute('disabled', false);
 			}
-
+			else{
+				elementFound.setAttribute('disabled', true);
+			}
 		}
-		this.currentGame.testRoll();
+	}		
+}
+
+function currentPlayerCheck(gameState){
+	if(gameState[0].current_player === parseInt(sessionStorage.playerNumber)){
+		if(this.currentGame.scoreBoards[gameState[0].current_player].turnStarted === false){
+			this.currentGame.testRoll();
+			this.currentGame.scoreBoards[gameState[0].current_player].turnStarted = true;
+		}
+	}
 }
 
 function checkInputFields(){
