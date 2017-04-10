@@ -5,6 +5,8 @@ class Game{
 		this.currentPlayer = 0;
 		this.turnActive = true;
 		this.timer = 300;
+
+
 		
 
 		//array used to loop through Ids
@@ -718,43 +720,37 @@ class Game{
 		}
 	}
 
+	addToUsedPowerupsList(target, powerUp){
+		let usedPowerup = new usedPowerUp(powerUp.getName(), target, powerUp.getIcon(), this.scoreBoards[this.currentPlayer]);
+
+		//Add the powerup
+		this.scoreBoards[this.currentPlayer].usedPowerUps.push(usedPowerup);
+	}
+
+	usedPowerupsList(){
+		//clear the list
+
+		//make a call to DB to get items from DB on what usedpowerups list is
+
+
+		let count = 0;
+		for(let used of this.scoreBoards[this.currentPlayer].usedPowerUps){
+			//print stuff by usage of "used.getCastBy + cast + used.getName() + on used.getTarget(). + used.getIcon()" 
+		}
+
+	}
+
 	renderPowerUps()
 	{
 		
 		//clear the list
+
+		//make a call to DB to get items from DB on what the powerups list is
+
 		if(this.scoreBoards[this.currentPlayer].powerUps.length > 0){
-
-
 			for(let powerup of this.scoreBoards[this.currentPlayer].powerUps){
-				//push the elements
-
-				switch(powerup.getName()){
-					case "Remove Target Powerup":
-						//append said element
-						//assign click function 
-						break;
-					case "Turn Score to 0":
-						//append said element
-						//assign click function
-						break;
-					case "Switch Score":
-						//append said element
-						//etc.
-						break;
-					case "Duplicate Powerup":
-						//append said element
-						break;
-					case "Randomize":
-						//append said element
-						break;
-					case "Reduce Toss":
-						break;
-					case "Remove Dice":
-						break;
-					case "Give Extra Toss":
-						break;
-					}
-
+				//append elements to respective box  in html by virtue of powerup.icon
+				
 				}
 			}
 

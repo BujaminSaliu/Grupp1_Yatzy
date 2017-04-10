@@ -1,9 +1,10 @@
 class PowerUp{
-	constructor(name, power, charges, playerNumber){
+	constructor(name, power, charges, playerNumber, icon){
 		this.name = name; //Name of the powerup. Useful for activation prompts 
 		this.power = power; //Power acts as position in array as well for accessing
 		this.charges = charges; //How many you have
 		this.playerNumber = playerNumber;
+		this.icon = icon;
 
 
 
