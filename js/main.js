@@ -156,7 +156,7 @@ function createScoreboards(scoreBoardsFromDb){
 	this.currentGame = new Game(this.scoreBoards);
 
 	var checkCurrentPlayerTimer = setInterval(function(){
-		console.log('Checking for current player number');
+	
 		dbConnection.getGameState(currentPlayerCheck);
 	}, 200);
 
@@ -180,13 +180,11 @@ function createScoreboards(scoreBoardsFromDb){
 }
 
 function currentPlayerCheck(gameState){
-	if(gameState[0].current_player === parseInt(sessionStorage.playerNumber)){
-		if(this.currentGame.scoreBoards[gameState[0].current_player].turnStarted === false){
-			this.currentGame.currentPlayer = gameState[0].current_player;
-			this.currentGame.scoreBoards[gameState[0].current_player].turnStarted = true;
-			this.currentGame.testRoll();
-		}
-	}
+	console.log('current player:', gameState[0].current_player, this.currentGame.currentPlayer, parseInt(sessionStorage.playerNumber));
+	console.log('has my turn started?', this.currentGame.scoreBoards[gameState[0].current_player].turnStarted, this.currentGame.scoreBoards[gameState[0].current_player].playerName);
+	this.currentGame.updateGameInfo(gameState[0].current_player);
+
+	
 }
 
 function checkInputFields(){

@@ -308,17 +308,23 @@ class Game{
 	createEventForElement(){
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
 			
-			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
+			console.log('wat');
 
 			//to make activeGame a reference to the current Game object since we need to use the 
 			//"this" argument when retrieving info from the element
 			let activeGame = this;
 
 			if(!(i===6 || i===this.listOfBonusScores.length-1 || i===7)){
-				elementFound.addEventListener("click", function(){
+				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).bind("click", function(){
 
 					let splittedId = $(this).attr('id').split('-');
-					if(splittedId[0] == activeGame.currentPlayer){
+					
+					console.log('thing 1', splittedId[0]);
+					console.log('thing 2', sessionStorage.playerNumber);
+					console.log('thing 3', activeGame.currentPlayer);
+
+
+					if(splittedId[0] == parseInt(sessionStorage.playerNumber) && sessionStorage.playerNumber == activeGame.currentPlayer){
 						let currentElement = document.getElementById($(this).attr('id'));
 
 						if(currentElement.getAttribute('disabled') === 'false'){
@@ -348,14 +354,28 @@ class Game{
 
 	}
 
+
+	removeEventForElement(){
+		console.log('remove shit');
+		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
+		
+
+			if(!(i===6 || i===this.listOfBonusScores.length-1 || i===7)){
+				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).unbind();
+			}
+		}
+	}
+
+
 	//prints possible outcomes, ignoring the elements that have previously
 	//been disabled
 	possibleOutcomes(){
 		console.log(this.currentPlayer);
 
 		this.emptyScoreBoard();
+		
 		this.createEventForElement();
-
+		
 		//array of all methods to be applied when calculating a score
 		//to be displayed
 		let filterMethods = [
@@ -401,21 +421,22 @@ class Game{
 	}
 
 	testRoll() {
+		console.log('new turn! current player is: ', this.currentPlayer);
+		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer){
+			if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
+				this.scoreBoards[this.currentPlayer].totalRolls--;
+				this.lockCheckedDices();
+				for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+					dice.clearDicesInDOM();
+					dice.roll();
+					dice.writeDiceToDOM();
+				}
 
-		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
-			this.scoreBoards[this.currentPlayer].totalRolls--;
-			this.lockCheckedDices();
-			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
-				dice.clearDicesInDOM();
-				dice.roll();
-				dice.writeDiceToDOM();
+				this.possibleOutcomes();
+			}else{
+				console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
 			}
-
-			this.possibleOutcomes();
-		}else{
-			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
 		}
-
 
 	}
 
@@ -437,6 +458,7 @@ class Game{
 	}
 
 	uncheckDices(){
+		console.log('uncheck');
 		var checkBoxes = $('.check-container');
 		for(let checkBox of checkBoxes) {
 
@@ -473,6 +495,9 @@ class Game{
 			this.currentPlayer++;
 			this.dbConnection.updateCurrentPlayer(this.currentPlayer, this.resetTurn, activeGame);
 			this.uncheckDices();
+			this.removeEventForElement();
+
+
 			if(this.currentPlayer === this.scoreBoards.length){
 				this.currentPlayer = 0;
 				this.dbConnection.updateCurrentPlayer(this.currentPlayer, this.resetTurn, activeGame);
@@ -486,7 +511,7 @@ class Game{
 
 	checkIfGameIsOver(){
 		let noMoreTurns = false;
-
+		console.log('game over?');
 		for(let scoreBoard of this.scoreBoards){
 			if(scoreBoard.turnCounter >= 15){
 				noMoreTurns = true;
@@ -539,6 +564,16 @@ class Game{
 		     console.log(playerName);
 
 
+	}	
+
+	updateGameInfo(newCurrentPlayer){
+
+		this.currentPlayer = newCurrentPlayer;
+		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[this.currentPlayer].turnStarted);
+		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
+			this.testRoll();
+			this.scoreBoards[this.currentPlayer].turnStarted === true;
+		}
 	}	
 
 }
