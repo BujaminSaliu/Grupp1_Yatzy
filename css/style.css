@@ -95,8 +95,9 @@ a.help{
 }
 
 a.showNav{
+	display: none;
     position: fixed;
-    color: #333;
+    color: black;
     font-size: 25px;
     left: 10px;
     margin: 0px;
@@ -199,6 +200,8 @@ tbody>tr:nth-child(18){
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
-
+a.showNav{
+	display: flex;
+}
 }
 
