@@ -402,8 +402,8 @@ class Game{
 				let element = $("#dice-container-0");
 				console.log(element);
 				element.removeClass("animateDice");
+		}
 	}
-}
 
 	testRoll() {
 		
@@ -455,16 +455,6 @@ class Game{
 		$("#dice-container-2>img").effect("shake",50);
 		$("#dice-container-3>img").effect("shake",50);
 		$("#dice-container-4>img").effect("shake",50);*/
-
-
-
-		
-
-
-
-		
-
-
 	}
 
 	lockCheckedDices() {
@@ -581,8 +571,7 @@ class Game{
 
 
 	}	
-	}
-
+	
 	//Modal->klicka på Lista av Powerups->respektive Powerup med respektive argument feedas in
 	//Vissa kräver target, vissa kräver target powerup osv.
 	//	
@@ -608,6 +597,9 @@ class Game{
 				if(e.getPower() == 3 && e.getName() == "HouseSwitch" && e.getCharges() > 0){ //Aquire values to qualify if its the powerup we want to remove
 					index = this.scoreBoards[this.currentPlayer].powerUps.indexOf(e); //assign the index of the element in the array
 					this.scoreBoards[this.currentPlayer].powerUps.splice(index, 1); //Remove at the given index, with a width of 1
+
+					consumePowerup("Switch Score");
+					break;
 				}
 			}
 
@@ -627,6 +619,9 @@ class Game{
 					if(player.powerUps[e].getName() === powerUpToRemove){ //Is the name the same as the poweruptoremove?
 						player.powerUps.splice(e, 1); //Remove the powerup that is at that given index
 						//assuming that it shares name with the one that we wish to remove
+
+						consumePowerup("Remove Target Powerup");
+						break;
 					}
 				} 
 			}
@@ -634,7 +629,7 @@ class Game{
 	}
 
 	putTargetScoreToZero(targetPlayer, scoreToZero){ //Give target id and name of the box to target
-		if(scoreToZero !== "sum" && scoreToZero !== "bonus" && !== "yahtzee" && scoreToZero !== "totalSum"){
+		if((scoreToZero !== "sum") && (scoreToZero !== "bonus") && (scoreToZero !== "yahtzee") && (scoreToZero !== "totalSum")){
 			//You can't target yourself
 			if(this.currentPlayer !== targetPlayer){
 
@@ -642,6 +637,8 @@ class Game{
 				let enemyBox = document.getElementById(targetPlayer + '-' +  scoreToZero);
 				enemyBox.empty();
 				enemyBox.append(0);
+
+				consumePowerup("Turn Score to 0");
 			}
 			else{
 				console.log("You can only target enemy players with this power-up!");
@@ -668,6 +665,9 @@ class Game{
 		console.log(this.scoreBoards[this.currentPlayer].playerName + " stole 30 seconds from " + enemyPlayer.playerName + "!");
 		//Give 30 seconds to the player who stole
 		currentPlayer.timer += 30;
+
+
+		consumePowerup("Steal Time");
 	}
 
 	duplicatePowerUp(powerUpName){
@@ -677,9 +677,13 @@ class Game{
 				if(power.getName() === powerUpName && power.getName() !== "Duplicate"){
 					let toCopy = power.getPowerUp();
 					currentPlayer.powerUps.push(toCopy);
+
+					consumePowerup("Duplicate Powerup");
+					break;
 				}
 				if(power.getName() === "Duplicate"){
 					console.log("You cannot Duplicate the Duplicate powerup!");
+					break;
 				}
 			}
 		}
@@ -852,43 +856,221 @@ class Game{
 
 			//Add the powerUp to the relevant players scoreBoard
 			this.scoreBoards[this.currentPlayer].powerUps.push(NewPowerToAdd);
+			consumePowerup("Randomize");
 		}
 	}
 
+
 	addToUsedPowerupsList(target, powerUp){
-		let usedPowerup = new usedPowerUp(powerUp.getName(), target, powerUp.getIcon(), this.scoreBoards[this.currentPlayer]);
+		let powerUpInstance = 0;
+		for(let i = 0; i < this.scoreBoards[this.currentPlayer].powerUps.length; i++){
+			if(powerUp === this.scoreBoards[this.currentPlayer].powerUps[i].getName()){
+				powerUpInstance = this.scoreBoards[this.currentPlayer].powerUps[i];
+				break;
+			}
+		}
+		let AusedPowerup = new usedPowerUp(powerUp, target, powerUpInstance.getIcon(), this.scoreBoards[this.currentPlayer]);
 
 		//Add the powerup
-		this.scoreBoards[this.currentPlayer].usedPowerUps.push(usedPowerup);
+		this.scoreBoards[this.currentPlayer].usedPowerUps.push(AusedPowerup);
 	}
 
 	usedPowerupsList(){
 		//clear the list
 
 		//make a call to DB to get items from DB on what usedpowerups list is
+		//<div class="modal-body" id="UsedPowerupsList">
+		//let toEmpty = document.getElementById("UsedPowerupsList");
 
+		$('#UsedPowerupsList').empty();
+		
 
-		let count = 0;
-		for(let used of this.scoreBoards[this.currentPlayer].usedPowerUps){
-			//print stuff by usage of "used.getCastBy + cast + used.getName() + on used.getTarget(). + used.getIcon()" 
+		for(let i = this.scoreBoards.length-1; i > -1; i--){ //Traverse backwards, as we want the latest fired ones to display first
+			$('#UsedPowerupsList').append("<div class=col-xs-6 id='usedPowerUp-"+ i + "'>");
+			for(let used of this.scoreBoards[i].usedPowerUps){
+				//print stuff by usage of "used.getCastBy + cast + used.getName() + on used.getTarget(). + used.getIcon()" 
+
+				
+				$('#usedPowerUp-' + i).append(used.getCastBy() + " ");
+				$('#usedPowerUp-' + i).append('<img src=' + used.getIcon() + '>');
+				$('#usedPowerUp-' + i).append(" " + used.getTarget());
+				
+			}
+			$('#UsedPowerupsList').append("</div>");
 		}
 
+		
+
 	}
+
+	targetModal(powerUp){ //Who to target
+		$('#AvailablePowerups').modal('hide'); 
+		$('#TargetPlayerList').empty();
+		for(let i = 0; i < this.scoreBoards.length; i++){
+			$('#TargetPlayerList').append("<div class=col-xs-6 id='PlayerList-"+ i + "' " + 'data-bind="' + "click: function() { targetModalPowerUp(" + i + "," + powerUp + ")" + '}"' +  ">");
+			$('#PlayerList-' + i).append(i + '. ' + this.scoreBoards[i].getPlayerName());
+			$('#TargetPlayerList').append("</div>");
+		}
+		$("#TargetPlayerModal").modal('show');
+	}
+
+	targetModalPowerUp(targetPlayer, PowerUpTouse){ //What to shoot them with
+		$('#AvailablePowerups').modal('hide'); 
+
+		
+		if(targetPlayer !== 'self'){
+			$("#TargetPlayerModal").modal('hide');
+			for(let i = 0; i < this.scoreBoards[this.currentPlayer].powerUps.length; i++){
+				if(this.scoreBoards[this.currentPlayer].powerUps[i].getName() === PowerUpTouse){
+					addToUsedPowerupsList(this.scoreBoards[targetPlayer].getName(), PowerUpTouse)
+					consumePowerup(PowerUpTouse);
+
+					case "Steal Time":
+						stealTime(targetPlayer); //Done
+					
+					case "Turn Score to 0":
+						putTargetScoreToZero(targetPlayer, scoreToZero); //Build targetting system
+						break;
+					case "Switch Score":
+						HouseSwitch(targetPlayer); //Targeting system needed, build with Modal
+						break;
+					
+					case "Reduce Toss":
+						this.scoreBoards[this.targetPlayer].totalRolls -= 1; //Check if value is updated against current actual values in target player
+						console.log("You redcued a toss for " + this.scoreBoards[targetPlayer].getName() + "!");
+						addToUsedPowerupsList(this.scoreBoards[this.currentPlayer].getName(), 'Reduce Toss')
+						consumePowerup(PowerUpTouse);
+
+						break;
+					case "Remove Dice":
+						this.scoreBoards[this.targetPlayer].dices.pop(0); //Check if value is updated against current actual values, set flag in target player
+						console.log("You redcued a Dice for " + this.scoreBoards[targetPlayer].getName() + "!");
+						addToUsedPowerupsList(this.scoreBoards[this.currentPlayer].getName(), 'Remove Dice')
+						consumePowerup(PowerUpTouse);
+						break;
+				}
+
+			}
+		}
+		else{
+			switch(PowerUpTouse){
+				case 'Duplicate Powerup': //Re-run targeting but in another showcase, DONE
+					$('#AvailablePowerupsList').empty();
+					$('#AvailablePowerupsList').append("<div class=col-xs-6 id='PowerUp-"+ this.currentPlayer + "'>");
+					for(let powerup of this.scoreBoards[this.currentPlayer].powerUps){
+						if(powerup.getName() !== "Duplicate Powerup"){
+							$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { duplicatePowerUp(" + powerup.getName() + ")"  + '}"' + ">");
+							$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+							$('#PowerUp-' + this.currentPlayer).append("</div>");
+						}	
+					}	
+					$('#AvailablePowerupsList').append("</div>");
+					$("#AvailablePowerups").modal('show');
+
+					addToUsedPowerupsList(this.scoreBoards[this.currentPlayer].getName(), 'Duplicate Powerup')
+
+
+					consumePowerup("Duplicate Powerup");
+					break;
+				case 'Give Extra Toss': //targets only self, DONE
+					this.scoreBoards[this.currentPlayer].totalRolls += 1;
+					console.log("You added an extra roll to yourself!");
+					addToUsedPowerupsList(this.scoreBoards[this.currentPlayer].getName(), 'Extra Toss')
+					consumePowerup(PowerUpTouse);
+
+					break;
+				case "Randomize": //Create selection targeting, NOT DONE
+					$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")"  + '}"' + ">");
+					$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+					$('#PowerUp-' + this.currentPlayer).append("</div>");
+					break;
+
+				case "Remove Target Powerup": //NOT DONE
+					removePowerUp(targetPlayer, powerUpToRemove); //Create selection targeting
+						
+					break;
+			}
+		}
+		
+
+	}
+
+	consumePowerup(powerupName){
+		for(let i = 0; i < this.scoreBoards[this.currentPlayer].powerUps.length; i++){
+			if(this.scoreBoards[this.currentPlayer].powerUps[i].getName() === powerupName){
+				this.scoreBoards[this.currentPlayer].powerUps.splice(i, 1);
+				break;
+			}
+		}
+	}
+
 
 	renderPowerUps()
 	{
 		
 		//clear the list
-
+		$('#AvailablePowerupsList').empty();
 		//make a call to DB to get items from DB on what the powerups list is
+		
+
 
 		if(this.scoreBoards[this.currentPlayer].powerUps.length > 0){
+			$('#AvailablePowerupsList').append("<div class=col-xs-6 id='PowerUp-"+ this.currentPlayer + "'>");
 			for(let powerup of this.scoreBoards[this.currentPlayer].powerUps){
 				//append elements to respective box  in html by virtue of powerup.icon
-				
-				}
-			}
+				switch(powerup.getName()){
 
+					case "Steal Time":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+					
+					case "Remove Target Powerup":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						
+						break;
+					case "Turn Score to 0":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						break;
+					case "Switch Score":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")" + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						break;
+					case "Duplicate Powerup":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModalPowerUp('self', 'Duplicate')"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						break;
+					case "Randomize":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						break;
+					case "Reduce Toss":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						break;
+					case "Remove Dice":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModal(" + powerup.getName() + ")"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						break;
+					case "Give Extra Toss":
+						$('#PowerUp-' + this.currentPlayer).append("<div class=col-xs-6 id='InnerPowerUp-" + this.currentPlayer + "' data-bind=" + '"' + "click: function ()" + " { targetModalPowerUp('self', 'Extra Toss')"  + '}"' + ">");
+						$('#InnerPowerUp-'+this.currentPlayer).append('<img src=' + powerup.getIcon() + '>');
+						$('#PowerUp-' + this.currentPlayer).append("</div>");
+						break;
+				}		
+			}
+			$('#AvailablePowerupsList').append("</div>");
+
+			$("#AvailablePowerups").modal('show');
+			}
 		}
 	}
-}

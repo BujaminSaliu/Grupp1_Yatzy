@@ -23,4 +23,8 @@ class ScoreBoard {
 		}	
 
 	}
+
+	getPlayerName(){
+		return this.playerName;
+	}
 }

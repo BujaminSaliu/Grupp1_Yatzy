@@ -12,6 +12,8 @@
 	<script src="js/classes/base.class.js"></script>
 	<script src="js/classes/test.class.js"></script>
 	<script src="js/classes/db-connector.class.js"></script>
+	<script src="js/classes/usedpowerup.class.js"></script>
+	<script src="js/classes/powerup.class.js"></script>
 	<script src="js/classes/scoreboard.class.js"></script>
 	<script src="js/classes/dice.class.js"></script>
     <script src="js/classes/game.class.js"></script>
@@ -231,6 +233,57 @@
   					</div><!-- /.modal-dialog -->
 				</div><!-- /.modal -->
 				<!-- Rules Modal -->
+
+				<div class="modal hide" id="UsedPowerups" role="dialog" aria-labelledby="UsedPowerupsLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h7 class="modal-title" id="InnerUsedPowerupsLabel">Used Powerups</h7>
+							</div>
+							<div class="modal-body" id="UsedPowerupsList">
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal hide" id="AvailablePowerups" role="dialog" aria-labelledby="AvailablePowerupsLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<h8 class="modal-title" id="InnerAvailablePowerupsLabel">Available Powerups</h8>
+						</div>
+						<div class="modal-body" id="AvailablePowerupsList">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal hide" id="TargetPlayerModal" role="dialog" aria-labelledby="TargetPlayerModal">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<h9 class="modal-title" id="InnerTargetPlayerModalLabel">Target a Player!</h9>
+						</div>
+						<div class="modal-body" id="TargetPlayerList">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal hide" id="targetPowerupModal" role="dialog" aria-labelledby="TargetPowerupModal">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<h10 class="modal-title" id="InnerTargetPowerupModalLabel">Target a Powerup!</h10>
+						</div>
+						<div class="modal-body" id="TargetPowerupList">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
 				<div class="modal fade" id="getHelp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
