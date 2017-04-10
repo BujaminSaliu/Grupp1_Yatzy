@@ -124,7 +124,7 @@ class DbConnector extends Base{
       	SELECT * FROM current_match  	
       `,
       startNewGame: `
-      	INSERT INTO current_match(current_player, num_of_players) VALUES (0, 1)
+      	INSERT INTO current_match(current_player, num_of_players, started) VALUES (0, 1, false)
       `,
       getCurrentMatch: `
       	SELECT MAX(idMatch) AS matchId FROM current_match
