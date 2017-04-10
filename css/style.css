@@ -64,6 +64,7 @@
 
 .dice-container, .check-container {
 	text-align: center;
+	z-index: 99999;	
 }
 
 .check-container.AnimateLock {
