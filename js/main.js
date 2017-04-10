@@ -34,6 +34,9 @@ function setSessionStorage(){
 function leaveGame(){
     	var dbConnection = new DbConnector();
     	dbConnection.removePlayer(sessionStorage.matchId);
+    	setTimeout(function(){
+    		
+    	}, 50);
     	
     	return undefined;
 }

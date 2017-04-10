@@ -17,7 +17,6 @@ class Base {
           $.ajax({
             url: ('/api/' + className + '/' + qname).toLowerCase(),
             type: "POST",
-            async: false,
             dataType: "json",
             // don't process the request body
             processData: false,
