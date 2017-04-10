@@ -30,6 +30,7 @@ function start(players) {
 
 	$('#roll-dices').on('click', function(){
 		currentGame.testRoll();
+		
 	});
 
 	$('.dice-container').on('click', function(){

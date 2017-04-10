@@ -143,6 +143,22 @@
 	color: red;
 }
 
+.noThrowsLeftMessage{
+	color: 	#FF033E;
+	text-align: center;
+	margin-top: 60%;
+	font-size: 16px;
+}
+
+.throwsLeftMessage{
+	color: #009933;
+	font-size: 16px;
+	text-align: center;
+	margin-top: 60%;
+	
+}
+
+
 a.help{
 	color:black;
 	font-size:30px;
@@ -304,7 +320,7 @@ tbody>tr:nth-child(18){
 	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
 	}
 
-.red{
+.highlightedPlayer{
 	background-color: #778899;
 	opacity: 0.7;
 }

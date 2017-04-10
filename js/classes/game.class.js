@@ -17,9 +17,9 @@ class Game{
 			$('#'+ i + '-totalSum').append(this.scoreBoards[i].bonusScore);
 			//Saves, cuts the playernames to 4 letters and adds it to the right place in the scoreboard
 			var shortName = this.scoreBoards[i].playerName;
-            if(shortName.length > 2){
-            shortName = shortName.substring(0,2);
-            }
+			if(shortName.length > 2){
+				shortName = shortName.substring(0,2);
+			}
 			$('#'+ 'player' + (i+1) ).html(shortName+'...');
 		}
 
@@ -257,7 +257,6 @@ class Game{
 		return points;
 	}
 
-
 	filterYatzy(){
 		let numbersOfEachOccurences = this.countNumberOfDiceSideOccurences();
 		let points = 0;
@@ -276,13 +275,13 @@ class Game{
 	checkBonus(){
 		if(this.scoreBoards[this.currentPlayer].bonusScore >= 63 && 
 			this.scoreBoards[this.currentPlayer].bonusUsed === 'false'){
-		
-			this.scoreBoards[this.currentPlayer].totalScore += 50;	
-			this.scoreBoards[this.currentPlayer].bonusUsed = true;
 
-			$('#'+ this.currentPlayer + '-bonus').append(this.scoreBoards[this.currentPlayer].bonus);
-		}
+			this.scoreBoards[this.currentPlayer].totalScore += 50;	
+		this.scoreBoards[this.currentPlayer].bonusUsed = true;
+
+		$('#'+ this.currentPlayer + '-bonus').append(this.scoreBoards[this.currentPlayer].bonus);
 	}
+}
 
 	//function empties and reappends the value in order to update the score before
 	//the currentPlayer is updated, otherwise the previous score is added to the next player
@@ -399,34 +398,36 @@ class Game{
 	}
 	resetDiceAnimation(){
 		for(let dice of this.scoreBoards[this.currentPlayer].dices) {
-				
-				let element = $("#dice-container-0");
-				console.log(element);
-				element.removeClass("animateDice");
+
+			let element = $("#dice-container-0");
+
+			element.removeClass("animateDice");
+		}
 	}
-}
 
 	testRoll() {
+		let disableBtn = document.getElementById('roll-dices');
+		disableBtn.disabled = false;
 		
-		$('#'+ 'player' + (this.currentPlayer+1)).addClass('red');	
+		$('#'+ 'player' + (this.currentPlayer+1)).addClass('highlightedPlayer');	
 
 		for (var i = 0; i < this.listOfBonusScores.length; i++) {
-				console.log("iii")
-				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).addClass('red');
-			}
-		
+			$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).addClass('highlightedPlayer');
+		}
 
 		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
 			this.scoreBoards[this.currentPlayer].totalRolls--;
+			console.log("current rolls: ",this.scoreBoards[this.currentPlayer].totalRolls);
+			$('.throwsLeftMessage').html("Kast kvar: " + this.scoreBoards[this.currentPlayer].totalRolls);
 			this.lockCheckedDices();
 			
-				
 			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
 
 				dice.clearDicesInDOM();
 				
 				dice.roll();
-				
+				$('.noThrowsLeftMessage').empty();
+				$('.throwsLeftMessage').show();
 				dice.writeDiceToDOM();
 
 
@@ -435,45 +436,28 @@ class Game{
 					
 				}
 
-
 				let element = document.getElementById("dice-container-" + dice.diceNumber);
-				console.log("for sparta", element);
+				
 				element.addEventListener('animationend', function(){
 					
 					let splittedId = this.id.split('-');
 					$(this).removeClass("animateDice" + splittedId[2]);
-
 					
-				});
-				
-				
-
-				
+				});	
 
 			}
 
 			this.possibleOutcomes();
-		}else{
+		}else  {
+			
+
+			$('.noThrowsLeftMessage').html('Du har inga fler kast kvar, vänligen gör ett poängval.');
+			$('.throwsLeftMessage').hide();
+			disableBtn.disabled = true;
+			
 			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
 			
 		}
-
-
-		/*$("#dice-container-0>img").effect("shake",50);
-		$("#dice-container-1>img").effect("shake",50);
-		$("#dice-container-2>img").effect("shake",50);
-		$("#dice-container-3>img").effect("shake",50);
-		$("#dice-container-4>img").effect("shake",50);*/
-
-
-
-		
-
-
-
-		
-
-
 	}
 
 	lockCheckedDices() {
@@ -485,7 +469,7 @@ class Game{
 			var idToLockOrUnLock = splittedId[2];
 
 			if(checkBox.getAttribute('locked') === 'true') {
-	
+
 				this.scoreBoards[this.currentPlayer].dices[idToLockOrUnLock].lockDice();
 			} else {
 				this.scoreBoards[this.currentPlayer].dices[idToLockOrUnLock].unLockDice();
@@ -521,9 +505,9 @@ class Game{
 
 		$('#'+ 'player' + (this.currentPlayer+1)).removeClass('red');	
 		for (var i = 0; i < this.listOfBonusScores.length; i++) {
-				console.log("iii")
-				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).removeClass('red');
-			}
+			console.log("iii")
+			$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).removeClass('highlightedPlayer');
+		}
 
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
@@ -536,6 +520,7 @@ class Game{
 			this.uncheckDices();
 			if(this.currentPlayer === this.scoreBoards.length){
 				this.currentPlayer = 0;
+
 			}
 			this.testRoll();
 		}
@@ -580,20 +565,20 @@ class Game{
 
 	changeOrderOfScoreBoardsFromMatchPlacement(){
 		this.scoreBoards.sort(function(a, b){
-    		var keyA = a.totalScore;
-        	var keyB = b.totalScore;
-		    if(keyA > keyB) return -1;
-		    if(keyA < keyB) return 1;
-		    return 0;
+			var keyA = a.totalScore;
+			var keyB = b.totalScore;
+			if(keyA > keyB) return -1;
+			if(keyA < keyB) return 1;
+			return 0;
 		});
 	}
 
-    addname(playerName, numOfPlayers){
+	addname(playerName, numOfPlayers){
 
 		//for (var i = 0; i < numOfPlayers.length; i++) {
 			$('#player1').html(playerName);
 		//}
-		     console.log(playerName);
+		console.log(playerName, "här?");
 
 
 	}	
