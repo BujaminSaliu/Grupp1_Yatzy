@@ -4,7 +4,8 @@ class Game{
 		this.scoreBoards = scoreBoards;
 		this.currentPlayer = 0;
 		this.turnActive = true;
-		this.gameOver = false;
+		this.gameOver = 'false';
+		this.resultDisplayed = false;
 		//array used to loop through Ids
 		this.listOfBonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
@@ -524,8 +525,9 @@ class Game{
 			this.uncheckDices();
 			this.removeEventForElement();
 			this.emptyScoreBoard();
-
-
+			if(this.scoreBoards.length > 1){
+				$('#waitingModal').modal('show');
+			}
 			if(this.currentPlayer === this.scoreBoards.length){
 				this.currentPlayer = 0;
 				this.dbConnection.updateCurrentPlayer(this.currentPlayer);
@@ -544,16 +546,18 @@ class Game{
 			}
 		}
 
-		if(noMoreTurns || this.gameOver){
-			this.gameOver = true;
+		if(noMoreTurns && this.resultDisplayed === false || this.gameOver === 'true' && this.resultDisplayed === false){
+			this.gameOver = 'true';
+			this.resultDisplayed = true;
 			var dbConnection = new DbConnector();
-
+			dbConnection.endGame(sessionStorage.matchId);
 			this.updateScoreBoards();
 
 			this.insertPlacementOfMatch();
+			$('#waitingModal').modal('hide');
 			$('#gameOverModal').modal('show');
 		
-			if(noMoreTurns && this.gameOver){
+			if(noMoreTurns && this.gameOver === 'true'){
 				dbConnection.readScoreBoardFromDb(this.writeResultsToDb);
 			}
 		}
@@ -612,17 +616,25 @@ class Game{
 
 	}	
 
-	updateGameInfo(newCurrentPlayer){
-		this.currentPlayer = newCurrentPlayer;
-		if(this.gameOver === true){
-			$('#gameOverModal').modal('show');
-		}
+	updateGameInfo(gameState){
+		this.currentPlayer = gameState[0].current_player;
+		this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
+		this.gameOver = gameState[0].game_over;
+		 if(this.gameOver === 'true'){
+		 	this.checkIfGameIsOver();
+		 }
 		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
 			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
+			$('#waitingModal').modal('hide');
 			this.testRoll();
 			
 		}
+
+		if(this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted === false && this.scoreBoards.length > 1){
+			$('#waitingModal').modal('show');
+		}
+
 	}
 
 	printScoreBoardsToDOMFromDb(scoreBoards){

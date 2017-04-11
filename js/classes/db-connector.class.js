@@ -111,6 +111,12 @@ class DbConnector extends Base{
 		});
 	}
 
+	endGame(match){
+		this.db.endGame({
+			idMatch: match	
+		});
+	}
+
 	writeScoreBoardToDbUpdate(arrayOfScores){
 		console.log('skrivs till db', arrayOfScores);
 		this.db.writeScoreBoardToDbUpdate(
@@ -150,7 +156,7 @@ class DbConnector extends Base{
       	SELECT * FROM current_match  	
       `,
       createNewGame: `
-      	INSERT INTO current_match(current_player, num_of_players, started) VALUES (0, 1, 'false')
+      	INSERT INTO current_match(current_player, num_of_players, started, game_over) VALUES (0, 1, 'false', 'false')
       `,
       getCurrentMatch: `
       	SELECT MAX(idMatch) AS matchId FROM current_match
@@ -172,6 +178,9 @@ class DbConnector extends Base{
       `,
       getGameState: `
       	SELECT * FROM current_match
+      `,
+      endGame: `
+      	UPDATE current_match SET game_over = 'true' WHERE ?
       `,
       setGameState: `
       	UPDATE current_match SET started = 'true' WHERE ?
