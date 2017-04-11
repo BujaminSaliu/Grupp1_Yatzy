@@ -15,6 +15,7 @@ class Game{
 		for(let i = 0; i < this.scoreBoards.length; i++){
 			$('#'+ i + '-sum').append(this.scoreBoards[i].bonusScore);
 			$('#'+ i + '-totalSum').append(this.scoreBoards[i].bonusScore);
+			$('#'+ i + '-bonus').append("-");
 			//Saves, cuts the playernames to 4 letters and adds it to the right place in the scoreboard
 			var shortName = this.scoreBoards[i].playerName;
             if(shortName.length > 2){
@@ -279,7 +280,7 @@ class Game{
 		
 			this.scoreBoards[this.currentPlayer].totalScore += 50;	
 			this.scoreBoards[this.currentPlayer].bonusUsed = true;
-
+			$('#'+ this.currentPlayer + '-bonus').empty();
 			$('#'+ this.currentPlayer + '-bonus').append(this.scoreBoards[this.currentPlayer].bonus);
 		}
 	}
