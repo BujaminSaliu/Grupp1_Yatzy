@@ -6,7 +6,12 @@ function init(){
 }
 
 function start(players) {
-	writeScoresToHighScores(players);
+	if(players){
+		writeScoresToHighScores(players);
+	}
+	else{
+		console.log("No players found from DB!");
+	}
 
 	$('#myModal').modal('show');
 
@@ -61,11 +66,23 @@ function start(players) {
 function writeScoresToHighScores(players){
 	$('.top-ten').append('<ol class="list-group"/>');
 	let highScorePlacement = 1;
-	for(player of players){
-		$('.top-ten>ol').append(`
-			<li class="list-group-item">${highScorePlacement}. ${player.name} ${player.score} poäng</li>
-		`)
-		highScorePlacement++;
+
+	let playervar = players;
+
+
+	if(players){
+		try{
+			for(player of players){
+				$('.top-ten>ol').append(`
+					<li class="list-group-item">${highScorePlacement}. ${player.name} ${player.score} poäng</li>
+				`)
+				highScorePlacement++;
+			}
+		}
+		catch(err){
+			console.log("Players were not found from DB!");
+		}
+		
 	}
 }
 	$('.help').click(function() {
@@ -90,10 +107,16 @@ function createScoreboards(){
 	for(let i = 0; i < inputFields.length; i++){
 		let scoreBoard = new ScoreBoard(inputFields[i].value);
 		scoreBoards.push(scoreBoard);
+
 	}
 	
 	$('#myModal').modal('hide');
 		this.currentGame = new Game(this.scoreBoards);
+
+
+		
+
+
 
 		let listOfBonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
@@ -114,6 +137,13 @@ function createScoreboards(){
 
 		}
 		this.currentGame.testRoll();
+
+		let test = new PowerUp("Extra Toss", 1, 1, 0, "Extra Toss");
+		this.scoreBoards[this.currentGame.currentPlayer].powerUps.push(test);
+
+		let test2 = new PowerUp("Duplicate Powerup", 3, 1, 0, "Duplicate Powerup");
+		this.scoreBoards[this.currentGame.currentPlayer].powerUps.push(test2);
+		this.currentGame.renderPowerUps();
 }
 
 function checkInputFields(numOfPlayers){
@@ -145,7 +175,7 @@ setInterval(function(){
 			}
 			this.scoreBoards[index].timer -= 1; //Reduce the TOTAL timer by 1 second
 			this.scoreBoards[index].seconds -= 1; //reduce the seconds displayed by 1
-			console.log("THERE ARE: ", this.scoreBoards[index].minutes + " " + this.scoreBoards[index].seconds + " Left");
+			
 			//Console log just to iterate results
 		}
 		else{

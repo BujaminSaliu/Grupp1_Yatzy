@@ -231,6 +231,15 @@ tbody>tr:nth-child(18){
 	background-color: lightgrey;
 }
 
+.image{
+	max-width: 20%;
+	margin: auto;
+	
+}
+
+.image>img{
+	width: 100%;
+}
 
 .dice-container.animateDice0{
 	

@@ -6,6 +6,9 @@ class PowerUp{
 		this.playerNumber = playerNumber;
 
 		switch(icon){
+			case "Extra Toss":
+				this.icon = "img/extrathrow.png";
+				break;
 			case "Remove Target Powerup":
 				this.icon = "img/deletepower.png";
 				break;
