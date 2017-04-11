@@ -179,20 +179,12 @@
   					<div class="modal-dialog" role="document">
   						<div class="modal-content">
       						<div class="modal-header">
-        						<h4 class="modal-title">Ange spelarnas namn</h4>
+        						<h4 class="modal-title">Ange ditt namn</h4>
      		 				</div>
  							<div class="modal-body">
-  								<div class="dropdown">
-  									<select id="numOfPlayers">
-    									<option value="1">1 Spelare</option>
-									   	<option value="2">2 Spelare</option>
-									    <option value="3">3 Spelare</option>
-									    <option value="4">4 Spelare</option>
-  									</select>
-  									<div class="playerValues">
-  										<input type="text" placeholder="Namn spelare 1" autofocus>
-  									</div>
- 								</div>
+								<div class="playerValues">
+									<input id="playerName" type="text" placeholder="Ditt namn">
+								</div>
 							</div>
     						<div class="modal-footer">
     							<div class="row">
@@ -201,9 +193,38 @@
     								</div>
     								<div class="col-xs-5">
     									<button type="button" class="btn btn-primary" id="startGame">Starta spel</button>
+    									<button type="button" class="btn btn-primary" id="joinGame">Gå med i spel</button>
     								</div>
     							</div>
       						</div>
+    					</div><!-- /.modal-content -->
+  					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade" id="gameFullModal" data-backdrop="static" data-keyboard="false" role="dialog">
+  					<div class="modal-dialog" role="document">
+  						<div class="modal-content">
+      						<div class="modal-header">
+        						<h4 class="modal-title">Spelet är fullt.</h4>
+     		 				</div>
+ 							<div class="modal-body">
+								<div>
+									<p>Vänligen försök senare.</p>
+								</div>
+							</div>
+    					</div><!-- /.modal-content -->
+  					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+								<div class="modal fade" id="waitingModal" data-backdrop="static" data-keyboard="false" role="dialog">
+  					<div class="modal-dialog" role="document">
+  						<div class="modal-content">
+      						<div class="modal-header">
+        						<h4 class="modal-title">Annan spelares tur.</h4>
+     		 				</div>
+ 							<div class="modal-body">
+								<div>
+									<p>Vänligen vänta på din tur.</p>
+								</div>
+							</div>
     					</div><!-- /.modal-content -->
   					</div><!-- /.modal-dialog -->
 				</div><!-- /.modal -->

@@ -4,6 +4,8 @@ class Game{
 		this.scoreBoards = scoreBoards;
 		this.currentPlayer = 0;
 		this.turnActive = true;
+		this.gameOver = 'false';
+		this.resultDisplayed = false;
 		//array used to loop through Ids
 		this.listOfBonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
@@ -24,6 +26,7 @@ class Game{
 			$('#'+ 'player' + (i+1) ).html(shortName+'...');
 		}
 
+		this.dbConnection = new DbConnector();
 	}
 
 	countNumberOfDiceSideOccurences(){ 
@@ -308,22 +311,54 @@ class Game{
 	createEventForElement(){
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
 			
-			let elementFound = document.getElementById(this.currentPlayer + '-' +  this.listOfBonusScores[i]);
+			console.log('wat');
 
 			//to make activeGame a reference to the current Game object since we need to use the 
 			//"this" argument when retrieving info from the element
 			let activeGame = this;
 
 			if(!(i===6 || i===this.listOfBonusScores.length-1 || i===7)){
-				elementFound.addEventListener("click", function(){
+				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).bind("click", function(){
+
+					
 
 					let splittedId = $(this).attr('id').split('-');
-					if(splittedId[0] == activeGame.currentPlayer){
+
+
+					if(splittedId[0] == parseInt(sessionStorage.playerNumber) && sessionStorage.playerNumber == activeGame.currentPlayer){
 						let currentElement = document.getElementById($(this).attr('id'));
 
 						if(currentElement.getAttribute('disabled') === 'false'){
 							currentElement.setAttribute('disabled','true');
 							currentElement.style.color = "black";
+
+							let listOfScores = [];
+							listOfScores.push(splittedId[1]);
+							listOfScores.push(parseInt($(this).text()));
+
+							if (splittedId[1]<7) {
+								listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].bonusScore+parseInt($(this).text()));
+								if(activeGame.scoreBoards[activeGame.currentPlayer].bonusScore+parseInt($(this).text()) >= 63){
+									listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].bonus);
+								}
+								else{
+									listOfScores.push(null);
+								}
+							}
+							else{
+								listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].bonusScore);
+								listOfScores.push(null);
+							}
+
+							listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].totalScore+parseInt($(this).text()));
+
+
+
+
+							listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].scoreBoardId);
+
+
+							activeGame.dbConnection.writeScoreBoardToDbUpdate(listOfScores);
 
 							//sets totalRolls to 0 since the turn is over after choosing
 							//a points option
@@ -348,12 +383,27 @@ class Game{
 
 	}
 
+
+	removeEventForElement(){
+		console.log('remove shit');
+		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
+		
+
+			if(!(i===6 || i===this.listOfBonusScores.length-1 || i===7)){
+				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).unbind();
+			}
+		}
+	}
+
+
 	//prints possible outcomes, ignoring the elements that have previously
 	//been disabled
 	possibleOutcomes(){
+		console.log(this.currentPlayer);
+
 		this.emptyScoreBoard();
-		this.createEventForElement();
 		
+		this.createEventForElement();
 
 		//array of all methods to be applied when calculating a score
 		//to be displayed
@@ -408,72 +458,25 @@ class Game{
 }
 
 	testRoll() {
-		
-		$('#'+ 'player' + (this.currentPlayer+1)).addClass('red');	
-
-		for (var i = 0; i < this.listOfBonusScores.length; i++) {
-				console.log("iii")
-				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).addClass('red');
-			}
-		
-
-		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
-			this.scoreBoards[this.currentPlayer].totalRolls--;
-			this.lockCheckedDices();
-			
-				
-			for(let dice of this.scoreBoards[this.currentPlayer].dices) {
-
-				dice.clearDicesInDOM();
-				
-				dice.roll();
-				
-				dice.writeDiceToDOM();
-
-
-				if(!($('#check-container-' + dice.diceNumber).attr('locked') === 'true')){
-					$("#dice-container-" + dice.diceNumber).addClass("animateDice" + dice.diceNumber);
-					
+		console.log('new turn! current player is: ', this.currentPlayer);
+		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer){
+			if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
+				this.scoreBoards[this.currentPlayer].totalRolls--;
+				this.lockCheckedDices();
+				for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+					dice.clearDicesInDOM();
+					dice.roll();
+					dice.writeDiceToDOM();
 				}
 
-
-				let element = document.getElementById("dice-container-" + dice.diceNumber);
-				console.log("for sparta", element);
-				element.addEventListener('animationend', function(){
-					
-					let splittedId = this.id.split('-');
-					$(this).removeClass("animateDice" + splittedId[2]);
-
-					
-				});
-				
-				
-
-				
-
+				this.possibleOutcomes();
+			}else{
+				console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
 			}
 
-			this.possibleOutcomes();
-		}else{
-			console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
-			
 		}
 
-
-		/*$("#dice-container-0>img").effect("shake",50);
-		$("#dice-container-1>img").effect("shake",50);
-		$("#dice-container-2>img").effect("shake",50);
-		$("#dice-container-3>img").effect("shake",50);
-		$("#dice-container-4>img").effect("shake",50);*/
-
-
-
-		
-
-
-
-		
-
+		this.scoreBoards[this.currentPlayer].turnStarted = true;
 
 	}
 
@@ -495,6 +498,7 @@ class Game{
 	}
 
 	uncheckDices(){
+		console.log('uncheck');
 		var checkBoxes = $('.check-container');
 		for(let checkBox of checkBoxes) {
 
@@ -527,24 +531,30 @@ class Game{
 			}
 
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
+			this.scoreBoards[this.currentPlayer].turnStarted = false;
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 
 			this.scoreBoards[this.currentPlayer].turnCounter++;
 			console.log(this.scoreBoards[this.currentPlayer].turnCounter);
 			this.checkIfGameIsOver();
-
 			this.currentPlayer++;
+			this.dbConnection.updateCurrentPlayer(this.currentPlayer);
 			this.uncheckDices();
+			this.removeEventForElement();
+			this.emptyScoreBoard();
+			if(this.scoreBoards.length > 1){
+				$('#waitingModal').modal('show');
+			}
 			if(this.currentPlayer === this.scoreBoards.length){
 				this.currentPlayer = 0;
+				this.dbConnection.updateCurrentPlayer(this.currentPlayer);
 			}
-			this.testRoll();
 		}
 	}
 
 	checkIfGameIsOver(){
 		let noMoreTurns = false;
-
+		console.log('game over?');
 		for(let scoreBoard of this.scoreBoards){
 			if(scoreBoard.turnCounter >= 15){
 				noMoreTurns = true;
@@ -553,13 +563,35 @@ class Game{
 			}
 		}
 
-		if(noMoreTurns){
-			this.insertPlacementOfMatch();
-			$('#gameOverModal').modal('show');
+		if(noMoreTurns && this.resultDisplayed === false || this.gameOver === 'true' && this.resultDisplayed === false){
+			this.gameOver = 'true';
+			this.resultDisplayed = true;
 			var dbConnection = new DbConnector();
-			dbConnection.writeFinishedMatchToDb(this.scoreBoards);
+			dbConnection.endGame(sessionStorage.matchId);
+			this.updateScoreBoards();
+
+			this.insertPlacementOfMatch();
+			$('#waitingModal').modal('hide');
+			$('#gameOverModal').modal('show');
+		
+			if(noMoreTurns && this.gameOver === 'true'){
+				dbConnection.readScoreBoardFromDb(this.writeResultsToDb);
+			}
 		}
 
+	}
+
+	updateScoreBoards(){
+
+		for(let i = 0; i < this.scoreBoards.length; i++){
+			this.scoreBoards[i].totalScore = parseInt($('#' + i + '-totalSum').text());
+		}
+		
+	}
+
+	writeResultsToDb(results){
+		var dbConnection = new DbConnector();
+		dbConnection.writeFinishedMatchToDb(results);
 	}
 
 	insertPlacementOfMatch(){
@@ -578,6 +610,8 @@ class Game{
 		}
 
 	}
+
+
 
 	changeOrderOfScoreBoardsFromMatchPlacement(){
 		this.scoreBoards.sort(function(a, b){
@@ -599,4 +633,57 @@ class Game{
 
 	}	
 
+	updateGameInfo(gameState){
+		this.currentPlayer = gameState[0].current_player;
+		this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
+		this.gameOver = gameState[0].game_over;
+		 if(this.gameOver === 'true'){
+		 	this.checkIfGameIsOver();
+		 }
+		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
+		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
+			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
+			$('#waitingModal').modal('hide');
+			this.testRoll();
+			
+		}
+
+		if(this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted === false && this.scoreBoards.length > 1){
+			$('#waitingModal').modal('show');
+		}
+
+	}
+
+	printScoreBoardsToDOMFromDb(scoreBoards){
+		console.log('Detta ska finnas', scoreBoards);
+		
+		let bonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+		for(let i=0; i<scoreBoards.length; i++){
+			if(parseInt(sessionStorage.playerNumber) !== scoreBoards[i].player_number){
+				for(let val in scoreBoards[i]){
+						if(bonusScores.indexOf(val) > -1){
+							let elementFound = document.getElementById(scoreBoards[i].player_number + '-' +  val);
+							if(elementFound.getAttribute('disabled') === 'false' && scoreBoards[i][val] !== null){
+								elementFound.setAttribute('disabled','true');
+								$('#'+ scoreBoards[i].player_number + '-' +  val).append(scoreBoards[i][val]);
+								elementFound.style.color="black";
+							}
+							if(val === 'sum' || val === 'totalSum' || val === 'bonus'){
+								$('#'+ scoreBoards[i].player_number + '-' +  val).empty();
+								$('#'+ scoreBoards[i].player_number + '-' +  val).append(scoreBoards[i][val]);
+							}
+						}
+					
+						
+					
+
+
+				}
+			} 
+		}	
+	}	
 }
