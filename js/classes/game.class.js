@@ -554,7 +554,7 @@ class Game{
 		let previousTotalScore = 0;
 		for(let scoreBoard of this.scoreBoards){
 			if(previousTotalScore != scoreBoard.totalScore) {
-				$('#placements>ol').append(`<li><span>${scoreBoard.playerName}</span>: ${scoreBoard.totalScore}</li>`);	
+				$('#placements>ol').append(`<li><span>${scoreBoard.playerName}</span>: ${scoreBoard.totalScore} poäng</li>`);	
 			} else {
 				$('#placements>ol>li:last-child>span').append(`, ${scoreBoard.playerName}`);
 			}
