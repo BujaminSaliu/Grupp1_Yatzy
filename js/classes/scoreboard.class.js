@@ -1,6 +1,7 @@
 class ScoreBoard {
 
-	constructor(playerName, playerNumber){
+	constructor(playerName, playerNumber, scoreBoardId){
+		this.scoreBoardId = scoreBoardId;
 		this.playerName = playerName;
 		this.playerNumber = playerNumber;
 		this.turnStarted = false;
@@ -10,7 +11,7 @@ class ScoreBoard {
 		this.bonus = 50; 
 		this.totalScore = 0;
 		this.totalRolls = 3;
-		this.turnCounter = 0; 
+		this.turnCounter = 0;
 
 		this.dbConnection = new DbConnector();
 

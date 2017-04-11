@@ -4,6 +4,7 @@ class Game{
 		this.scoreBoards = scoreBoards;
 		this.currentPlayer = 0;
 		this.turnActive = true;
+		this.gameOver = false;
 		//array used to loop through Ids
 		this.listOfBonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
@@ -317,11 +318,9 @@ class Game{
 			if(!(i===6 || i===this.listOfBonusScores.length-1 || i===7)){
 				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).bind("click", function(){
 
-					let splittedId = $(this).attr('id').split('-');
 					
-					console.log('thing 1', splittedId[0]);
-					console.log('thing 2', sessionStorage.playerNumber);
-					console.log('thing 3', activeGame.currentPlayer);
+
+					let splittedId = $(this).attr('id').split('-');
 
 
 					if(splittedId[0] == parseInt(sessionStorage.playerNumber) && sessionStorage.playerNumber == activeGame.currentPlayer){
@@ -330,6 +329,34 @@ class Game{
 						if(currentElement.getAttribute('disabled') === 'false'){
 							currentElement.setAttribute('disabled','true');
 							currentElement.style.color = "black";
+
+							let listOfScores = [];
+							listOfScores.push(splittedId[1]);
+							listOfScores.push(parseInt($(this).text()));
+
+							if (splittedId[1]<7) {
+								listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].bonusScore+parseInt($(this).text()));
+								if(activeGame.scoreBoards[activeGame.currentPlayer].bonusScore+parseInt($(this).text()) >= 63){
+									listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].bonus);
+								}
+								else{
+									listOfScores.push(null);
+								}
+							}
+							else{
+								listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].bonusScore);
+								listOfScores.push(null);
+							}
+
+							listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].totalScore+parseInt($(this).text()));
+
+
+
+
+							listOfScores.push(activeGame.scoreBoards[activeGame.currentPlayer].scoreBoardId);
+
+
+							activeGame.dbConnection.writeScoreBoardToDbUpdate(listOfScores);
 
 							//sets totalRolls to 0 since the turn is over after choosing
 							//a points option
@@ -486,8 +513,6 @@ class Game{
 
 	endTurn(){
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
-			
-			
 			this.scoreBoards[this.currentPlayer].turnStarted = false;
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 
@@ -498,6 +523,7 @@ class Game{
 			this.dbConnection.updateCurrentPlayer(this.currentPlayer);
 			this.uncheckDices();
 			this.removeEventForElement();
+			this.emptyScoreBoard();
 
 
 			if(this.currentPlayer === this.scoreBoards.length){
@@ -518,13 +544,33 @@ class Game{
 			}
 		}
 
-		if(noMoreTurns){
+		if(noMoreTurns || this.gameOver){
+			this.gameOver = true;
+			var dbConnection = new DbConnector();
+
+			this.updateScoreBoards();
+
 			this.insertPlacementOfMatch();
 			$('#gameOverModal').modal('show');
-			var dbConnection = new DbConnector();
-			dbConnection.writeFinishedMatchToDb(this.scoreBoards);
+		
+			if(noMoreTurns && this.gameOver){
+				dbConnection.readScoreBoardFromDb(this.writeResultsToDb);
+			}
 		}
 
+	}
+
+	updateScoreBoards(){
+
+		for(let i = 0; i < this.scoreBoards.length; i++){
+			this.scoreBoards[i].totalScore = parseInt($('#' + i + '-totalSum').text());
+		}
+		
+	}
+
+	writeResultsToDb(results){
+		var dbConnection = new DbConnector();
+		dbConnection.writeFinishedMatchToDb(results);
 	}
 
 	insertPlacementOfMatch(){
@@ -543,6 +589,8 @@ class Game{
 		}
 
 	}
+
+
 
 	changeOrderOfScoreBoardsFromMatchPlacement(){
 		this.scoreBoards.sort(function(a, b){
@@ -565,13 +613,48 @@ class Game{
 	}	
 
 	updateGameInfo(newCurrentPlayer){
-
 		this.currentPlayer = newCurrentPlayer;
+		if(this.gameOver === true){
+			$('#gameOverModal').modal('show');
+		}
 		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
+			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 			this.testRoll();
 			
 		}
-	}	
+	}
 
+	printScoreBoardsToDOMFromDb(scoreBoards){
+		console.log('Detta ska finnas', scoreBoards);
+		
+		let bonusScores = ['1', '2', '3', '4', '5',
+		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
+		'fourOfAKind', 'smallStraight', 'largeStraight', 
+		'fullHouse', 'chance', 'yahtzee', 'totalSum'];
+
+		for(let i=0; i<scoreBoards.length; i++){
+			if(parseInt(sessionStorage.playerNumber) !== scoreBoards[i].player_number){
+				for(let val in scoreBoards[i]){
+						if(bonusScores.indexOf(val) > -1){
+							let elementFound = document.getElementById(scoreBoards[i].player_number + '-' +  val);
+							if(elementFound.getAttribute('disabled') === 'false' && scoreBoards[i][val] !== null){
+								elementFound.setAttribute('disabled','true');
+								$('#'+ scoreBoards[i].player_number + '-' +  val).append(scoreBoards[i][val]);
+								elementFound.style.color="black";
+							}
+							if(val === 'sum' || val === 'totalSum' || val === 'bonus'){
+								$('#'+ scoreBoards[i].player_number + '-' +  val).empty();
+								$('#'+ scoreBoards[i].player_number + '-' +  val).append(scoreBoards[i][val]);
+							}
+						}
+					
+						
+					
+
+
+				}
+			} 
+		}	
+	}	
 }

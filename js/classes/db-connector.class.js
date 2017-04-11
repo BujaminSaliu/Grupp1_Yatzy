@@ -12,6 +12,7 @@ class DbConnector extends Base{
 	}
 
 	getLatestMatchIdFromDb(scoreBoards){
+		console.log('SCOREBOARDS', scoreBoards);
 		this.db.getLatestMatchId((data)=>{
 			this.writeFinishedMatchPlayersToDb(data[0].idMatch, scoreBoards);
 		});	
@@ -19,14 +20,14 @@ class DbConnector extends Base{
 
 	writeFinishedMatchPlayersToDb(matchId, scoreBoards){
 		console.log(matchId);
+		
 		for(var scoreBoard of scoreBoards){
+			console.log('SECOND SCOREBOARDS', scoreBoard.player_name, scoreBoard.totalSum, scoreBoard.Current_match_idMatch, scoreBoard);
 			this.db.writePlayerToDb({
-	        	name: scoreBoard.playerName,
-	        	score: scoreBoard.totalScore,
+	        	name: scoreBoard.player_name,
+	        	score: scoreBoard.totalSum,
 	        	Matches_idMatch: matchId
   			});
-
-  			console.log('written to db', scoreBoard.playerName);
 		}
 	}
 
@@ -94,7 +95,6 @@ class DbConnector extends Base{
 
 	readScoreBoardFromDb(callback){
 		this.db.readScoreBoardFromDb((scoreboards)=>{
-			console.log(scoreboards);
 			callback(scoreboards);
 		});	
 	}
@@ -109,6 +109,13 @@ class DbConnector extends Base{
 		this.db.setGameState({
 			idMatch: match	
 		});
+	}
+
+	writeScoreBoardToDbUpdate(arrayOfScores){
+		console.log('skrivs till db', arrayOfScores);
+		this.db.writeScoreBoardToDbUpdate(
+			[arrayOfScores[0], arrayOfScores[1], arrayOfScores[2], arrayOfScores[3], arrayOfScores[4], arrayOfScores[5]]
+		);
 	}
 
 	updateCurrentPlayer(currentPlayer){
@@ -158,7 +165,7 @@ class DbConnector extends Base{
       	INSERT Scoreboards SET ?
       `,
       writeScoreBoardToDbUpdate: `
-
+      	UPDATE Scoreboards SET ??=?, sum = ?, bonus = ?, totalSum = ? WHERE idScoreboards = ?
       `,
       readScoreBoardFromDb: `
       	SELECT * FROM Scoreboards

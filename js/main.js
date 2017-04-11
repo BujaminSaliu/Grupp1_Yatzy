@@ -140,8 +140,9 @@ function createScoreboards(scoreBoardsFromDb){
 	this.scoreBoards = [];
 
  	for(let i = 0; i < scoreBoardsFromDb.length; i++){
- 		let scoreBoard = new ScoreBoard(scoreBoardsFromDb[i].player_name, scoreBoardsFromDb[i].player_number);
+ 		let scoreBoard = new ScoreBoard(scoreBoardsFromDb[i].player_name, scoreBoardsFromDb[i].player_number, scoreBoardsFromDb[i].idScoreboards);
  		scoreBoards.push(scoreBoard);
+
  	}
 
  	scoreBoards.sort(function(a, b){
