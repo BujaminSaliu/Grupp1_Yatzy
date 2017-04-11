@@ -112,7 +112,7 @@
 .dice-container>img {
 	width: 100%;
 	height: 100%;
-	opacity: 0.9;
+	opacity: 0.8;
 }
 
 .dices-in-play, .check-boxes, .buttons {
@@ -156,7 +156,6 @@ nav {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	background-color: rgb(0, 0, 180);
 	width: 100%;
 	z-index: 1;
 }
@@ -311,14 +310,19 @@ tbody>tr:nth-child(18){
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-	.hideable {
+.hideable {
 		display: flex;
 	}
-
-	.score-board, .high-scores {
+.score-board, .high-scores {
 		padding-top: 15%;
 		padding-bottom: 0%;
 	}
+
+.dice-container>img {
+	width: 90%;
+	height: 100%;
+	opacity: 0.8;
+}
 
 }
 
@@ -328,7 +332,40 @@ tbody>tr:nth-child(18){
 }
 
 /* Extra Small Devices, Phones */ 
-@media only screen and (max-width : 480px) {
+@media only screen and (max-width : 376px) {
+.dice-container>img {
+	width: 150%;
+	height: 125%;
+	opacity: 0.8;
+}
+}
+/*Mobile landscape view*/	
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape)  {
+nav.hideable{
+	display: none;
+}
+div#score-board{
+	display: none;
+}
+div#game-board{
+	display: none;
+}
+div#high-scores{
+	display: none;
+}
+body.modal-open{
+	display: none;
+}
+body{
+	background-color: black;
+	background-image: url("/img/turn1.png");
 
 }
 
+
+
+}
