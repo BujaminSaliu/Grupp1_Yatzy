@@ -409,6 +409,13 @@ class Game{
 
 	testRoll() {
 		
+		$('#'+ 'player' + (this.currentPlayer+1)).addClass('red');	
+
+		for (var i = 0; i < this.listOfBonusScores.length; i++) {
+				console.log("iii")
+				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).addClass('red');
+			}
+		
 
 		if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
 			this.scoreBoards[this.currentPlayer].totalRolls--;
@@ -512,6 +519,13 @@ class Game{
 	}
 
 	endTurn(){
+
+		$('#'+ 'player' + (this.currentPlayer+1)).removeClass('red');	
+		for (var i = 0; i < this.listOfBonusScores.length; i++) {
+				console.log("iii")
+				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).removeClass('red');
+			}
+
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 
