@@ -182,10 +182,12 @@ nav a:hover, nav a:focus {
 .table-bordered{
 	font-size: 15px;
 	margin: 0;
+	color:black;
 }
 
 .table-bordered>tbody>tr>td{
 	padding:0;
+	color:black;
 }
 
 .table-bordered>thead>tr>th{
@@ -194,21 +196,25 @@ nav a:hover, nav a:focus {
 	overflow:hidden;
 	text-align: center;	
 	word-wrap:break-word;
-;
+	background-color: #47484a;
+
+
 }
 
 .table-bordered>tbody>tr>th{
 	padding:0px;
 	text-align: left;	
 	word-wrap:break-word;
-	background-color: #CD853F;
-	opacity: 150%;
+	background-color: #47484a;
+	
 }
 
 .table-bordered>thead>tr>th:first-child{
+	background-color: #47484a; 
 	text-align: left;
 	font-weight: bold;
 	padding:0;
+
 }
 
 td{
@@ -219,22 +225,27 @@ td{
 	text-align: left;
 }
 
-tbody>tr:nth-child(7){
-	
-	
-	
+tbody>tr:nth-child(7){ 
+   
+  	background-color: #47484a; 
+  	opacity: 0.7; 
+  	font-weight: bold; 
+   
 }
-tbody>tr:nth-child(8){
-	
-	
-	
-}
-tbody>tr:nth-child(18){
-	
-	background-color: #CD853F;
-	opacity: 0.7;
-}
+   
+   
+tr:nth-child(8){ 
+  	background-color: #47484a; 
+  	opacity: 0.7; 
+  	font-weight: bold; 
+} 
 
+tbody>tr:nth-child(18){ 
+   
+  	background-color: #47484a; 
+  	opacity: 0.7; 
+  	font-weight: bold; 
+}
 
 .dice-container.animateDice0{
 	
@@ -305,7 +316,7 @@ tbody>tr:nth-child(18){
 	}
 
 .red{
-	background-color: #778899;
+	background-color: #47484a;
 	opacity: 0.7;
 }
 
