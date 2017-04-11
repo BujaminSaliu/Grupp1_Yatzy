@@ -467,6 +467,17 @@ class Game{
 					dice.clearDicesInDOM();
 					dice.roll();
 					dice.writeDiceToDOM();
+
+					if(!($('#check-container-' + dice.diceNumber).attr('locked') === 'true')){
+						$("#dice-container-" + dice.diceNumber).addClass("animateDice" + dice.diceNumber);
+					}	
+
+					let element = document.getElementById("dice-container-" + dice.diceNumber);
+					console.log("for sparta", element);
+					element.addEventListener('animationend', function(){
+						let splittedId = this.id.split('-');
+						$(this).removeClass("animateDice" + splittedId[2]);
+					});
 				}
 
 				this.possibleOutcomes();
