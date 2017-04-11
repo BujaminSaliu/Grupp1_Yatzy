@@ -339,13 +339,30 @@ tbody>tr:nth-child(18){
 	opacity: 0.8;
 }
 }
+/*Mobile landscape view*/	
 @media only screen 
   and (min-device-width: 375px) 
-  and (max-device-width: 667px) 
+  and (max-device-width: 667px)
   and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) { 
+  and (orientation: landscape)  {
+nav.hideable{
+	display: none;
+}
+div#score-board{
+	display: none;
+}
+div#game-board{
+	display: none;
+}
+div#high-scores{
+	display: none;
+}
+body.modal-open{
+	display: none;
+}
 body{
-	background-image: url("/img/turn.png");
+	background-color: black;
+	background-image: url("/img/turn1.png");
 
 }
 
