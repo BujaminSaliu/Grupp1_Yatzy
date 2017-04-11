@@ -111,12 +111,10 @@ class DbConnector extends Base{
 		});
 	}
 
-	updateCurrentPlayer(currentPlayer, callback, activeGame){
+	updateCurrentPlayer(currentPlayer){
 		console.log(currentPlayer);
 		this.db.updateCurrentPlayer({
 			current_player: currentPlayer	
-		},()=>{
-			callback(activeGame);	
 		});	
 	}
 

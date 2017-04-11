@@ -181,7 +181,7 @@ function createScoreboards(scoreBoardsFromDb){
 
 function currentPlayerCheck(gameState){
 	console.log('current player:', gameState[0].current_player, this.currentGame.currentPlayer, parseInt(sessionStorage.playerNumber));
-	console.log('has my turn started?', this.currentGame.scoreBoards[gameState[0].current_player].turnStarted, this.currentGame.scoreBoards[gameState[0].current_player].playerName);
+//	console.log('has my turn started?', this.currentGame.scoreBoards[gameState[0].current_player].turnStarted, this.currentGame.scoreBoards[gameState[0].current_player].playerName);
 	this.currentGame.updateGameInfo(gameState[0].current_player);
 
 	

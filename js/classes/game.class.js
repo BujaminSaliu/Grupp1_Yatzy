@@ -438,6 +438,8 @@ class Game{
 			}
 		}
 
+		this.scoreBoards[this.currentPlayer].turnStarted = true;
+
 	}
 
 	lockCheckedDices() {
@@ -485,28 +487,24 @@ class Game{
 	endTurn(){
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			
-			let activeGame = this;
-
+			
+			this.scoreBoards[this.currentPlayer].turnStarted = false;
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 
 			this.scoreBoards[this.currentPlayer].turnCounter++;
 			console.log(this.scoreBoards[this.currentPlayer].turnCounter);
 			this.checkIfGameIsOver();
 			this.currentPlayer++;
-			this.dbConnection.updateCurrentPlayer(this.currentPlayer, this.resetTurn, activeGame);
+			this.dbConnection.updateCurrentPlayer(this.currentPlayer);
 			this.uncheckDices();
 			this.removeEventForElement();
 
 
 			if(this.currentPlayer === this.scoreBoards.length){
 				this.currentPlayer = 0;
-				this.dbConnection.updateCurrentPlayer(this.currentPlayer, this.resetTurn, activeGame);
+				this.dbConnection.updateCurrentPlayer(this.currentPlayer);
 			}
 		}
-	}
-
-	resetTurn(activeGame){
-		activeGame.scoreBoards[activeGame.currentPlayer].turnStarted = false;
 	}
 
 	checkIfGameIsOver(){
@@ -569,10 +567,10 @@ class Game{
 	updateGameInfo(newCurrentPlayer){
 
 		this.currentPlayer = newCurrentPlayer;
-		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[this.currentPlayer].turnStarted);
+		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
 			this.testRoll();
-			this.scoreBoards[this.currentPlayer].turnStarted === true;
+			
 		}
 	}	
 
