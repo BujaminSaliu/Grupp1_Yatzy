@@ -674,12 +674,24 @@ class Game{
 
 
 			for(let dice of newDices) {
-					console.log('dice', dice);
-					console.log('first function', dice.clearDicesInDOM);
-					console.log('second function', dice.writeDiceToDOM);
 					dice.clearDicesInDOM();
 					dice.writeDiceToDOM();
 					activeGame.possibleOutcomes();
+					if(dice.locked === false){
+						$("#dice-container-" + dice.diceNumber).addClass("animateDice" + dice.diceNumber);
+					}
+
+
+					let element = document.getElementById("dice-container-" + dice.diceNumber);
+					console.log("for sparta", element);
+					element.addEventListener('animationend', function(){
+						let splittedId = this.id.split('-');
+						$(this).removeClass("animateDice" + splittedId[2]);
+						let rollDicesElement = document.getElementById('roll-dices');
+						rollDicesElement.setAttribute('rolling', 'false');
+					});
+
+
 				}
 
 

@@ -95,26 +95,28 @@ function start(players) {
 		});
 
 		$('.dice-container').on('click', function(){
-			let splittedId = this.id.split('-');
+			if(parseInt(sessionStorage.playerNumber) === currentGame.currentPlayer){
+				let splittedId = this.id.split('-');
 
-			let foundDice = $('#check-container-'+splittedId[2]);
-			let foundDiceId = $(this).find("img").attr('data-id');
-
-			if(!($('#check-container-' + splittedId[2]).attr('locked') === 'true')){
-				var audio = new Audio('audio/locking-sound.mp3');
-				audio.play();
-				$('#check-container-' + splittedId[2]).attr('locked', 'true');
-				foundDice.append('<IMG data-id=' + foundDiceId + ' SRC=img/padlock.png>');
-				foundDice.addClass('AnimateLock');
-				
-				
-			} else {
-				$('#check-container-' + splittedId[2]).attr('locked', false);
-				$('#check-container-'+splittedId[2]+ ' img').remove();
-				
 				let foundDice = $('#check-container-'+splittedId[2]);
-				foundDice.removeClass('AnimateLock');
+				let foundDiceId = $(this).find("img").attr('data-id');
 
+				if(!($('#check-container-' + splittedId[2]).attr('locked') === 'true')){
+					var audio = new Audio('audio/locking-sound.mp3');
+					audio.play();
+					$('#check-container-' + splittedId[2]).attr('locked', 'true');
+					foundDice.append('<IMG data-id=' + foundDiceId + ' SRC=img/padlock.png>');
+					foundDice.addClass('AnimateLock');
+					
+					
+				} else {
+					$('#check-container-' + splittedId[2]).attr('locked', false);
+					$('#check-container-'+splittedId[2]+ ' img').remove();
+					
+					let foundDice = $('#check-container-'+splittedId[2]);
+					foundDice.removeClass('AnimateLock');
+
+				}
 			}
 		});
 	}
