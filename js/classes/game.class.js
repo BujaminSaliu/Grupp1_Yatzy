@@ -742,9 +742,20 @@ class Game{
 		 }
 		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
+			
+
+			$('#'+ 'player' + (this.currentPlayer+1)).addClass('red');
+
+			for (var i = 0; i < this.listOfBonusScores.length; i++) {
+				console.log("iii")
+				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).addClass('red');
+			}
+
 			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 
 			this.testRoll();
+
+
 			
 		}
 
