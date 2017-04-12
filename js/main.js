@@ -6,6 +6,7 @@ var gameStartTimer = setInterval(function(){
 	dbConnection.getGameState(startGame);
 }, 200);
 
+
 function startGame(gameState){
 	console.log(gameState[0].started);
 	if(gameState[0].started === 'true'){
@@ -13,6 +14,10 @@ function startGame(gameState){
 		dbConnection.readScoreBoardFromDb(createScoreboards);
 		clearInterval(gameStartTimer);
 	}
+}
+
+function reDrawOutcomes(){
+	this.currentGame.possibleOutcomes();
 }
 
 function init(){
@@ -138,10 +143,12 @@ function provideInputFields(numOfPlayers){
 function createScoreboards(scoreBoardsFromDb){
 	console.log('Info från bd', scoreBoardsFromDb);
 	this.scoreBoards = [];
-
  	for(let i = 0; i < scoreBoardsFromDb.length; i++){
  		let scoreBoard = new ScoreBoard(scoreBoardsFromDb[i].player_name, scoreBoardsFromDb[i].player_number, scoreBoardsFromDb[i].idScoreboards);
  		scoreBoards.push(scoreBoard);
+ 		if(scoreBoardsFromDb[i].player_number === parseInt(sessionStorage.playerNumber)){
+ 			sessionStorage.idScoreboards = scoreBoardsFromDb[i].idScoreboards;
+ 		}
 
  	}
 
@@ -152,14 +159,20 @@ function createScoreboards(scoreBoardsFromDb){
 		    if(keyA < keyB) return -1;
 		    return 0;
 		});
-	
+
+ 	this.dbConnection.writeDiceToDbInsert(this.scoreBoards[parseInt(sessionStorage.playerNumber)].dices);
+
 	$('#myModal').modal('hide');
 	this.currentGame = new Game(this.scoreBoards);
 
 	var checkCurrentPlayerTimer = setInterval(function(){
 	
 		dbConnection.getGameState(currentPlayerCheck);
-	}, 200);
+	}, 500);
+
+	var gameRedrawTimer = setInterval(function(){
+		reDrawOutcomes();
+	}, 40);
 
 	let listOfBonusScores = ['1', '2', '3', '4', '5',
 	'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 

@@ -6,6 +6,8 @@ class Game{
 		this.turnActive = true;
 		this.gameOver = 'false';
 		this.resultDisplayed = false;
+		this.currentRolls = 3;
+		this.maxRolls = 3;
 		//array used to loop through Ids
 		this.listOfBonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
@@ -449,6 +451,9 @@ class Game{
 	}
 
 	testRoll() {
+
+		var dbConnection = new DbConnector();
+
 		console.log('new turn! current player is: ', this.currentPlayer);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer){
 			if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
@@ -467,6 +472,11 @@ class Game{
 		}
 
 		this.scoreBoards[this.currentPlayer].turnStarted = true;
+		if(this.currentPlayer === parseInt(sessionStorage.playerNumber)){
+			let activeGame = this;
+			this.dbConnection.writeDiceToDbUpdate(this.scoreBoards[this.currentPlayer].dices, activeGame);
+		}
+		
 
 	}
 
@@ -516,18 +526,21 @@ class Game{
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			this.scoreBoards[this.currentPlayer].turnStarted = false;
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
-
+			this.maxRolls = 3;
 			this.scoreBoards[this.currentPlayer].turnCounter++;
 			console.log(this.scoreBoards[this.currentPlayer].turnCounter);
 			this.checkIfGameIsOver();
+
+			let activeGame = this;
+
+			this.dbConnection.writeDiceToDbUpdate(this.scoreBoards[this.currentPlayer].dices, activeGame);
+
 			this.currentPlayer++;
 			this.dbConnection.updateCurrentPlayer(this.currentPlayer);
 			this.uncheckDices();
 			this.removeEventForElement();
 			this.emptyScoreBoard();
-			if(this.scoreBoards.length > 1){
-				$('#waitingModal').modal('show');
-			}
+
 			if(this.currentPlayer === this.scoreBoards.length){
 				this.currentPlayer = 0;
 				this.dbConnection.updateCurrentPlayer(this.currentPlayer);
@@ -554,7 +567,7 @@ class Game{
 			this.updateScoreBoards();
 
 			this.insertPlacementOfMatch();
-			$('#waitingModal').modal('hide');
+
 			$('#gameOverModal').modal('show');
 		
 			if(noMoreTurns && this.gameOver === 'true'){
@@ -594,7 +607,54 @@ class Game{
 
 	}
 
+	updateScoreBoardDices(dices, activeGame){
+		console.log('thingys', dices, activeGame);
+		let newDices = [];
+		for(let i = 0; i < dices.length; i++){
+			if(dices[i].player_number === activeGame.currentPlayer){
+				newDices.push(new Dice(dices[i].dice_number));
+			}
+			
+		}
 
+
+		for(let j = 0; j < dices.length; j++){
+			if(dices[j].player_number === activeGame.currentPlayer){
+				
+				let swapboolean = dices[j].locked;
+				if(swapboolean === 'false'){
+					swapboolean = false;
+				}else{
+					swapboolean = true;
+				}
+
+				newDices[dices[j].dice_number].locked = swapboolean;
+				newDices[dices[j].dice_number].currentValue = dices[j].value;
+				activeGame.currentRolls = dices[j].total_rolls;
+			}
+			
+		}
+
+		activeGame.scoreBoards[activeGame.currentPlayer].dices = newDices;
+
+		if(activeGame.currentRolls < activeGame.maxRolls && activeGame.currentRolls > -1){
+			console.log('roll detected!');
+
+
+			for(let dice of newDices) {
+					console.log('dice', dice);
+					console.log('first function', dice.clearDicesInDOM);
+					console.log('second function', dice.writeDiceToDOM);
+					dice.clearDicesInDOM();
+					dice.writeDiceToDOM();
+					activeGame.possibleOutcomes();
+				}
+
+
+			activeGame.maxRolls--;
+		}
+
+	}
 
 	changeOrderOfScoreBoardsFromMatchPlacement(){
 		this.scoreBoards.sort(function(a, b){
@@ -620,19 +680,28 @@ class Game{
 		this.currentPlayer = gameState[0].current_player;
 		this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 		this.gameOver = gameState[0].game_over;
+
+		let activeGame = this;
+
+		if(parseInt(sessionStorage.playerNumber) !== this.currentPlayer){
+			this.dbConnection.readDiceFromDb(this.updateScoreBoardDices, activeGame);
+		}
+		
+		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer){
+			this.possibleOutcomes();
+		}
+
+		console.log('current dices haHE!', this.scoreBoards[this.currentPlayer].dices);
+
 		 if(this.gameOver === 'true'){
 		 	this.checkIfGameIsOver();
 		 }
 		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
 			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
-			$('#waitingModal').modal('hide');
+
 			this.testRoll();
 			
-		}
-
-		if(this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted === false && this.scoreBoards.length > 1){
-			$('#waitingModal').modal('show');
 		}
 
 	}
@@ -652,6 +721,7 @@ class Game{
 							let elementFound = document.getElementById(scoreBoards[i].player_number + '-' +  val);
 							if(elementFound.getAttribute('disabled') === 'false' && scoreBoards[i][val] !== null){
 								elementFound.setAttribute('disabled','true');
+								$('#'+ scoreBoards[i].player_number + '-' +  val).empty();
 								$('#'+ scoreBoards[i].player_number + '-' +  val).append(scoreBoards[i][val]);
 								elementFound.style.color="black";
 							}

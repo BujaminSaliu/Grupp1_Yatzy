@@ -15,7 +15,7 @@ class Dice{
 	
 	writeDiceToDOM(){
 		
-
+		console.log('has this happened?');
 		
 
 		if(!this.locked) {

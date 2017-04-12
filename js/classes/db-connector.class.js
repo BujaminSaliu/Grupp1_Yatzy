@@ -131,6 +131,48 @@ class DbConnector extends Base{
 		});	
 	}
 
+	writeDiceToDbInsert(dices){
+		console.log('pls dices', dices);
+		for(let dice of dices){
+			let stringboolean = 'true';
+			if(dice.locked === true){
+				stringboolean = 'true';
+			}else{
+				stringboolean = 'false';
+			}
+			this.db.writeDiceToDbInsert({
+			locked: stringboolean,
+			value: dice.currentValue,
+			dice_number: dice.diceNumber,
+			player_number: parseInt(sessionStorage.playerNumber),
+			total_rolls: 3,
+			Scoreboards_idScoreboards: parseInt(sessionStorage.idScoreboards)
+			});
+		}
+	}
+
+	writeDiceToDbUpdate(dices, activeGame){
+		for(let dice of dices){
+			console.log('updated dice!', dice, activeGame);
+			let stringboolean = 'true';
+			if(dice.locked === true){
+				stringboolean = 'true';
+			}else{
+				stringboolean = 'false';
+			}
+			this.db.writeDiceToDbUpdate(
+				[stringboolean, dice.currentValue, parseInt(sessionStorage.playerNumber), activeGame.scoreBoards[activeGame.currentPlayer].totalRolls, parseInt(sessionStorage.idScoreboards), dice.diceNumber]
+			);
+		}
+	
+	}
+
+	readDiceFromDb(callback, activeGame){
+		this.db.readDiceFromDb((dices)=>{
+			callback(dices, activeGame);
+		});	
+	}
+
 	static get sqlQueries(){
     //
     // Please note: This part of the class is read by
@@ -173,8 +215,17 @@ class DbConnector extends Base{
       writeScoreBoardToDbUpdate: `
       	UPDATE Scoreboards SET ??=?, sum = ?, bonus = ?, totalSum = ? WHERE idScoreboards = ?
       `,
+      writeDiceToDbInsert: `
+      	INSERT INTO Dices SET ?
+      `,
+      writeDiceToDbUpdate: `
+      	UPDATE Dices SET locked = ?, value = ?, player_number = ?, total_rolls = ? WHERE Scoreboards_idScoreboards = ? AND dice_number = ?
+      `,
       readScoreBoardFromDb: `
       	SELECT * FROM Scoreboards
+      `,
+      readDiceFromDb: `
+      	SELECT * FROM Dices
       `,
       getGameState: `
       	SELECT * FROM current_match

@@ -18,7 +18,9 @@ class ScoreBoard {
 		for(let i = 0; i < 5; i++) {
 			let dice = new Dice(i);
 			this.dices.push(dice);
-		}	
+		}
+
+		this.dbConnection	
 
 	}
 
