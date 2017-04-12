@@ -458,6 +458,12 @@ class Game{
 }
 
 	testRoll() {
+		$('#'+ 'player' + (this.currentPlayer+1)).addClass('red');	
+
+		for (var i = 0; i < this.listOfBonusScores.length; i++) {
+			$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).addClass('red');
+		}
+
 		console.log('new turn! current player is: ', this.currentPlayer);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer){
 			if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
