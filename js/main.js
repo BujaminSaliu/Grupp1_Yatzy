@@ -45,6 +45,8 @@ function start(players) {
 	console.log(sessionStorage, sessionStorage.length);
 	if(sessionStorage.length > 0){
 		$('#myModal').modal('show');
+		let rollDiceElement = document.getElementById('roll-dices');
+		rollDiceElement.setAttribute('rolling', 'true');
 		$('#joinGame').hide();
 
 		if(sessionStorage.playerNumber > 0){
@@ -85,7 +87,11 @@ function start(players) {
 
 
 		$('#roll-dices').on('click', function(){
-			currentGame.testRoll();
+			let elementFound = document.getElementById('roll-dices');
+			if(elementFound.getAttribute('rolling') === 'false'){
+				elementFound.setAttribute('rolling', 'true');
+				currentGame.testRoll();
+			}
 		});
 
 		$('.dice-container').on('click', function(){

@@ -64,6 +64,7 @@
 
 .dice-container, .check-container {
 	text-align: center;
+	z-index: 9;
 }
 
 .check-container.AnimateLock {
@@ -112,22 +113,22 @@
 .dice-container>img {
 	width: 100%;
 	height: 100%;
+	opacity: 0.8;
 }
 
 .dices-in-play, .check-boxes, .buttons {
 	width: 100%;
 	display: flex;
 	justify-content: center;
-}
+}	
 
 .game-board button{
-	color:green;
+	color:#fcf8e3;
 	background-color: black;
 	font-size:20px;
 	margin:5%;
 	padding: 1%;
 }
-
 .modal input{
 	display:block;
 	margin-top:2%;
@@ -156,7 +157,6 @@ nav {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	background-color: rgb(0, 0, 180);
 	width: 100%;
 	z-index: 1;
 }
@@ -181,10 +181,12 @@ nav a:hover, nav a:focus {
 .table-bordered{
 	font-size: 15px;
 	margin: 0;
+	color:black;
 }
 
 .table-bordered>tbody>tr>td{
 	padding:0;
+	color:black;
 }
 
 .table-bordered>thead>tr>th{
@@ -193,20 +195,25 @@ nav a:hover, nav a:focus {
 	overflow:hidden;
 	text-align: center;	
 	word-wrap:break-word;
-	background-color: lightgrey;
+	background-color: #47484a;
+
+
 }
 
 .table-bordered>tbody>tr>th{
 	padding:0px;
 	text-align: left;	
 	word-wrap:break-word;
-	background-color: lightgrey;
+	background-color: #47484a;
+	
 }
 
 .table-bordered>thead>tr>th:first-child{
+	background-color: #47484a; 
 	text-align: left;
 	font-weight: bold;
 	padding:0;
+
 }
 
 td{
@@ -217,18 +224,101 @@ td{
 	text-align: left;
 }
 
-tbody>tr:nth-child(7){
-	
-	background-color: lightgrey;
+tbody>tr:nth-child(7){ 
+   
+  	background-color: #47484a; 
+  	font-weight: bold; 
+   
 }
-tbody>tr:nth-child(8){
-	
-	background-color: lightgrey;
+   
+   
+tr:nth-child(8){ 
+  	background-color: #47484a; 
+  	font-weight: bold; 
+} 
+
+tbody>tr:nth-child(18){ 
+   
+  	background-color: #47484a; 
+  	font-weight: bold; 
 }
-tbody>tr:nth-child(18){
+
+.dice-container.animateDice0{
 	
-	background-color: lightgrey;
+	-webkit-animation-name: slideInDiceZero;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
 }
+
+.dice-container.animateDice1{
+	
+	-webkit-animation-name: slideInDiceOne;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
+}
+
+.dice-container.animateDice2{
+	
+	-webkit-animation-name: slideInDiceTwo;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
+}
+
+.dice-container.animateDice3{
+	
+	-webkit-animation-name: slideInDiceThree;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
+}
+
+.dice-container.animateDice4{
+	
+	-webkit-animation-name: slideInDiceFour;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 1000ms;
+}
+
+
+
+
+@keyframes slideInDiceZero{
+	from { bottom: -90vh; right: -20vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceOne{
+	from { bottom: -90vh; right: -10vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceTwo{
+	from { bottom: -90vh; right: 0vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceThree{
+	from { bottom: -90vh; right: 10vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+@keyframes slideInDiceFour{
+	from { bottom: -90vh; right: 20vw; }
+
+	to{ bottom: 0vh; right: 0vw; -webkit-transform: rotate(1080deg); }
+	}
+
+.red{
+	background-color: #47484a;
+	opacity: 0.7;
+}
+
+
+
+
 
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
@@ -237,14 +327,19 @@ tbody>tr:nth-child(18){
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-	.hideable {
+.hideable {
 		display: flex;
 	}
-
-	.score-board, .high-scores {
+.score-board, .high-scores {
 		padding-top: 15%;
 		padding-bottom: 0%;
 	}
+
+.dice-container>img {
+	width: 90%;
+	height: 100%;
+	opacity: 0.8;
+}
 
 }
 
@@ -254,7 +349,40 @@ tbody>tr:nth-child(18){
 }
 
 /* Extra Small Devices, Phones */ 
-@media only screen and (max-width : 480px) {
+@media only screen and (max-width : 376px) {
+.dice-container>img {
+	width: 150%;
+	height: 125%;
+	opacity: 0.8;
+}
+}
+/*Mobile landscape view*/	
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape)  {
+nav.hideable{
+	display: none;
+}
+div#score-board{
+	display: none;
+}
+div#game-board{
+	display: none;
+}
+div#high-scores{
+	display: none;
+}
+body.modal-open{
+	display: none;
+}
+body{
+	background-color: black;
+	background-image: url("/img/turn1.png");
 
 }
 
+
+
+}

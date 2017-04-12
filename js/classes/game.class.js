@@ -19,6 +19,7 @@ class Game{
 		for(let i = 0; i < this.scoreBoards.length; i++){
 			$('#'+ i + '-sum').append(this.scoreBoards[i].bonusScore);
 			$('#'+ i + '-totalSum').append(this.scoreBoards[i].bonusScore);
+			$('#'+ i + '-bonus').append("-");
 			//Saves, cuts the playernames to 4 letters and adds it to the right place in the scoreboard
 			var shortName = this.scoreBoards[i].playerName;
             if(shortName.length > 2){
@@ -284,7 +285,7 @@ class Game{
 		
 			this.scoreBoards[this.currentPlayer].totalScore += 50;	
 			this.scoreBoards[this.currentPlayer].bonusUsed = true;
-
+			$('#'+ this.currentPlayer + '-bonus').empty();
 			$('#'+ this.currentPlayer + '-bonus').append(this.scoreBoards[this.currentPlayer].bonus);
 		}
 	}
@@ -405,7 +406,7 @@ class Game{
 		this.emptyScoreBoard();
 		
 		this.createEventForElement();
-		
+
 		//array of all methods to be applied when calculating a score
 		//to be displayed
 		let filterMethods = [
@@ -449,6 +450,14 @@ class Game{
 		}
 
 	}
+	resetDiceAnimation(){
+		for(let dice of this.scoreBoards[this.currentPlayer].dices) {
+				
+				let element = $("#dice-container-0");
+				console.log(element);
+				element.removeClass("animateDice");
+	}
+}
 
 	testRoll() {
 
@@ -463,12 +472,26 @@ class Game{
 					dice.clearDicesInDOM();
 					dice.roll();
 					dice.writeDiceToDOM();
+
+					if(!($('#check-container-' + dice.diceNumber).attr('locked') === 'true')){
+						$("#dice-container-" + dice.diceNumber).addClass("animateDice" + dice.diceNumber);
+					}	
+
+					let element = document.getElementById("dice-container-" + dice.diceNumber);
+					console.log("for sparta", element);
+					element.addEventListener('animationend', function(){
+						let splittedId = this.id.split('-');
+						$(this).removeClass("animateDice" + splittedId[2]);
+						let rollDicesElement = document.getElementById('roll-dices');
+						rollDicesElement.setAttribute('rolling', 'false');
+					});
 				}
 
 				this.possibleOutcomes();
 			}else{
 				console.log('Player ' + (this.currentPlayer+1) +', you are out of rolls, choose an option!');
 			}
+
 		}
 
 		this.scoreBoards[this.currentPlayer].turnStarted = true;
@@ -523,6 +546,15 @@ class Game{
 	}
 
 	endTurn(){
+
+		$('#'+ 'player' + (this.currentPlayer+1)).removeClass('red');
+		let rollDicesElement = document.getElementById('roll-dices');
+		rollDicesElement.setAttribute('rolling', 'true');	
+		for (var i = 0; i < this.listOfBonusScores.length; i++) {
+				console.log("iii")
+				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).removeClass('red');
+			}
+
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			this.scoreBoards[this.currentPlayer].turnStarted = false;
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
@@ -597,7 +629,7 @@ class Game{
 		let previousTotalScore = 0;
 		for(let scoreBoard of this.scoreBoards){
 			if(previousTotalScore != scoreBoard.totalScore) {
-				$('#placements>ol').append(`<li><span>${scoreBoard.playerName}</span>: ${scoreBoard.totalScore}</li>`);	
+				$('#placements>ol').append(`<li><span>${scoreBoard.playerName}</span>: ${scoreBoard.totalScore} poäng</li>`);	
 			} else {
 				$('#placements>ol>li:last-child>span').append(`, ${scoreBoard.playerName}`);
 			}
