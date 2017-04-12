@@ -477,6 +477,8 @@ class Game{
 					element.addEventListener('animationend', function(){
 						let splittedId = this.id.split('-');
 						$(this).removeClass("animateDice" + splittedId[2]);
+						let rollDicesElement = document.getElementById('roll-dices');
+						rollDicesElement.setAttribute('rolling', 'false');
 					});
 				}
 
@@ -535,7 +537,9 @@ class Game{
 
 	endTurn(){
 
-		$('#'+ 'player' + (this.currentPlayer+1)).removeClass('red');	
+		$('#'+ 'player' + (this.currentPlayer+1)).removeClass('red');
+		let rollDicesElement = document.getElementById('roll-dices');
+		rollDicesElement.setAttribute('rolling', 'true');	
 		for (var i = 0; i < this.listOfBonusScores.length; i++) {
 				console.log("iii")
 				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).removeClass('red');
