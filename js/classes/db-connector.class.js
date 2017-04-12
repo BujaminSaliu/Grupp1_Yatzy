@@ -132,7 +132,7 @@ class DbConnector extends Base{
 	}
 
 	writeDiceToDbInsert(dices){
-		console.log('pls dices', dices);
+		console.log('pls dices');
 		for(let dice of dices){
 			let stringboolean = 'true';
 			if(dice.locked === true){
@@ -140,6 +140,7 @@ class DbConnector extends Base{
 			}else{
 				stringboolean = 'false';
 			}
+			console.log('!!!!!', dice);
 			this.db.writeDiceToDbInsert({
 			locked: stringboolean,
 			value: dice.currentValue,

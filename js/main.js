@@ -18,6 +18,7 @@ function startGame(gameState){
 
 function reDrawOutcomes(){
 	this.currentGame.possibleOutcomes();
+	//this.currentGame.updateScoreBoardDices(this.currentGame.scoreBoards[this.currentGame.currentPlayer].dices, this.currentGame);
 }
 
 function init(){
@@ -168,10 +169,12 @@ function createScoreboards(scoreBoardsFromDb){
 		    return 0;
 		});
 
- 	this.dbConnection.writeDiceToDbInsert(this.scoreBoards[parseInt(sessionStorage.playerNumber)].dices);
+
 
 	$('#myModal').modal('hide');
 	this.currentGame = new Game(this.scoreBoards);
+
+ 	this.dbConnection.writeDiceToDbInsert(this.currentGame.scoreBoards[parseInt(sessionStorage.playerNumber)].dices);
 
 	var checkCurrentPlayerTimer = setInterval(function(){
 	

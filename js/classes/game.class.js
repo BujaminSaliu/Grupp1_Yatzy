@@ -8,6 +8,7 @@ class Game{
 		this.resultDisplayed = false;
 		this.currentRolls = 3;
 		this.maxRolls = 3;
+		this.previousPlayer = 0;
 		//array used to loop through Ids
 		this.listOfBonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
@@ -721,6 +722,16 @@ class Game{
 	}	
 
 	updateGameInfo(gameState){
+
+		if(this.currentPlayer !== gameState[0].current_player){
+			this.previousPlayer = this.currentPlayer;
+		}
+
+		if(this.previousPlayer !== this.currentPlayer){
+			this.maxRolls = 3;
+			this.previousPlayer = this.currentPlayer;
+		}
+
 		this.currentPlayer = gameState[0].current_player;
 		this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 		this.gameOver = gameState[0].game_over;
