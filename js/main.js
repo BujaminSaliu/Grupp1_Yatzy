@@ -2,6 +2,14 @@ var dbConnection = new DbConnector();
 
 $(init);
 
+window.onbeforeunload=function(){
+	var dbConnection = new DbConnector();
+    dbConnection.cancelGame(sessionStorage.matchId);
+    $('#gameCancelled').modal('show');
+
+    return true;
+}
+
 var gameStartTimer = setInterval(function(){
 	dbConnection.getGameState(startGame);
 }, 500);
@@ -9,12 +17,20 @@ var gameStartTimer = setInterval(function(){
 
 function startGame(gameState){
 	console.log(gameState);
-	if(gameState[0].started === 'true'){
+	if(gameState[0].started === 'true' && gameState[0].cancel_game === 'false'){
 		$('#myModal').modal('hide');
+		console.log('huhuhuhh');
 		dbConnection.readScoreBoardFromDb(createScoreboards);
 		clearInterval(gameStartTimer);
 	}
+	if(gameState[0].cancel_game === 'true'){
+		$('#myModal').modal('hide');
+		$('#gameCancelled').modal('show');
+		clearInterval(gameStartTimer);
+	}
 }
+
+
 
 function reDrawOutcomes(){
 	this.currentGame.possibleOutcomes();

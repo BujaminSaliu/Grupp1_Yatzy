@@ -723,6 +723,10 @@ class Game{
 
 	updateGameInfo(gameState){
 
+		if(this.gameOver === 'true'){
+			this.checkIfGameIsOver();
+		}
+
 		if(this.currentPlayer !== gameState[0].current_player){
 			this.previousPlayer = this.currentPlayer;
 		}
@@ -736,6 +740,11 @@ class Game{
 		this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 		this.gameOver = gameState[0].game_over;
 
+		if(gameState[0].cancel_game === 'true'){
+			console.log('well?');
+			$('#gameCancelled').modal('show');
+		}
+
 		let activeGame = this;
 
 		if(parseInt(sessionStorage.playerNumber) !== this.currentPlayer){
@@ -748,9 +757,7 @@ class Game{
 
 		console.log('current dices haHE!', this.scoreBoards[this.currentPlayer].dices);
 
-		 if(this.gameOver === 'true'){
-		 	this.checkIfGameIsOver();
-		 }
+		
 		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
 			
