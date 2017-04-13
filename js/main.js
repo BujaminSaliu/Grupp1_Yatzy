@@ -22,7 +22,7 @@ function startGame(gameState){
 		dbConnection.readScoreBoardFromDb(createScoreboards);
 		clearInterval(gameStartTimer);
 	}
-	if(gameState[0].cancel_game === 'true'){
+	if(gameState[0].cancel_game === 'true' && gameState[0].game_over === 'false'){
 		$('#myModal').modal('hide');
 		$('#waitingModal').modal('hide');
 		$('#gameCancelled').modal('show');
