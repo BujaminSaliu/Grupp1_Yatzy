@@ -2,15 +2,30 @@ var dbConnection = new DbConnector();
 
 $(init);
 
+window.onbeforeunload=function(){
+	var dbConnection = new DbConnector();
+    dbConnection.cancelGame(sessionStorage.matchId);
+    $('#gameCancelled').modal('show');
+
+    return true;
+}
+
 var gameStartTimer = setInterval(function(){
 	dbConnection.getGameState(startGame);
-}, 200);
+}, 500);
 
 function startGame(gameState){
-	console.log(gameState[0].started);
-	if(gameState[0].started === 'true'){
+	console.log(gameState);
+	if(gameState[0].started === 'true' && gameState[0].cancel_game === 'false'){
 		$('#myModal').modal('hide');
+		console.log('huhuhuhh');
 		dbConnection.readScoreBoardFromDb(createScoreboards);
+		clearInterval(gameStartTimer);
+	}
+	if(gameState[0].cancel_game === 'true' && gameState[0].game_over === 'false'){
+		$('#myModal').modal('hide');
+		$('#waitingModal').modal('hide');
+		$('#gameCancelled').modal('show');
 		clearInterval(gameStartTimer);
 	}
 }

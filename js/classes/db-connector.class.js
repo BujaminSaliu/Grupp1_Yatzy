@@ -41,12 +41,15 @@ class DbConnector extends Base{
 
 	checkIfActiveMatch(callback){
 		this.db.checkIfActiveMatch((match)=>{
+			console.log('wellwell', match);
 			if(match.length > 0){
+				console.log('does this happen?');
 				this.getNumOfPlayers((numOfPlayers)=>{
-					if(numOfPlayers[0].num_of_players < 4){
+					console.log('well?', numOfPlayers);
+					if(numOfPlayers[0].num_of_players < 4 && numOfPlayers[0].started === "false"){
 						this.getCurrentMatch(callback);
 					}else{
-						$('#gameFullModal').modal('show');
+						this.createMatch(callback);
 					}
 				});
 			} else {
@@ -93,20 +96,33 @@ class DbConnector extends Base{
 		});
 	}
 
-	readScoreBoardFromDb(callback){
-		this.db.readScoreBoardFromDb((scoreboards)=>{
-			callback(scoreboards);
+	readScoreBoardFromDb(callback, activeGame){
+		console.log('nnnnn', activeGame);
+		this.db.readScoreBoardFromDb({
+			Current_match_idMatch: parseInt(sessionStorage.matchId)	
+		},(scoreboards)=>{
+			console.log('hugahugahuga', scoreboards);
+			callback(scoreboards, activeGame);	
 		});	
 	}
 
 	getGameState(callback){
+
 		this.db.getGameState((gameState)=>{
-			callback(gameState);
+			console.log('whatadefacka', gameState);
+			callback(gameState);	
 		});	
+
 	}
 
 	setGameState(match){
 		this.db.setGameState({
+			idMatch: match	
+		});
+	}
+
+	cancelGame(match){
+		this.db.cancelGame({
 			idMatch: match	
 		});
 	}
@@ -153,10 +169,10 @@ class DbConnector extends Base{
         SELECT * FROM players ORDER BY score DESC LIMIT 10	
       `,
       checkIfActiveMatch: `
-      	SELECT * FROM current_match  	
+      	SELECT * FROM current_match WHERE idMatch=(SELECT MAX(idMatch) FROM current_match)	
       `,
       createNewGame: `
-      	INSERT INTO current_match(current_player, num_of_players, started, game_over) VALUES (0, 1, 'false', 'false')
+      	INSERT INTO current_match(current_player, num_of_players, started, game_over, cancel_game) VALUES (0, 1, 'false', 'false', 'false')
       `,
       getCurrentMatch: `
       	SELECT MAX(idMatch) AS matchId FROM current_match
@@ -174,16 +190,19 @@ class DbConnector extends Base{
       	UPDATE Scoreboards SET ??=?, sum = ?, bonus = ?, totalSum = ? WHERE idScoreboards = ?
       `,
       readScoreBoardFromDb: `
-      	SELECT * FROM Scoreboards
+      	SELECT * FROM Scoreboards WHERE ?
       `,
       getGameState: `
-      	SELECT * FROM current_match
+      	SELECT * FROM current_match WHERE idMatch = (SELECT MAX(idMatch) FROM current_match)
       `,
       endGame: `
       	UPDATE current_match SET game_over = 'true' WHERE ?
       `,
       setGameState: `
       	UPDATE current_match SET started = 'true' WHERE ?
+      `,
+      cancelGame: `
+      	UPDATE current_match SET cancel_game = 'true', started = 'true' WHERE ?
       `,
       updateCurrentPlayer: `
       	UPDATE current_match SET ?

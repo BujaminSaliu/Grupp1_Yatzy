@@ -571,7 +571,7 @@ class Game{
 
 	checkIfGameIsOver(){
 		let noMoreTurns = false;
-		console.log('game over?');
+		console.log('game over?', this);
 		for(let scoreBoard of this.scoreBoards){
 			if(scoreBoard.turnCounter >= 15){
 				noMoreTurns = true;
@@ -585,9 +585,10 @@ class Game{
 			this.resultDisplayed = true;
 			var dbConnection = new DbConnector();
 			dbConnection.endGame(sessionStorage.matchId);
-			this.updateScoreBoards();
+			let activeGame = this;
+			dbConnection.readScoreBoardFromDb(this.updateScoreBoards, activeGame);
 
-			this.insertPlacementOfMatch();
+
 			$('#waitingModal').modal('hide');
 			$('#gameOverModal').modal('show');
 		
@@ -598,11 +599,17 @@ class Game{
 
 	}
 
-	updateScoreBoards(){
-
-		for(let i = 0; i < this.scoreBoards.length; i++){
-			this.scoreBoards[i].totalScore = parseInt($('#' + i + '-totalSum').text());
+	updateScoreBoards(scoreboards, activeGame){
+		console.log('what do i have?', scoreboards);
+		for(let i = 0; i < activeGame.scoreBoards.length; i++){
+			for(let j = 0; j < scoreboards.length; j++){
+				if(scoreboards[j].player_number === activeGame.scoreBoards[i].playerNumber){
+					activeGame.scoreBoards[i].totalScore = scoreboards[j].totalSum;
+					console.log('scoreboard updated!', activeGame.scoreBoards[i]);	
+				}
+			}
 		}
+		activeGame.insertPlacementOfMatch();
 		
 	}
 
@@ -613,6 +620,7 @@ class Game{
 
 	insertPlacementOfMatch(){
 		$('#placements').append('<ol></ol>');
+		console.log('game ended!', this);
 		this.changeOrderOfScoreBoardsFromMatchPlacement();
 
 		let previousTotalScore = 0;
@@ -651,6 +659,13 @@ class Game{
 	}	
 
 	updateGameInfo(gameState){
+
+		if(gameState[0].cancel_game === 'true'){
+			console.log('well?');
+			$('#waitingModal').modal('hide');
+			$('#gameCancelled').modal('show');
+		}
+
 		this.currentPlayer = gameState[0].current_player;
 		this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 		this.gameOver = gameState[0].game_over;
@@ -661,11 +676,12 @@ class Game{
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
 			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 			$('#waitingModal').modal('hide');
+			if(gameState[0].game_over === 'false');	
 			this.testRoll();
 			
 		}
 
-		if(this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted === false && this.scoreBoards.length > 1){
+		if(this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted === false && this.scoreBoards.length > 1 && gameState[0].cancel_game === 'false' && gameState[0].game_over === 'false'){
 			$('#waitingModal').modal('show');
 		}
 
