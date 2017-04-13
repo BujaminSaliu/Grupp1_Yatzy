@@ -41,12 +41,15 @@ class DbConnector extends Base{
 
 	checkIfActiveMatch(callback){
 		this.db.checkIfActiveMatch((match)=>{
+			console.log('wellwell', match);
 			if(match.length > 0){
+				console.log('does this happen?');
 				this.getNumOfPlayers((numOfPlayers)=>{
-					if(numOfPlayers[0].num_of_players < 4){
+					console.log('well?', numOfPlayers);
+					if(numOfPlayers[0].num_of_players < 4 && numOfPlayers[0].started === "false"){
 						this.getCurrentMatch(callback);
 					}else{
-						$('#gameFullModal').modal('show');
+						this.createMatch(callback);
 					}
 				});
 			} else {
@@ -94,19 +97,32 @@ class DbConnector extends Base{
 	}
 
 	readScoreBoardFromDb(callback){
-		this.db.readScoreBoardFromDb((scoreboards)=>{
-			callback(scoreboards);
+		console.log('nnnnn', parseInt(sessionStorage.matchId));
+		this.db.readScoreBoardFromDb({
+			Current_match_idMatch: parseInt(sessionStorage.matchId)	
+		},(scoreboards)=>{
+			console.log('hugahugahuga', scoreboards);
+			callback(scoreboards);	
 		});	
 	}
 
 	getGameState(callback){
+
 		this.db.getGameState((gameState)=>{
-			callback(gameState);
+			console.log('whatadefacka', gameState);
+			callback(gameState);	
 		});	
+
 	}
 
 	setGameState(match){
 		this.db.setGameState({
+			idMatch: match	
+		});
+	}
+
+	cancelGame(match){
+		this.db.cancelGame({
 			idMatch: match	
 		});
 	}
