@@ -24,6 +24,7 @@ function startGame(gameState){
 	}
 	if(gameState[0].cancel_game === 'true'){
 		$('#myModal').modal('hide');
+		$('#waitingModal').modal('hide');
 		$('#gameCancelled').modal('show');
 		clearInterval(gameStartTimer);
 	}
