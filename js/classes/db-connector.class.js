@@ -96,13 +96,13 @@ class DbConnector extends Base{
 		});
 	}
 
-	readScoreBoardFromDb(callback){
-		console.log('nnnnn', parseInt(sessionStorage.matchId));
+	readScoreBoardFromDb(callback, activeGame){
+		console.log('nnnnn', activeGame);
 		this.db.readScoreBoardFromDb({
 			Current_match_idMatch: parseInt(sessionStorage.matchId)	
 		},(scoreboards)=>{
 			console.log('hugahugahuga', scoreboards);
-			callback(scoreboards);	
+			callback(scoreboards, activeGame);	
 		});	
 	}
 
