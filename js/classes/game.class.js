@@ -644,7 +644,7 @@ class Game{
 		console.log('thingys', dices, activeGame);
 		let newDices = [];
 		for(let i = 0; i < dices.length; i++){
-			if(dices[i].player_number === activeGame.currentPlayer){
+			if(dices[i].player_number === activeGame.currentPlayer && dices[i].Scoreboards_Current_match_idMatch === parseInt(sessionStorage.matchId)){
 				newDices.push(new Dice(dices[i].dice_number));
 			}
 			
@@ -652,7 +652,7 @@ class Game{
 
 
 		for(let j = 0; j < dices.length; j++){
-			if(dices[j].player_number === activeGame.currentPlayer){
+			if(dices[j].player_number === activeGame.currentPlayer && dices[j].Scoreboards_Current_match_idMatch === parseInt(sessionStorage.matchId)){
 				
 				let swapboolean = dices[j].locked;
 				if(swapboolean === 'false'){

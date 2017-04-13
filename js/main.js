@@ -4,11 +4,11 @@ $(init);
 
 var gameStartTimer = setInterval(function(){
 	dbConnection.getGameState(startGame);
-}, 200);
+}, 500);
 
 
 function startGame(gameState){
-	console.log(gameState[0].started);
+	console.log(gameState);
 	if(gameState[0].started === 'true'){
 		$('#myModal').modal('hide');
 		dbConnection.readScoreBoardFromDb(createScoreboards);
@@ -18,7 +18,7 @@ function startGame(gameState){
 
 function reDrawOutcomes(){
 	this.currentGame.possibleOutcomes();
-	//this.currentGame.updateScoreBoardDices(this.currentGame.scoreBoards[this.currentGame.currentPlayer].dices, this.currentGame);
+	
 }
 
 function init(){
