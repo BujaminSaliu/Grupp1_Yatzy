@@ -583,7 +583,7 @@ class Game{
 
 	checkIfGameIsOver(){
 		let noMoreTurns = false;
-		console.log('game over?');
+		console.log('game over?', this);
 		for(let scoreBoard of this.scoreBoards){
 			if(scoreBoard.turnCounter >= 15){
 				noMoreTurns = true;
@@ -597,7 +597,8 @@ class Game{
 			this.resultDisplayed = true;
 			var dbConnection = new DbConnector();
 			dbConnection.endGame(sessionStorage.matchId);
-			this.updateScoreBoards();
+			let activeGame = this;
+			dbConnection.readScoreBoardFromDb(this.updateScoreBoards, activeGame);
 
 			this.insertPlacementOfMatch();
 
@@ -610,11 +611,17 @@ class Game{
 
 	}
 
-	updateScoreBoards(){
-
-		for(let i = 0; i < this.scoreBoards.length; i++){
-			this.scoreBoards[i].totalScore = parseInt($('#' + i + '-totalSum').text());
+	updateScoreBoards(scoreboards, activeGame){
+		console.log('what do i have?', scoreboards);
+		for(let i = 0; i < activeGame.scoreBoards.length; i++){
+			for(let j = 0; j < scoreboards.length; j++){
+				if(scoreboards[j].player_number === activeGame.scoreBoards[i].playerNumber){
+					activeGame.scoreBoards[i].totalScore = scoreboards[j].totalSum;
+					console.log('scoreboard updated!', activeGame.scoreBoards[i]);	
+				}
+			}
 		}
+		activeGame.insertPlacementOfMatch();
 		
 	}
 
@@ -625,6 +632,7 @@ class Game{
 
 	insertPlacementOfMatch(){
 		$('#placements').append('<ol></ol>');
+		console.log('game ended!', this);
 		this.changeOrderOfScoreBoardsFromMatchPlacement();
 
 		let previousTotalScore = 0;
