@@ -310,9 +310,6 @@ class Game{
 	//adds an event for each function that assigns the correct value to the element when clicked
 	createEventForElement(){
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
-			
-			console.log('wat');
-
 			//to make activeGame a reference to the current Game object since we need to use the 
 			//"this" argument when retrieving info from the element
 			let activeGame = this;
@@ -385,10 +382,7 @@ class Game{
 
 
 	removeEventForElement(){
-		console.log('remove shit');
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {			
-		
-
 			if(!(i===6 || i===this.listOfBonusScores.length-1 || i===7)){
 				$('#'+ this.currentPlayer + '-' +  this.listOfBonusScores[i]).unbind();
 			}
@@ -399,24 +393,21 @@ class Game{
 	//prints possible outcomes, ignoring the elements that have previously
 	//been disabled
 	possibleOutcomes(){
-		console.log(this.currentPlayer);
-
 		this.emptyScoreBoard();
-		
 		this.createEventForElement();
 
 		//array of all methods to be applied when calculating a score
 		//to be displayed
 		let filterMethods = [
-		this.filterOnes(), this.filterTwos(), this.filterThrees(),
-		this.filterFours(), this.filterFives(), 
-		this.filterSixes(), this.scoreBoards[this.currentPlayer].bonusScore, 
-		this.scoreBoards[this.currentPlayer].bonus,
-		this.filterOnePair(), this.filterTwoPairs(), 
-		this.filterThreeOfAKind(), this.filterFourOfAKind(),
-		this.filterSmallStraight(), this.filterLargeStraight(),
-		this.filterFullHouse(), this.filterChance(), this.filterYatzy(),
-		this.scoreBoards[this.currentPlayer].totalScore
+			this.filterOnes(), this.filterTwos(), this.filterThrees(),
+			this.filterFours(), this.filterFives(), 
+			this.filterSixes(), this.scoreBoards[this.currentPlayer].bonusScore, 
+			this.scoreBoards[this.currentPlayer].bonus,
+			this.filterOnePair(), this.filterTwoPairs(), 
+			this.filterThreeOfAKind(), this.filterFourOfAKind(),
+			this.filterSmallStraight(), this.filterLargeStraight(),
+			this.filterFullHouse(), this.filterChance(), this.filterYatzy(),
+			this.scoreBoards[this.currentPlayer].totalScore
 		];
 
 
@@ -436,7 +427,6 @@ class Game{
 	}
 
 	emptyScoreBoard(){
-
 		for (let i = 0; i < this.listOfBonusScores.length; i++) {
 			for(let j = 0; j < this.scoreBoards.length; j++){
 				let elementFound = document.getElementById(j + '-' +  this.listOfBonusScores[i]);
@@ -448,11 +438,10 @@ class Game{
 		}
 
 	}
+
 	resetDiceAnimation(){
 		for(let dice of this.scoreBoards[this.currentPlayer].dices) {
-				
 				let element = $("#dice-container-0");
-				console.log(element);
 				element.removeClass("animateDice");
 	}
 }
@@ -464,7 +453,6 @@ class Game{
 			$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).addClass('red');
 		}
 
-		console.log('new turn! current player is: ', this.currentPlayer);
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer){
 			if(this.scoreBoards[this.currentPlayer].totalRolls > 0){
 				this.scoreBoards[this.currentPlayer].totalRolls--;
@@ -479,7 +467,6 @@ class Game{
 					}	
 
 					let element = document.getElementById("dice-container-" + dice.diceNumber);
-					console.log("for sparta", element);
 					element.addEventListener('animationend', function(){
 						let splittedId = this.id.split('-');
 						$(this).removeClass("animateDice" + splittedId[2]);
@@ -515,7 +502,6 @@ class Game{
 	}
 
 	uncheckDices(){
-		console.log('uncheck');
 		var checkBoxes = $('.check-container');
 		for(let checkBox of checkBoxes) {
 
@@ -543,16 +529,14 @@ class Game{
 
 		$('#'+ 'player' + (this.currentPlayer+1)).removeClass('red');	
 		for (var i = 0; i < this.listOfBonusScores.length; i++) {
-				console.log("iii")
-				$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).removeClass('red');
-			}
+			$('#'+this.currentPlayer + '-' +  this.listOfBonusScores[i]).removeClass('red');
+		}
 
 		if(this.scoreBoards[this.currentPlayer].totalRolls === 0){
 			this.scoreBoards[this.currentPlayer].turnStarted = false;
 			this.scoreBoards[this.currentPlayer].totalRolls = 3;
 
 			this.scoreBoards[this.currentPlayer].turnCounter++;
-			console.log(this.scoreBoards[this.currentPlayer].turnCounter);
 			this.checkIfGameIsOver();
 			this.currentPlayer++;
 			this.dbConnection.updateCurrentPlayer(this.currentPlayer);
@@ -571,7 +555,6 @@ class Game{
 
 	checkIfGameIsOver(){
 		let noMoreTurns = false;
-		console.log('game over?', this);
 		for(let scoreBoard of this.scoreBoards){
 			if(scoreBoard.turnCounter >= 15){
 				noMoreTurns = true;
@@ -600,12 +583,10 @@ class Game{
 	}
 
 	updateScoreBoards(scoreboards, activeGame){
-		console.log('what do i have?', scoreboards);
 		for(let i = 0; i < activeGame.scoreBoards.length; i++){
 			for(let j = 0; j < scoreboards.length; j++){
 				if(scoreboards[j].player_number === activeGame.scoreBoards[i].playerNumber){
 					activeGame.scoreBoards[i].totalScore = scoreboards[j].totalSum;
-					console.log('scoreboard updated!', activeGame.scoreBoards[i]);	
 				}
 			}
 		}
@@ -620,7 +601,6 @@ class Game{
 
 	insertPlacementOfMatch(){
 		$('#placements').append('<ol></ol>');
-		console.log('game ended!', this);
 		this.changeOrderOfScoreBoardsFromMatchPlacement();
 
 		let previousTotalScore = 0;
@@ -649,19 +629,12 @@ class Game{
 	}
 
     addname(playerName, numOfPlayers){
-
-		//for (var i = 0; i < numOfPlayers.length; i++) {
-			$('#player1').html(playerName);
-		//}
-		     console.log(playerName);
-
-
+		$('#player1').html(playerName);
 	}	
 
 	updateGameInfo(gameState){
 
 		if(gameState[0].cancel_game === 'true'){
-			console.log('well?');
 			$('#waitingModal').modal('hide');
 			$('#gameCancelled').modal('show');
 		}
@@ -669,10 +642,10 @@ class Game{
 		this.currentPlayer = gameState[0].current_player;
 		this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 		this.gameOver = gameState[0].game_over;
-		 if(this.gameOver === 'true'){
-		 	this.checkIfGameIsOver();
-		 }
-		console.log('DID THIS HAPPEN?', this.currentPlayer, sessionStorage.playerNumber, this.scoreBoards[parseInt(sessionStorage.playerNumber)].turnStarted);
+		if(this.gameOver === 'true'){
+			this.checkIfGameIsOver();
+		}
+
 		if(parseInt(sessionStorage.playerNumber) === this.currentPlayer && this.scoreBoards[this.currentPlayer].turnStarted === false){
 			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 			$('#waitingModal').modal('hide');
@@ -688,8 +661,6 @@ class Game{
 	}
 
 	printScoreBoardsToDOMFromDb(scoreBoards){
-		console.log('Detta ska finnas', scoreBoards);
-		
 		let bonusScores = ['1', '2', '3', '4', '5',
 		'6', 'sum', 'bonus', 'onePair', 'twoPair', 'threeOfAKind', 
 		'fourOfAKind', 'smallStraight', 'largeStraight', 
@@ -710,11 +681,6 @@ class Game{
 								$('#'+ scoreBoards[i].player_number + '-' +  val).append(scoreBoards[i][val]);
 							}
 						}
-					
-						
-					
-
-
 				}
 			} 
 		}	

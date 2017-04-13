@@ -6,23 +6,18 @@ class DbConnector extends Base{
 
 	writeFinishedMatchToDb(scoreBoards){
 		this.db.writeMatchToDb(()=>{
-			console.log('written to db');
 			this.getLatestMatchIdFromDb(scoreBoards);
 		});
 	}
 
 	getLatestMatchIdFromDb(scoreBoards){
-		console.log('SCOREBOARDS', scoreBoards);
 		this.db.getLatestMatchId((data)=>{
 			this.writeFinishedMatchPlayersToDb(data[0].idMatch, scoreBoards);
 		});	
 	}
 
 	writeFinishedMatchPlayersToDb(matchId, scoreBoards){
-		console.log(matchId);
-		
 		for(var scoreBoard of scoreBoards){
-			console.log('SECOND SCOREBOARDS', scoreBoard.player_name, scoreBoard.totalSum, scoreBoard.Current_match_idMatch, scoreBoard);
 			this.db.writePlayerToDb({
 	        	name: scoreBoard.player_name,
 	        	score: scoreBoard.totalSum,
@@ -33,7 +28,6 @@ class DbConnector extends Base{
 
 	getHighScore(callback){
 		this.db.getHighScore((players)=>{
-			console.log('High score', players);
 			callback(players);
 		});	
 
@@ -41,11 +35,8 @@ class DbConnector extends Base{
 
 	checkIfActiveMatch(callback){
 		this.db.checkIfActiveMatch((match)=>{
-			console.log('wellwell', match);
 			if(match.length > 0){
-				console.log('does this happen?');
 				this.getNumOfPlayers((numOfPlayers)=>{
-					console.log('well?', numOfPlayers);
 					if(numOfPlayers[0].num_of_players < 4 && numOfPlayers[0].started === "false"){
 						this.getCurrentMatch(callback);
 					}else{
@@ -61,7 +52,6 @@ class DbConnector extends Base{
 
 	createMatch(callback){
 		this.db.createNewGame(()=>{
-			console.log('Creating match!');
 			callback();
 		});
 	}
@@ -88,7 +78,6 @@ class DbConnector extends Base{
 	}
 
 	writeScoreBoardToDb(scoreBoard){
-		console.log(scoreBoard, sessionStorage.matchId);
 		this.db.writeScoreBoardToDbInsert({
 			player_name: scoreBoard.playerName,
 			Current_match_idMatch: parseInt(sessionStorage.matchId),
@@ -97,19 +86,15 @@ class DbConnector extends Base{
 	}
 
 	readScoreBoardFromDb(callback, activeGame){
-		console.log('nnnnn', activeGame);
 		this.db.readScoreBoardFromDb({
 			Current_match_idMatch: parseInt(sessionStorage.matchId)	
 		},(scoreboards)=>{
-			console.log('hugahugahuga', scoreboards);
 			callback(scoreboards, activeGame);	
 		});	
 	}
 
 	getGameState(callback){
-
 		this.db.getGameState((gameState)=>{
-			console.log('whatadefacka', gameState);
 			callback(gameState);	
 		});	
 
@@ -134,14 +119,12 @@ class DbConnector extends Base{
 	}
 
 	writeScoreBoardToDbUpdate(arrayOfScores){
-		console.log('skrivs till db', arrayOfScores);
 		this.db.writeScoreBoardToDbUpdate(
 			[arrayOfScores[0], arrayOfScores[1], arrayOfScores[2], arrayOfScores[3], arrayOfScores[4], arrayOfScores[5]]
 		);
 	}
 
 	updateCurrentPlayer(currentPlayer){
-		console.log(currentPlayer);
 		this.db.updateCurrentPlayer({
 			current_player: currentPlayer	
 		});	

@@ -15,10 +15,8 @@ var gameStartTimer = setInterval(function(){
 }, 500);
 
 function startGame(gameState){
-	console.log(gameState);
 	if(gameState[0].started === 'true' && gameState[0].cancel_game === 'false'){
 		$('#myModal').modal('hide');
-		console.log('huhuhuhh');
 		dbConnection.readScoreBoardFromDb(createScoreboards);
 		clearInterval(gameStartTimer);
 	}
@@ -42,17 +40,14 @@ function addPlayer(dbConnection){
 function setSessionStorage(){
 	var dbConnection = new DbConnector();
 	dbConnection.getNumOfPlayers(function(numOfPlayers){
-		console.log(numOfPlayers);
 		sessionStorage.playerNumber = numOfPlayers[0].num_of_players - 1;
 		sessionStorage.matchId = numOfPlayers[0].idMatch;
 	});
-	console.log('Det som står efter detta kommer sist');
 	dbConnection.getHighScore(start);
 }
 
 function start(players) {
 	writeScoresToHighScores(players);
-	console.log(sessionStorage, sessionStorage.length);
 	if(sessionStorage.length > 0){
 		$('#myModal').modal('show');
 		$('#joinGame').hide();
@@ -72,7 +67,6 @@ function start(players) {
 
 		$('#startGame').on('click', function(){
 			if(checkInputFields()){
-				
 				let newScoreBoard = new ScoreBoard($('#playerName').val(), sessionStorage.playerNumber);
 				newScoreBoard.writeScoreBoardToDb();
 				dbConnection.setGameState(sessionStorage.matchId);
@@ -151,7 +145,6 @@ function provideInputFields(numOfPlayers){
 }
 
 function createScoreboards(scoreBoardsFromDb){
-	console.log('Info från bd', scoreBoardsFromDb);
 	this.scoreBoards = [];
 
  	for(let i = 0; i < scoreBoardsFromDb.length; i++){
@@ -196,17 +189,12 @@ function createScoreboards(scoreBoardsFromDb){
 }
 
 function currentPlayerCheck(gameState){
-	console.log('current player:', gameState[0].current_player, gameState[0].game_over);
-//	console.log('has my turn started?', this.currentGame.scoreBoards[gameState[0].current_player].turnStarted, this.currentGame.scoreBoards[gameState[0].current_player].playerName);
-	this.currentGame.updateGameInfo(gameState);
-
-	
+	this.currentGame.updateGameInfo(gameState);	
 }
 
 function checkInputFields(){
 	var correctInput = true;
 	$('.playerValues').children().each(function(){
-		console.log($('.playerValues').children());
 		if($.trim($(this).val()).length == 0){
 			$('.errorMessage').html('Ange ett namn för inputfält, eller minska antalet spelare.');
 			correctInput = false;
