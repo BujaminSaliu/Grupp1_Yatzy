@@ -600,8 +600,6 @@ class Game{
 			let activeGame = this;
 			dbConnection.readScoreBoardFromDb(this.updateScoreBoards, activeGame);
 
-			this.insertPlacementOfMatch();
-
 			$('#gameOverModal').modal('show');
 		
 			if(noMoreTurns && this.gameOver === 'true'){
@@ -779,7 +777,11 @@ class Game{
 
 			this.dbConnection.readScoreBoardFromDb(this.printScoreBoardsToDOMFromDb);
 
-			this.testRoll();
+			if(gameState[0].game_over === 'false'){
+				this.testRoll();
+			}
+
+			
 
 
 			
